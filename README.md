@@ -1,6 +1,6 @@
 # auro-datetime
 
-`<auro-datetime>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of ...
+`<auro-datetime>` is a [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for the purpose of easily displaying date and time options using a simple HTML API.
 
 ## UI development browser support
 
@@ -39,7 +39,7 @@ import "@alaskaairux/auro-datetime";
 **Reference component in HTML**
 
 ```html
-<auro-datetime>Hello World</auro-datetime>
+<auro-datetime type="date"></auro-datetime>
 ```
 
 ## Install bundled assets from CDN
@@ -65,20 +65,12 @@ The `polyfills.js` is packaged with this component, but **IT IS NOT NEEDED** to 
 **Displaimer:** While these components are supported in IE, there may be issues with loading the [web components polyfill](https://www.webcomponents.org/polyfills). Please consult their documentation when supporting IE11.
 
 
-## auro-datetime use cases
-
-The `<auro-datetime>` element should be used in situations where users may:
-
-* ...
-* ...
-* ...
-
 ## API Code Examples
 
 Default auro-datetime
 
 ```html
-<auro-datetime>Hello World</auro-datetime>
+<auro-datetime type="date"></auro-datetime>
 ```
 
 ## Development

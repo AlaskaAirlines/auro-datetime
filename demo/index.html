@@ -23,9 +23,110 @@
     <div class="vertical-section-container">
       <h1>auro-datetime</h1>
 
+      <h3>Basic date</h3>
       <demo-snippet>
         <template>
-          <auro-datetime cssClass="testClass">Hello World!</auro-datetime>
+          <auro-datetime type="date"></auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Basic time</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="time"></auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Numeric date</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="numeric"></auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Basic date w/long weekday and month</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="date" month="long" weekday="long"></auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Time with options</h3>
+      <demo-snippet>
+        <template>
+          <p>Current location: <auro-datetime type="time"></auro-datetime></p>
+          <p>East coast: <auro-datetime type="time" timeZone="America/New_York"></auro-datetime></p>
+          <p>Mid-west: <auro-datetime type="time" timeZone="America/Chicago"></auro-datetime></p>
+          <p>UTC: <auro-datetime type="time" timeZone="UTC"></auro-datetime></p>
+
+          https://bugs.chromium.org/p/chromium/issues/detail?id=928068#c1
+        </template>
+      </demo-snippet>
+
+      <h3>Set date with UTC time code</h3>
+      <demo-snippet>
+        <template>
+            <auro-datetime utc="2020-09-22T01:38:22Z"></auro-datetime></br>
+          <auro-datetime weekday="long" month="long" utc="2020-09-22T01:38:22Z"></auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Set date with string</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime weekday="long" month="long" setDate="August 19, 1975 23:15:30"></auro-datetime></br>
+          <auro-datetime setDate="August 19, 1975 23:15:30"></auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Year only</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="year">
+            <span slot="pre">© Copyright </span>
+            <span slot="post">Alaska Airlines, inc. All rights reserved.</span>
+          </auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Month only</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="month" month="long">
+            <span slot="pre">It's</span>
+            <span slot="post">
+              and <auro-datetime type="year"></auro-datetime> is just marching along!
+            </span>
+          </auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Weekday only</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="weekday" weekday="long">
+            <span slot="pre">Get outside! It's</span>
+            <span slot="post">and it's amazing!</span>
+          </auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Day only</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="day">
+            <span slot="pre">We are in day</span>
+            <span slot="post">of this crazy month!</span>
+          </auro-datetime>
+        </template>
+      </demo-snippet>
+
+      <h3>Unnamed slot use</h3>
+      <demo-snippet>
+        <template>
+          <auro-datetime type="weekday" weekday="long">
+            is so cool!
+          </auro-datetime>
         </template>
       </demo-snippet>
     </div>
