@@ -3,18 +3,83 @@ import sinon from 'sinon';
 import '../src/auro-datetime.js';
 
 describe('auro-datetime', () => {
-  it('sets the CSS class on auro-datetime > div element', async () => {
-    const el = await fixture(html`
-      <auro-datetime cssclass="testClass"></auro-datetime>
-    `);
-
-    const div = el.shadowRoot.querySelector('div');
-    expect(div.className).to.equal('testClass');
-  });
-
   it('auro-datetime is accessible', async () => {
     const el = await fixture(html`
-      <auro-datetime cssclass="testClass"></auro-datetime>
+      <auro-datetime></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+  });
+
+  it('auro-date converts UTC date', async () => {
+    const el = await fixture(html`
+      <auro-datetime utc="2020-09-22T01:38:22Z"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot;
+    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      Tue, Sep 22, 2020\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+  });
+
+  it('auro-date converts manual date', async () => {
+    const el = await fixture(html`
+      <auro-datetime setdate="August 19, 1975 23:15:30"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot;
+    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      Tue, Aug 19, 1975\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+  });
+
+  it('auro-date converts time', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="time"></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+  });
+
+  it('auro-date only day', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="day"></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+  });
+
+  it('auro-date only year', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="year"></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+  });
+
+  it('auro-date numeric date', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="numeric"></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+  });
+
+  it('auro-date only month', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="month"></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+  });
+
+  it('auro-date only weekday', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="weekday"></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+  });
+
+  it('auro-date shows todays date', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date"></auro-datetime>
     `);
 
     await expect(el).to.be.accessible();
