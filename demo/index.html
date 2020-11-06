@@ -86,42 +86,36 @@
       <h3>Year only</h3>
       <demo-snippet>
         <template>
-          <auro-datetime type="year">
-            <span slot="pre">© Copyright </span>
-            <span slot="post">Alaska Airlines, inc. All rights reserved.</span>
-          </auro-datetime>
+          <auro-datetime type="year"><span slot="pre">© Copyright </span></auro-datetime><br>
+          <auro-datetime type="year" setDate="August 19, 1975 23:15:30"><span slot="pre">© Copyright </span></auro-datetime><br>
+          <auro-datetime type="year" utc="1920-09-22T01:38:22Z"><span slot="pre">© Copyright </span></auro-datetime><br>
         </template>
       </demo-snippet>
 
       <h3>Month only</h3>
       <demo-snippet>
         <template>
-          <auro-datetime type="month" month="long">
-            <span slot="pre">It's</span>
-            <span slot="post">
-              and <auro-datetime type="year"></auro-datetime> is just marching along!
-            </span>
-          </auro-datetime>
+          <auro-datetime type="month" month="long"></auro-datetime><br>
+          <auro-datetime type="month" month="long" utc="1920-04-22T01:38:22Z"></auro-datetime><br>
+          <auro-datetime type="month" month="long" setDate="July 19, 1975 23:15:30"></auro-datetime>
         </template>
       </demo-snippet>
 
       <h3>Weekday only</h3>
       <demo-snippet>
         <template>
-          <auro-datetime type="weekday" weekday="long">
-            <span slot="pre">Get outside! It's</span>
-            <span slot="post">and it's amazing!</span>
-          </auro-datetime>
+          <auro-datetime type="weekday" weekday="long"></auro-datetime><br>
+          <auro-datetime type="weekday" weekday="long" utc="1920-04-22T01:38:22Z"></auro-datetime><br>
+          <auro-datetime type="weekday" weekday="long" setDate="July 19, 1975 23:15:30"></auro-datetime><br>
         </template>
       </demo-snippet>
 
       <h3>Day only</h3>
       <demo-snippet>
         <template>
-          <auro-datetime type="day">
-            <span slot="pre">We are in day</span>
-            <span slot="post">of this crazy month!</span>
-          </auro-datetime>
+          <auro-datetime type="day"></auro-datetime><br>
+          <auro-datetime type="day" utc="1920-04-22T01:38:22Z"></auro-datetime><br>
+          <auro-datetime type="day" setDate="July 19, 1975 23:15:30"></auro-datetime><br>
         </template>
       </demo-snippet>
 

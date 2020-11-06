@@ -108,7 +108,13 @@ class AuroDatetime extends LitElement {
    * @returns {string} - date string
    */
   humanDateConversion() {
-    const newDate = new Date();
+    let newDate = new Date();
+
+    if (this.utc) {
+      newDate = new Date(this.utc);
+    } else if (this.setDate) {
+      newDate = new Date(this.setDate);
+    }
 
     switch (this.type) {
       case 'day':
