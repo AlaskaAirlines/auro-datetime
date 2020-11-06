@@ -29,6 +29,24 @@ describe('auro-datetime', () => {
     await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      1:38 am\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
   });
 
+  it('auro-date converts UTC month', async () => {
+    const el = await fixture(html`
+    <auro-datetime type="month" month="long" utc="1920-04-22T01:38:22Z"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot;
+    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      April\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+  });
+
+  it('auro-date converts string month', async () => {
+    const el = await fixture(html`
+    <auro-datetime type="month" month="long" setdate="July 19, 1975 23:15:30"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot;
+    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      July\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+  });
+
   it('auro-date converts UTC numeric date', async () => {
     const el = await fixture(html`
       <auro-datetime type="numeric" utc="2020-09-22T01:38:22Z"></auro-datetime>
