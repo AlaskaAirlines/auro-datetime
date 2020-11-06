@@ -87,18 +87,18 @@ class AuroDatetime extends LitElement {
    * @returns {string} - date string
    */
   humanDate() {
+    let newDate = new Date();
+
     if (this.utc) {
       this.dateTemplate.timeZone = 'UTC';
-      const newDate = new Date(this.utc);
+      newDate = new Date(this.utc);
 
       return newDate.toLocaleString('en-us', this.dateTemplate);
     } else if (this.setDate) {
-      const newDate = new Date(this.setDate);
+      newDate = new Date(this.setDate);
 
       return newDate.toLocaleString('en-us', this.dateTemplate);
     }
-
-    const newDate = new Date();
 
     return newDate.toLocaleString('en-us', this.dateTemplate);
   }
@@ -147,19 +147,18 @@ class AuroDatetime extends LitElement {
   numericDate() {
     this.dateTemplate.month = 'numeric';
     Reflect.deleteProperty(this.dateTemplate, 'weekday');
+    let newDate = new Date();
 
     if (this.utc) {
       this.dateTemplate.timeZone = 'UTC';
-      const newDate = new Date(this.utc);
+      newDate = new Date(this.utc);
 
       return newDate.toLocaleString('en-us', this.dateTemplate);
     } else if (this.setDate) {
-      const newDate = new Date(this.setDate);
+      newDate = new Date(this.setDate);
 
       return newDate.toLocaleString('en-us', this.dateTemplate);
     }
-
-    const newDate = new Date();
 
     return newDate.toLocaleString('en-us', this.dateTemplate);
   }
@@ -169,18 +168,18 @@ class AuroDatetime extends LitElement {
    * @returns {string} - time string
    */
   humanTime() {
+    let newTime = new Date();
+
     if (this.utc) {
       this.timeTemplate.timeZone = 'UTC';
-      const newTime = new Date(this.utc);
+      newTime = new Date(this.utc);
 
       return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
     } else if (this.setDate) {
-      const newTime = new Date(this.setDate);
+      newTime = new Date(this.setDate);
 
       return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
     }
-
-    const newTime = new Date();
 
     return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
   }
