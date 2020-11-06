@@ -4,16 +4,12 @@
 // ---------------------------------------------------------------------
 
 // If use litElement base class
-import { LitElement, html, css } from "lit-element";
+import { LitElement, html } from "lit-element";
 
 // If using auroElement base class
 // See instructions for importing auroElement base class https://git.io/JULq4
 // import { html, css } from "lit-element";
 // import AuroElement from '@alaskaairux/orion-web-core-style-sheets/dist/auroElement/auroElement';
-
-// Import touch detection lib
-import "focus-visible/dist/focus-visible.min.js";
-import styleCss from "./style-css.js";
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
@@ -34,14 +30,6 @@ class AuroDatetime extends LitElement {
 
     this.weekday = 'short';
     this.month = 'short';
-
-    /**
-     * @private variable
-     */
-    this.time = {
-      hour: "2-digit",
-      minute: "2-digit"
-    };
   }
 
   connectedCallback() {
@@ -74,12 +62,6 @@ class AuroDatetime extends LitElement {
       timeZone:   { type: String },
       setDate:    { type: String }
     };
-  }
-
-  static get styles() {
-    return css`
-      ${styleCss}
-    `;
   }
 
   /**
