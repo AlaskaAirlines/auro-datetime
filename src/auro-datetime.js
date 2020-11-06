@@ -111,6 +111,7 @@ class AuroDatetime extends LitElement {
     let newDate = new Date();
 
     if (this.utc) {
+      this.template.timeZone = 'UTC';
       newDate = new Date(this.utc);
     } else if (this.setDate) {
       newDate = new Date(this.setDate);
