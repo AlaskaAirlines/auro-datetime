@@ -20,6 +20,15 @@ describe('auro-datetime', () => {
     await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      Tue, Sep 22, 2020\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
   });
 
+  it('auro-date converts UTC time', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="time" utc="2020-09-22T01:38:22Z"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot;
+    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      1:38 am\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+  });
+
   it('auro-date converts manual date', async () => {
     const el = await fixture(html`
       <auro-datetime setdate="August 19, 1975 23:15:30"></auro-datetime>
@@ -27,6 +36,15 @@ describe('auro-datetime', () => {
 
     const root = el.shadowRoot;
     await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      Tue, Aug 19, 1975\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+  });
+
+  it('auro-date converts manual time', async () => {
+    const el = await fixture(html`
+      <auro-datetime type="time" setdate="August 19, 1975 23:15:30"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot;
+    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      11:15 pm\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
   });
 
   it('auro-date converts time', async () => {

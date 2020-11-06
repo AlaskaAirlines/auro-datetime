@@ -176,6 +176,18 @@ class AuroDatetime extends LitElement {
    * @returns {string} - time string
    */
   humanTime() {
+
+    if (this.utc) {
+      this.timeTemplate.timeZone = 'UTC';
+      const newTime = new Date(this.utc);
+
+      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
+    } else if (this.setDate) {
+      const newTime = new Date(this.setDate);
+
+      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
+    }
+
     const newTime = new Date();
 
     return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
@@ -214,11 +226,11 @@ class AuroDatetime extends LitElement {
       default: this.humanDate();
     }
 
-    if (this.setDate) {
+    if (this.setDate && !this.type) {
       return this.setHumanDate(this.setDate)
     }
 
-    if (this.utc) {
+    if (this.utc && !this.type) {
       return this.humanZuluDate(this.utc)
     }
 
