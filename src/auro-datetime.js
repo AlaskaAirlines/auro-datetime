@@ -83,90 +83,77 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function generate standard date string
+   * @private Internal function generate date string
    * @returns {string} - date string
    */
   humanDate() {
+    if (this.utc) {
+      this.dateTemplate.timeZone = 'UTC';
+      const newDate = new Date(this.utc);
+
+      return newDate.toLocaleString('en-us', this.dateTemplate);
+    } else if (this.setDate) {
+      const newDate = new Date(this.setDate);
+
+      return newDate.toLocaleString('en-us', this.dateTemplate);
+    }
+
     const newDate = new Date();
 
     return newDate.toLocaleString('en-us', this.dateTemplate);
   }
 
   /**
-   * @private Internal function generate numeric date string
+   * @private Internal function to determine new Date object based on input type
+   * @returns {string} - date string
+   */
+  humanDateConversion() {
+    const newDate = new Date();
+
+    switch (this.type) {
+      case 'day':
+        this.template.day = "numeric";
+
+        return newDate.toLocaleString('en-us', this.template);
+      case 'month':
+        this.template.month = this.month;
+
+        return newDate.toLocaleString('en-us', this.template);
+      case 'year':
+        this.template.year = 'numeric';
+
+        return newDate.toLocaleString('en-us', this.template);
+      case 'weekday':
+        this.template.weekday = this.weekday;
+
+        return newDate.toLocaleString('en-us', this.template);
+
+      default: newDate.toLocaleString('en-us', this.template);
+    }
+
+    return null
+  }
+
+  /**
+   * @private Internal function generate numeric date string 00/00/0000
    * @returns {string} - date string
    */
   numericDate() {
     this.dateTemplate.month = 'numeric';
     Reflect.deleteProperty(this.dateTemplate, 'weekday');
+
+    if (this.utc) {
+      this.dateTemplate.timeZone = 'UTC';
+      const newDate = new Date(this.utc);
+
+      return newDate.toLocaleString('en-us', this.dateTemplate);
+    } else if (this.setDate) {
+      const newDate = new Date(this.setDate);
+
+      return newDate.toLocaleString('en-us', this.dateTemplate);
+    }
+
     const newDate = new Date();
-
-    return newDate.toLocaleString('en-us', this.dateTemplate);
-  }
-
-  /**
-   * @private Internal function generate month date string
-   * @returns {string} - date string
-   */
-  humanDateMonth() {
-    this.template.month = this.month;
-    const newDate = new Date();
-
-    return newDate.toLocaleString('en-us', this.template);
-  }
-
-  /**
-   * @private Internal function generate year date string
-   * @returns {string} - date string
-   */
-  humanDateYear() {
-    this.template.year = 'numeric';
-    const newDate = new Date();
-
-    return newDate.toLocaleString('en-us', this.template);
-  }
-
-  /**
-   * @private Internal function generate weekday date string
-   * @returns {string} - date string
-   */
-  humanDateWeekday() {
-    this.template.weekday = this.weekday;
-    const newDate = new Date();
-
-    return newDate.toLocaleString('en-us', this.template);
-  }
-
-  /**
-   * @private Internal function generate day date string
-   * @returns {string} - date string
-   */
-  humanDateDay() {
-    this.template.day = "numeric";
-    const newDate = new Date();
-
-    return newDate.toLocaleString('en-us', this.template);
-  }
-
-  /**
-   * @private Internal function generate standard date string from input data
-   * @param {string} dateData - Input date data
-   * @returns {string} - date string
-   */
-  setHumanDate(dateData) {
-    const newDate = new Date(dateData);
-
-    return newDate.toLocaleString('en-us', this.dateTemplate);
-  }
-
-  /**
-   * @private Internal function generate standard date string from UTC data
-   * @param {string} dateData - Input date data
-   * @returns {string} - date string
-   */
-  humanZuluDate(dateData) {
-    this.dateTemplate.timeZone = 'UTC';
-    const newDate = new Date(dateData);
 
     return newDate.toLocaleString('en-us', this.dateTemplate);
   }
@@ -176,7 +163,6 @@ class AuroDatetime extends LitElement {
    * @returns {string} - time string
    */
   humanTime() {
-
     if (this.utc) {
       this.timeTemplate.timeZone = 'UTC';
       const newTime = new Date(this.utc);
@@ -209,16 +195,10 @@ class AuroDatetime extends LitElement {
         result = this.humanTime();
         break;
       case 'year':
-        result = this.humanDateYear();
-        break;
       case 'month':
-        result = this.humanDateMonth();
-        break;
       case 'weekday':
-        result = this.humanDateWeekday();
-        break;
       case 'day':
-        result = this.humanDateDay();
+        result = this.humanDateConversion();
         break;
       case 'numeric':
         result = this.numericDate();
@@ -227,11 +207,9 @@ class AuroDatetime extends LitElement {
     }
 
     if (this.setDate && !this.type) {
-      return this.setHumanDate(this.setDate)
-    }
-
-    if (this.utc && !this.type) {
-      return this.humanZuluDate(this.utc)
+      return this.humanDate()
+    } else if (this.utc && !this.type) {
+      return this.humanDate()
     }
 
     return result
