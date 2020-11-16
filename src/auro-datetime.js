@@ -210,7 +210,7 @@ class AuroDatetime extends LitElement {
   render() {
     return html`
       <slot name="pre"></slot>
-      ${this.whichDate()}
+      <span class="yield">${this.whichDate()}</span>
       <slot name="post"></slot>
       <slot></slot>
     `;
