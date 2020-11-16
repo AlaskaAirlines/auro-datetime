@@ -16,8 +16,8 @@ describe('auro-datetime', () => {
       <auro-datetime utc="2020-09-22T01:38:22Z"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      Tue, Sep 22, 2020\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`Tue, Sep 22, 2020`);
   });
 
   it('auro-date converts UTC time', async () => {
@@ -25,17 +25,17 @@ describe('auro-datetime', () => {
       <auro-datetime type="time" utc="2020-09-22T01:38:22Z"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      1:38 am\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`1:38 am`);
   });
 
   it('auro-date converts UTC month', async () => {
     const el = await fixture(html`
-    <auro-datetime type="month" month="long" utc="1920-04-22T01:38:22Z"></auro-datetime>
+      <auro-datetime type="month" month="long" utc="1920-04-22T01:38:22Z"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      April\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`April`);
   });
 
   it('auro-date converts string month', async () => {
@@ -43,8 +43,8 @@ describe('auro-datetime', () => {
     <auro-datetime type="month" month="long" setdate="July 19, 1975 23:15:30"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      July\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`July`);
   });
 
   it('auro-date converts UTC numeric date', async () => {
@@ -52,8 +52,8 @@ describe('auro-datetime', () => {
       <auro-datetime type="numeric" utc="2020-09-22T01:38:22Z"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      9/22/2020\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`9/22/2020`);
   });
 
   it('auro-date converts manual date', async () => {
@@ -61,8 +61,8 @@ describe('auro-datetime', () => {
       <auro-datetime setdate="August 19, 1975 23:15:30"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      Tue, Aug 19, 1975\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`Tue, Aug 19, 1975`);
   });
 
   it('auro-date converts manual numeric date', async () => {
@@ -70,8 +70,8 @@ describe('auro-datetime', () => {
       <auro-datetime type="numeric" setdate="August 19, 1975 23:15:30"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      8/19/1975\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`8/19/1975`);
   });
 
   it('auro-date converts manual time', async () => {
@@ -79,8 +79,8 @@ describe('auro-datetime', () => {
       <auro-datetime type="time" setdate="August 19, 1975 23:15:30"></auro-datetime>
     `);
 
-    const root = el.shadowRoot;
-    await expect(root.innerHTML).to.equal(`<!---->\n      <slot name="pre"></slot>\n      11:15 pm\n      <slot name="post"></slot>\n      <slot></slot>\n    <!---->`);
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`11:15 pm`);
   });
 
   it('auro-date converts time', async () => {

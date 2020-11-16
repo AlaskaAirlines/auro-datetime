@@ -75,11 +75,9 @@
     "bundler": "webpack --mode=production",
     "bundle:test": "webpack-dev-server --host 0.0.0.0",
     "postinstall": "node packageScripts/postinstall.js",
-    "dev": "npm run sassBuild:watch",
     "distJS": "copyfiles -u 1 -V './src/**/*.js' ./dist",
     "sweep": "rm -rf ./temp ./demo/css ./demo/fonts ./dist ./src/tokens | rm ./src/*.css ./src/*-css.js",
     "esLint": "./node_modules/.bin/eslint src/auro-*.js",
-    "lint": "npm-run-all esLint",
     "test": "karma start --coverage",
     "test:watch": "karma start --auto-watch=true --single-run=false",
     "test:ci": "npm-run-all test lint",
@@ -88,7 +86,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm-run-all test lint bundler postinstall",
+      "pre-commit": "npm-run-all test esLint bundler postinstall",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
