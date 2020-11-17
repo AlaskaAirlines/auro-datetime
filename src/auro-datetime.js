@@ -100,25 +100,21 @@ class AuroDatetime extends LitElement {
     switch (this.type) {
       case 'day':
         this.template.day = "numeric";
-
-        return newDate.toLocaleString('en-us', this.template);
+        break;
       case 'month':
         this.template.month = this.month;
-
-        return newDate.toLocaleString('en-us', this.template);
+        break;
       case 'year':
         this.template.year = 'numeric';
-
-        return newDate.toLocaleString('en-us', this.template);
+        break;
       case 'weekday':
         this.template.weekday = this.weekday;
+        break;
 
-        return newDate.toLocaleString('en-us', this.template);
-
-      default: newDate.toLocaleString('en-us', this.template);
+      default: this.template.weekday = this.template;
     }
 
-    return null;
+    return newDate.toLocaleString('en-us', this.template);
   }
 
   /**
@@ -133,12 +129,8 @@ class AuroDatetime extends LitElement {
     if (this.utc) {
       this.dateTemplate.timeZone = 'UTC';
       newDate = new Date(this.utc);
-
-      return newDate.toLocaleString('en-us', this.dateTemplate);
     } else if (this.setDate) {
       newDate = new Date(this.setDate);
-
-      return newDate.toLocaleString('en-us', this.dateTemplate);
     }
 
     return newDate.toLocaleString('en-us', this.dateTemplate);
