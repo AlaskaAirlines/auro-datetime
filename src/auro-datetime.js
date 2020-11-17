@@ -75,11 +75,9 @@ class AuroDatetime extends LitElement {
       this.dateTemplate.timeZone = 'UTC';
       newDate = new Date(this.utc);
 
-      return newDate.toLocaleString('en-us', this.dateTemplate);
     } else if (this.setDate) {
       newDate = new Date(this.setDate);
 
-      return newDate.toLocaleString('en-us', this.dateTemplate);
     }
 
     return newDate.toLocaleString('en-us', this.dateTemplate);
@@ -120,7 +118,7 @@ class AuroDatetime extends LitElement {
       default: newDate.toLocaleString('en-us', this.template);
     }
 
-    return null
+    return null;
   }
 
   /**
@@ -156,12 +154,8 @@ class AuroDatetime extends LitElement {
     if (this.utc) {
       this.timeTemplate.timeZone = 'UTC';
       newTime = new Date(this.utc);
-
-      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
     } else if (this.setDate) {
       newTime = new Date(this.setDate);
-
-      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
     }
 
     return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
@@ -195,9 +189,9 @@ class AuroDatetime extends LitElement {
     }
 
     if (this.setDate && !this.type) {
-      return this.humanDate()
+      return this.humanDate();
     } else if (this.utc && !this.type) {
-      return this.humanDate()
+      return this.humanDate();
     }
 
     return result

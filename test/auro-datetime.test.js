@@ -40,7 +40,7 @@ describe('auro-datetime', () => {
 
   it('auro-date converts string month', async () => {
     const el = await fixture(html`
-    <auro-datetime type="month" month="long" setdate="July 19, 1975 23:15:30"></auro-datetime>
+      <auro-datetime type="month" month="long" setdate="July 19, 1975 23:15:30"></auro-datetime>
     `);
 
     const root = el.shadowRoot.querySelector('.yield');
