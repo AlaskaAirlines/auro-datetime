@@ -1,5 +1,18 @@
 # Semantic Release Automated Changelog
 
+# [1.1.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.0.0...v1.1.0) (2020-11-20)
+
+
+### Bug Fixes
+
+* update UTC strings that not converting correctly ([3f41b0b](https://github.com/AlaskaAirlines/auro-datetime/commit/3f41b0be278ca55fc91cc037b9612d782ed7dfea))
+
+
+### Features
+
+* add support for custom time entry ([c2b6372](https://github.com/AlaskaAirlines/auro-datetime/commit/c2b6372d576c95734d6b4dfd0e3da8f40bf16bfa))
+* add utc and setdate to day, weekday, month and year ([8d4942a](https://github.com/AlaskaAirlines/auro-datetime/commit/8d4942a7166aea3acde5b6ab4416be7ea4884387))
+
 # 1.0.0 (2020-11-05)
 
 
