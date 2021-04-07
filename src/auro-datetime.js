@@ -150,7 +150,8 @@ class AuroDatetime extends LitElement {
       newTime = new Date(this.setDate);
     }
 
-    return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').toLowerCase();
+    return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').
+      toLowerCase();
   }
 
 
