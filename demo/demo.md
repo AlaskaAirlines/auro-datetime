@@ -1,6 +1,6 @@
 # Date/Time
 
-The new auro-datetime web components makes it really easy to add dates to your web app with a simple HTML API.
+The new auro-datetime custom element makes it really easy to add dates to your web app with a simple HTML API.
 
 ## Basic date
 
