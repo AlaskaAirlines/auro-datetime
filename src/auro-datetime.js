@@ -13,7 +13,7 @@ import { LitElement, html } from "lit-element";
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * auro-datetime provides users a way to ...
+ * auro-datetime custom element for the purposes of providing an easy to use date and time API
  *
  * @attr {String} type - Define type of data to render. Options are `[date, time, year, month, weekday, day, numeric]`
  * @attr {String} utc - Pass on UTC time code
