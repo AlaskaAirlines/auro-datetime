@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [1.2.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.1.0...v1.2.0) (2021-04-13)
+
+
+### Features
+
+* complete repo migration upgrade ([3c0ce2a](https://github.com/AlaskaAirlines/auro-datetime/commit/3c0ce2a808a416c21ca8d3d6e8895b007933804a))
+
 # [1.1.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.0.0...v1.1.0) (2020-11-20)
 
 
