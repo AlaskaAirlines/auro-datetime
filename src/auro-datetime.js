@@ -15,12 +15,14 @@ import { LitElement, html } from "lit-element";
 /**
  * auro-datetime custom element for the purposes of providing an easy to use date and time API
  *
- * @attr {String} type - Define type of data to render. Options are `[date, time, year, month, weekday, day, numeric]`
- * @attr {String} utc - Pass on UTC time code
+ * @attr {String} type - Define type of data to render. Options are `[date, time, year, month, weekday, day, numeric, tzDate, tzTime]`
+ * @attr {String} utc - Pass on UTC formatted time code
  * @attr {String} weekday - Display long version of weekday. Option `[long]`
  * @attr {String} month - Display long version of month. Option `[long]`
- * @attr {String} timeZone - Pass in string to define timeZone
+ * @attr {String} timeZone - Pass in string to define [timeZone](https://docs.trifacta.com/display/DP/Supported+Time+Zone+Values)
  * @attr {String} setDate - Pass in string to set date
+ * @slot pre - Content that comes before the `post` content
+ * @slot post - Content that comes after the `pre` content
  */
 
 // build the component class
@@ -65,8 +67,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function generate date string
-   * @returns {string} - date string
+   * @private Internal function generate date string.
+   * @returns {string} - Date string.
    */
   humanDate() {
     let newDate = new Date();
@@ -84,8 +86,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function to determine new Date object based on input type
-   * @returns {string} - date string
+   * @private Internal function to determine new Date object based on input type.
+   * @returns {string} - Date string.
    */
   humanDateConversion() {
     let newDate = new Date();
@@ -118,8 +120,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function generate numeric date string 00/00/0000
-   * @returns {string} - date string
+   * @private Internal function generate numeric date string 00/00/0000.
+   * @returns {string} - Date string.
    */
   numericDate() {
     this.dateTemplate.month = 'numeric';
@@ -137,8 +139,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function generate standard time string
-   * @returns {string} - time string
+   * @private Internal function generate standard time string.
+   * @returns {string} - Time string.
    */
   humanTime() {
     let newTime = new Date();
@@ -154,10 +156,29 @@ class AuroDatetime extends LitElement {
       toLowerCase();
   }
 
+  /**
+   * @private Internal function to generate proper time zone local.
+   * @returns {string} - Time zone string.
+   * @param {boolean} returnType - Determines if to return date or time type.
+   */
+  tzTime(returnType) {
+
+    const scrubTimeZone = this.setDate.slice(0, -6);
+    const newTime = new Date(scrubTimeZone);
+
+    if (returnType) {
+      return newTime.toLocaleString('en-us', this.dateTemplate).replace(/^0+/u, '').
+        toLowerCase();
+    }
+
+    return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').
+      toLowerCase();
+  }
+
 
   /**
-   * @private Internal function UI decision
-   * @returns {function} - function determines which style of date data to show2
+   * @private Internal function UI decision.
+   * @returns {function} - Function determines which style of date data to show.
    */
   whichDate() {
     let result = '';
@@ -165,6 +186,12 @@ class AuroDatetime extends LitElement {
     switch (this.type) {
       case 'date':
         result = this.humanDate();
+        break;
+      case 'tzDate':
+        result = this.tzTime(true);
+        break;
+      case 'tzTime':
+        result = this.tzTime();
         break;
       case 'time':
         result = this.humanTime();
