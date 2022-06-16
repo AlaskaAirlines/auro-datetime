@@ -20,12 +20,13 @@
       fetch('/demo/demo.md')
         .then((response) => response.text())
         .then((text) => {
-          const rawHtml = marked(text);
+          const rawHtml = marked.parse(text);
           document.querySelector('main').innerHTML = rawHtml;
           Prism.highlightAll();
         });
     </script>
     <script type="module" src="../src/auro-datetime.js"></script>
     <script src="https://unpkg.com/@alaskaairux/auro-accordion@latest/dist/auro-accordion__bundled.js" type="module"></script>
+    <script src="https://unpkg.com/@aurodesignsystem/auro-alert@latest/dist/auro-alert__bundled.js" type="module"></script>
   </body>
 </html>
