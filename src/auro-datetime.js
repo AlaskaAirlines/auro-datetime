@@ -159,20 +159,14 @@ class AuroDatetime extends LitElement {
   /**
    * @private Internal function to generate proper time zone local.
    * @returns {string} - Date/Time zone string.
-   * @param {boolean} returnType - Determines if to return date or time type.
+   * @param {string} template - Determines which template model to use.
    */
-  tzTime(returnType) {
+  tzTime(template) {
 
     const scrubTimeZone = this.setDate.slice(0, -6);
     const newDateTime = new Date(scrubTimeZone);
 
-    if (returnType) {
-      return newDateTime.toLocaleString('en-us', this.dateTemplate).replace(/^0+/u, '').
-        toLowerCase();
-    }
-
-    return newDateTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').
-      toLowerCase();
+    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').replace("AM", "am").replace("PM","pm")
   }
 
 
@@ -188,10 +182,10 @@ class AuroDatetime extends LitElement {
         result = this.humanDate();
         break;
       case 'tzDate':
-        result = this.tzTime(true);
+        result = this.tzTime(this.dateTemplate);
         break;
       case 'tzTime':
-        result = this.tzTime();
+        result = this.tzTime(this.timeTemplate);
         break;
       case 'time':
         result = this.humanTime();
