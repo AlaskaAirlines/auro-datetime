@@ -52,7 +52,7 @@ describe('auro-datetime', () => {
     `);
 
     const root = el.shadowRoot.querySelector('.yield');
-    await expect(root.textContent).to.equal(`thu, jul 14, 2022`);
+    await expect(root.textContent).to.equal(`Thu, Jul 14, 2022`);
   });
 
   it('converts setDate to Pacific time zone', async () => {
