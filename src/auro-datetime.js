@@ -16,7 +16,7 @@ import { LitElement, html } from "lit-element";
  * auro-datetime custom element for the purposes of providing an easy to use date and time API
  *
  * @attr {String} type - Define type of data to render. Options are `[date, time, year, month, weekday, day, numeric, tzDate, tzTime]`
- * @attr {String} utc - Pass on UTC formatted time code
+ * @attr {String} utc - Pass in ISO 8601 UTC formatted time code
  * @attr {String} weekday - Display long version of weekday. Option `[long]`
  * @attr {String} month - Display long version of month. Option `[long]`
  * @attr {String} timeZone - Pass in string to define [timeZone](https://docs.trifacta.com/display/DP/Supported+Time+Zone+Values)

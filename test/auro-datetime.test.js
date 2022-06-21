@@ -1,5 +1,4 @@
 import { fixture, html, expect } from '@open-wc/testing';
-// import sinon from 'sinon';
 import '../src/auro-datetime.js';
 
 describe('auro-datetime', () => {
