@@ -91,11 +91,11 @@ Use the `setdate` property to inject a specific date into the element and parse 
 
 </auro-accordion>
 
-## Set date with UTC(zulu) time code
+## Set date with UTC (Zulu) time code
 
-Using using the `utc` property, be sure to __only__ use a properly formatted UTC code.
+Using the `utc` property, be sure to __only__ use a properly-formatted UTC code.
 
-> Times are expressed in UTC (Coordinated Universal Time), with a special UTC designator ("Z").<br>
+> Times are expressed in ISO 8601 date and time format in UTC (Coordinated Universal Time), with a special UTC designator ("Z").<br>
 > `YYYY-MM-DDTHH:MM:SSZ`
 
 <div class="exampleWrapper">
@@ -121,7 +121,7 @@ Using using the `utc` property, be sure to __only__ use a properly formatted UTC
 
 Use `type="tzTime"`or `type="tzDate"` with the `setDate` property to define a new date object in a specific time zone using the `YYYY-MM-DDTHH:MM:SS-HH:MM` model.
 
-Example using `2022-07-13T21:35:00-07:00` with pacific `(-07:00)` time zone.
+Example using `2022-07-13T21:35:00-07:00` with Pacific `(-07:00)` time zone during daylight saving time. (The offset is `(-06:00)` during standard time.)
 
 <div class="exampleWrapper">
   <auro-datetime type="tzTime" setDate="2022-07-13T21:35:00-07:00"></auro-datetime><br>
@@ -138,7 +138,7 @@ Example using `2022-07-13T21:35:00-07:00` with pacific `(-07:00)` time zone.
 
 </auro-accordion>
 
-Example using `2022-07-14T06:00:00-04:00` with eastern `(-04:00)` time zone.
+Example using `2022-07-14T06:00:00-04:00` with Eastern `(-04:00)` time zone.
 
 <div class="exampleWrapper">
   <auro-datetime type="tzTime" setDate="2022-07-14T06:00:00-04:00"></auro-datetime><br>
