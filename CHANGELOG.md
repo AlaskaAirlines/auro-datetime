@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [1.3.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.2.0...v1.3.0) (2022-06-24)
+
+
+### Features
+
+* **time zone:** add support to parse date/time data with tz appendix ([811a1e7](https://github.com/AlaskaAirlines/auro-datetime/commit/811a1e78e546f06b0cd1cdc577462191a5484b2b))
+
 # [1.2.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.1.0...v1.2.0) (2021-04-13)
 
 
