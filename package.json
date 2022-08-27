@@ -19,7 +19,7 @@
   "license": "Apache-2.0",
   "dependencies": {
     "chalk": "^4.1.0",
-    "lit-element": "^2.4.0"
+    "lit-element": "^2.5.1"
   },
   "peerDependencies": {
     "@alaskaairux/design-tokens": "^3.9.0",
