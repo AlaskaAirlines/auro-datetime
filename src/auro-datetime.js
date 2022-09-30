@@ -21,6 +21,7 @@ import { LitElement, html } from "lit-element";
  * @attr {String} month - Display long version of month. Option `[long]`
  * @attr {String} timeZone - Pass in string to define [timeZone](https://docs.trifacta.com/display/DP/Supported+Time+Zone+Values)
  * @attr {String} setDate - Pass in string to set date
+ * @attr {Boolean} cap - Capitalize AM or PM designation
  * @slot pre - Content that comes before the `post` content
  * @slot post - Content that comes after the `pre` content
  */
@@ -62,7 +63,8 @@ class AuroDatetime extends LitElement {
       weekday:    { type: String },
       month:      { type: String },
       timeZone:   { type: String },
-      setDate:    { type: String }
+      setDate:    { type: String },
+      cap:        { type: Boolean }
     };
   }
 
@@ -152,6 +154,10 @@ class AuroDatetime extends LitElement {
       newTime = new Date(this.setDate);
     }
 
+    if (this.cap) {
+      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '')
+    }
+
     return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').
       toLowerCase();
   }
@@ -166,7 +172,11 @@ class AuroDatetime extends LitElement {
     const scrubTimeZone = this.setDate.slice(0, -6);
     const newDateTime = new Date(scrubTimeZone);
 
-    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').replace("AM", "am").replace("PM","pm")
+    if (this.cap) {
+      return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '')
+    }
+
+    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').replace("AM", "am").replace("PM", "pm")
   }
 
 

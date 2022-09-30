@@ -35,6 +35,15 @@ describe('auro-datetime', () => {
     await expect(root.textContent).to.equal(`Tue, Sep 22, 2020`);
   });
 
+  it('Shows PM', async () => {
+    const el = await fixture(html`
+      <auro-datetime cap type="tzTime" setDate="2022-07-14T14:00:00-10:00"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector('.yield');
+    await expect(root.textContent).to.equal(`2:00 PM`);
+  });
+
   // ------------------------------
 
   it('converts setDate to Hawaii TIME in time zone', async () => {

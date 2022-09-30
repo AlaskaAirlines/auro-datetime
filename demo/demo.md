@@ -53,6 +53,21 @@ Using the `auro-datetime` element with type `time` will return the __current tim
 
 </auro-accordion>
 
+Using the `cap` attribute will return the basic time string with a capitalized `AM` or `PM`.
+
+<div class="exampleWrapper">
+  <auro-datetime type="time" cap></auro-datetime>
+</div>
+
+<auro-accordion lowProfile justifyRight>
+  <span slot="trigger">See code</span>
+
+  ```html
+  <auro-datetime type="time" cap></auro-datetime>
+  ```
+
+</auro-accordion>
+
 ## Basic date w/long weekday and month
 
 Using the additional `month` and `weekday` enum options with type `date`, `auro-datetime` will return a customized string.
