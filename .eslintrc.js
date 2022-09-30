@@ -91,7 +91,7 @@ module.exports = {
       "new-parens": "error",
       "newline-after-var": "error",
       "newline-before-return": "error",
-      "newline-per-chained-call": "error",
+      "newline-per-chained-call": "warn",
       "no-alert": "error",
       "no-array-constructor": "error",
       "no-await-in-loop": "error",
