@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [1.4.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.3.0...v1.4.0) (2022-10-06)
+
+
+### Features
+
+* **capitalize:** add feature to set meridiem type [#18](https://github.com/AlaskaAirlines/auro-datetime/issues/18) ([d73f94f](https://github.com/AlaskaAirlines/auro-datetime/commit/d73f94fac3c14bd1bf39de78afca930e0e031b34))
+
 # [1.3.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.2.0...v1.3.0) (2022-06-24)
 
 
