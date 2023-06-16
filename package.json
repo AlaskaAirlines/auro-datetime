@@ -41,9 +41,6 @@
     "@commitlint/config-conventional": "^12.1.1",
     "@open-wc/testing": "^2.5.32",
     "@open-wc/testing-karma": "^4.0.9",
-    "@rollup/plugin-alias": "^3.1.9",
-    "@rollup/plugin-babel": "^5.3.1",
-    "@rollup/plugin-commonjs": "^18.0.0",
     "@rollup/plugin-node-resolve": "^11.2.1",
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
@@ -73,7 +70,6 @@
     "rollup": "^2.44.0",
     "rollup-plugin-minify-html-literals": "^1.2.6",
     "rollup-plugin-serve": "^1.1.0",
-    "rollup-plugin-terser": "^7.0.2",
     "semantic-release": "^17.4.2",
     "sinon": "^10.0.0",
     "stylelint": "^13.12.0",
@@ -87,7 +83,6 @@
   "browserslist": [
     "last 2 Chrome versions",
     "last 2 iOS major versions",
-    "ie 11",
     "last 2 Firefox versions",
     "last 2 Edge versions",
     "last 2 Safari major versions"
