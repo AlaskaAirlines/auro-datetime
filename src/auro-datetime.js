@@ -27,7 +27,7 @@ import { LitElement, html } from "lit-element";
  */
 
 // build the component class
-class AuroDatetime extends LitElement {
+export class AuroDatetime extends LitElement {
   constructor() {
     super();
 
@@ -235,8 +235,7 @@ class AuroDatetime extends LitElement {
   }
 }
 
-/* istanbul ignore else */
-// define the name of the custom component
+// default internal definition
 if (!customElements.get("auro-datetime")) {
   customElements.define("auro-datetime", AuroDatetime);
 }
