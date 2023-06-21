@@ -1,13 +1,15 @@
 .DS_Store
 node_modules/
+docTemplates/
 .cache/
 
-## Sass files built on demand from Token files
-demo/sass/_*.scss
+## Demo support files
+demo/*.css
+demo/*.css.map
 
 ## CSS built from Sass process
-demo/css
 src/*.css
+src/*.css.map
 
 ## *-css built from sass-render process
 *-css.js
@@ -16,5 +18,5 @@ src/*.css
 dist/
 build/
 
-## Karma code coverage reports
+## Code coverage reports
 coverage/

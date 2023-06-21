@@ -4,11 +4,11 @@
 // ---------------------------------------------------------------------
 
 // If use litElement base class
-import { LitElement, html } from "lit-element";
+import { LitElement, html } from "lit";
 
 // If using auroElement base class
 // See instructions for importing auroElement base class https://git.io/JULq4
-// import { html, css } from "lit-element";
+// import { html, css } from "lit";
 // import AuroElement from '@alaskaairux/orion-web-core-style-sheets/dist/auroElement/auroElement';
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
