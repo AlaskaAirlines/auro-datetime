@@ -1,16 +1,24 @@
 # standard ignore
-.gitignore
-.stylelintrc
-karma.conf.js
-rollup.config.js
-babel.config.js
+*config*
+*conf*
+LICENSE
+NOTICE
+
 .github/
-index.html
+.gitignore
+.eslintrc
+.stylelintrc
+
+coverage/
+docs/
 scripts/
 test/
-demo/css
-demo/sass
-coverage/
+demo/**/*.html
+
+dist/auro-*.js
+!dist/auro-*__bundled.js
+dist/style-css.js
 
 # ignore src
-src/**/*
+src/**/*.scss
+src/**/*.css
