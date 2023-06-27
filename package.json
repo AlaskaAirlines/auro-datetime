@@ -21,7 +21,7 @@
     "node": ">=18.15.0"
   },
   "dependencies": {
-    "chalk": "^4.1.0",
+    "chalk": "^5.2.0",
     "lit": "^2.7.5"
   },
   "peerDependencies": {
@@ -84,7 +84,7 @@
     "build:watch": "nodemon -e scss,js --watch src --exec npm run build:dev:assets",
     "bundler": "rollup -c",
     "bundle:test": "rollup -c -w",
-    "postinstall": "node packageScripts/postinstall.js",
+    "postinstall": "node packageScripts/postinstall.mjs",
     "cssLint": "stylelint \"./src/*.css\"",
     "dev": "concurrently --kill-others 'npm run build:watch' 'npm run serve'",
     "dist:js": "copyfiles -u 1 -V './src/**/*.js' ./dist",
