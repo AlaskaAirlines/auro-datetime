@@ -1,12 +1,11 @@
 const autoprefixer = require('autoprefixer')
 const postcss = require('postcss')
-const postcssCustomProperties = require('postcss-custom-properties')
 const removeRules = require('postcss-remove-rules')
 const comments = require('postcss-discard-comments')
 const fs = require('fs')
 
 fs.readFile('src/style.css', (err, css) => {
-  postcss([autoprefixer, postcssCustomProperties, comments])
+  postcss([autoprefixer, comments])
     .use(comments({
       remove: function(comment) { return comment[0] == "@"; }
     }))
