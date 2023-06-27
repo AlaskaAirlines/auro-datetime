@@ -173,10 +173,10 @@ export class AuroDatetime extends LitElement {
     const newDateTime = new Date(scrubTimeZone);
 
     if (this.cap) {
-      return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '')
+      return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '');
     }
 
-    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').replace("AM", "am").replace("PM", "pm")
+    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').replace("AM", "am").replace("PM", "pm"); // eslint-disable-line
   }
 
 
