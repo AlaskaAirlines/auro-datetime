@@ -9,11 +9,11 @@ For the most up to date information on [UI development browser support](https://
 ## Install
 
 [![Build Status](https://img.shields.io/github/workflow/status/AlaskaAirlines/auro-datetime/Test%20and%20publish?branch=master&style=for-the-badge)](https://github.com/AlaskaAirlines/auro-datetime/actions?query=workflow%3A%22test+and+publish%22)
-[![See it on NPM!](https://img.shields.io/npm/v/@alaskaairux/auro-datetime?style=for-the-badge&color=orange)](https://www.npmjs.com/package/@alaskaairux/auro-datetime)
-[![License](https://img.shields.io/npm/l/@alaskaairux/auro-datetime?color=blue&style=for-the-badge)](https://www.apache.org/licenses/LICENSE-2.0)
+[![See it on NPM!](https://img.shields.io/npm/v/@aurodesignsystem/auro-datetime?style=for-the-badge&color=orange)](https://www.npmjs.com/package/@aurodesignsystem/auro-datetime)
+[![License](https://img.shields.io/npm/l/@aurodesignsystem/auro-datetime?color=blue&style=for-the-badge)](https://www.apache.org/licenses/LICENSE-2.0)
 
 ```shell
-$ npm i @alaskaairux/auro-datetime
+$ npm i @aurodesignsystem/auro-datetime
 ```
 
 Installing as a direct, dev or peer dependency is up to the user installing the package. If you are unsure as to what type of dependency you should use, consider reading this [stack overflow](https://stackoverflow.com/questions/18875674/whats-the-difference-between-dependencies-devdependencies-and-peerdependencies) answer.
@@ -33,7 +33,7 @@ Any update to the Auro Design Tokens will be immediately reflected with browsers
 Defining the component dependency within each component that is using the `<auro-datetime>` component.
 
 ```javascript
-import "@alaskaairux/auro-datetime";
+import "@aurodesignsystem/auro-datetime";
 ```
 
 **Reference component in HTML**
@@ -54,8 +54,8 @@ Since the legacy bundle includes many polyfills that are not needed by modern br
 <link rel="stylesheet" href="https://unpkg.com/@alaskaairux/design-tokens@latest/dist/tokens/CSSCustomProperties.css" />
 <link rel="stylesheet" href="https://unpkg.com/@alaskaairux/webcorestylesheets@latest/dist/bundled/essentials.css" />
 
-<script src="https://unpkg.com/@alaskaairux/auro-datetime@latest/dist/auro-datetime__bundled.js" type="module"></script>
-<script src="https://unpkg.com/@alaskaairux/auro-datetime@latest/dist/auro-datetime__bundled.es5.js" nomodule></script>
+<script src="https://unpkg.com/@aurodesignsystem/auro-datetime@latest/dist/auro-datetime__bundled.js" type="module"></script>
+<script src="https://unpkg.com/@aurodesignsystem/auro-datetime@latest/dist/auro-datetime__bundled.es5.js" nomodule></script>
 ```
 
 ## API Code Examples
