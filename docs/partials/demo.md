@@ -7,15 +7,11 @@ This file is generated based on a template fetched from `./docs/partials/demo.md
 # Datetime
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./description.md) -->
-<!-- The below content is automatically added from ./description.md -->
-`<auro-datetime>` is a simple [HTML custom element](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) that makes it easy to add dates on web pages.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## auro-datetime use cases
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./useCases.md) -->
-<!-- The below content is automatically added from ./useCases.md -->
-`<auro-datetime>` is used for the purposes of providing an easy to use date and time API.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Example(s)
@@ -26,19 +22,15 @@ This is a default configuration using the `<auro-datetime>` element.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/basic.html) -->
-  <!-- The below content is automatically added from ./../../apiExamples/basic.html -->
-  <auro-datetime type="date"></auro-datetime>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
+
 <auro-accordion lowProfile justifyRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/basic.html) -->
-<!-- The below code snippet is automatically added from ./../../apiExamples/basic.html -->
 
-```html
-<auro-datetime type="date"></auro-datetime>
-```
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/basic.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
+
 </auro-accordion>
 
 ### Numeric
@@ -47,19 +39,15 @@ Using the `<auro-datetime>` element with type `numeric` will return the **curren
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/numeric.html) -->
-  <!-- The below content is automatically added from ./../../apiExamples/numeric.html -->
-  <auro-datetime type="numeric"></auro-datetime>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
+
 <auro-accordion lowProfile justifyRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/numeric.html) -->
-<!-- The below code snippet is automatically added from ./../../apiExamples/numeric.html -->
 
-```html
-<auro-datetime type="numeric"></auro-datetime>
-```
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/numeric.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
+
 </auro-accordion>
 
 ### Basic Time
@@ -68,19 +56,15 @@ Using the `<auro-datetime>` element with type `time` will return the **current d
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/time.html) -->
-  <!-- The below content is automatically added from ./../../apiExamples/time.html -->
-  <auro-datetime type="time"></auro-datetime>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
+
 <auro-accordion lowProfile justifyRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/time.html) -->
-<!-- The below code snippet is automatically added from ./../../apiExamples/time.html -->
 
-```html
-<auro-datetime type="time"></auro-datetime>
-```
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/time.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
+
 </auro-accordion>
 
 ## Recommended Use and Version Control
@@ -98,17 +82,13 @@ This will create a new custom element that you can use in your HTML that will fu
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/customDatetime.html) -->
-  <!-- The below content is automatically added from ./../../apiExamples/customDatetime.html -->
-  <custom-datetime type="date"></custom-datetime>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
+
 <auro-accordion lowProfile justifyRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/customDatetime.html) -->
-<!-- The below code snippet is automatically added from ./../../apiExamples/customDatetime.html -->
 
-```html
-<custom-datetime type="date"></custom-datetime>
-```
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/customDatetime.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
+
 </auro-accordion>
