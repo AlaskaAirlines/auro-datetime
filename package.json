@@ -80,6 +80,12 @@
     "last 2 Edge versions",
     "last 2 Safari major versions"
   ],
+  "nodemonConfig": {
+    "ignore": [
+      "*-css.js",
+      "*.css"
+    ]
+  },
   "scripts": {
     "build": "npm-run-all build:sass sass:render scssLint dist:js bundler postinstall build:api types build:docs",
     "build:dev:assets": "npm-run-all build:sass:component postCss:component sass:render",
@@ -100,7 +106,6 @@
     "test": "wtr --coverage",
     "test:watch": "wtr --watch",
     "build:sass": "npm-run-all build:sass:component postCss:component sass:render",
-    "build:sass:dev": "npm-run-all build:sass:component postCss:component sass:render",
     "build:sass:component": "sass --no-source-map src:src",
     "postCss:component": "node ./scripts/postCss.js",
     "serve": "web-dev-server --open demo/ --node-resolve --watch",
