@@ -1,6 +1,6 @@
 # auro-datetime
 
-auro-datetime custom element for the purposes of providing an easy to use date and time API
+The auro-datetime custom element is for the purposes of providing an easy to use date and time API.
 
 ## Properties
 

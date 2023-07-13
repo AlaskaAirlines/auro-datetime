@@ -4,16 +4,16 @@
 // ---------------------------------------------------------------------
 
 // If use litElement base class
-import { LitElement, html } from "lit-element";
+import { LitElement, html } from "lit";
 
 // If using auroElement base class
 // See instructions for importing auroElement base class https://git.io/JULq4
-// import { html, css } from "lit-element";
+// import { html, css } from "lit";
 // import AuroElement from '@alaskaairux/orion-web-core-style-sheets/dist/auroElement/auroElement';
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * auro-datetime custom element for the purposes of providing an easy to use date and time API
+ * The auro-datetime custom element is for the purposes of providing an easy to use date and time API.
  *
  * @attr {String} type - Define type of data to render. Options are `[date, time, year, month, weekday, day, numeric, tzDate, tzTime]`
  * @attr {String} utc - Pass in ISO 8601 UTC formatted time code
@@ -27,7 +27,7 @@ import { LitElement, html } from "lit-element";
  */
 
 // build the component class
-class AuroDatetime extends LitElement {
+export class AuroDatetime extends LitElement {
   constructor() {
     super();
 
@@ -36,7 +36,7 @@ class AuroDatetime extends LitElement {
   }
 
   connectedCallback() {
-    super.connectedCallback()
+    super.connectedCallback();
 
     this.dateTemplate = {
       weekday: this.weekday,
@@ -69,7 +69,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function generate date string.
+   * Internal function generate date string.
+   * @private
    * @returns {string} - Date string.
    */
   humanDate() {
@@ -88,7 +89,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function to determine new Date object based on input type.
+   * Internal function to determine new Date object based on input type.
+   * @private
    * @returns {string} - Date string.
    */
   humanDateConversion() {
@@ -122,7 +124,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function generate numeric date string 00/00/0000.
+   * Internal function generate numeric date string 00/00/0000.
+   * @private
    * @returns {string} - Date string.
    */
   numericDate() {
@@ -141,7 +144,8 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function generate standard time string.
+   * Internal function generate standard time string.
+   * @private
    * @returns {string} - Time string.
    */
   humanTime() {
@@ -155,7 +159,7 @@ class AuroDatetime extends LitElement {
     }
 
     if (this.cap) {
-      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '')
+      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '');
     }
 
     return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').
@@ -163,25 +167,29 @@ class AuroDatetime extends LitElement {
   }
 
   /**
-   * @private Internal function to generate proper time zone local.
+   * Internal function to generate proper time zone local.
+   * @private
    * @returns {string} - Date/Time zone string.
    * @param {string} template - Determines which template model to use.
    */
   tzTime(template) {
-
-    const scrubTimeZone = this.setDate.slice(0, -6);
+    const scrubNumber = -6;
+    const scrubTimeZone = this.setDate.slice(0, scrubNumber);
     const newDateTime = new Date(scrubTimeZone);
 
     if (this.cap) {
-      return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '')
+      return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '');
     }
 
-    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').replace("AM", "am").replace("PM", "pm")
+    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').
+      replace("AM", "am").
+      replace("PM", "pm");
   }
 
 
   /**
-   * @private Internal function UI decision.
+   * Internal function UI decision.
+   * @private
    * @returns {function} - Function determines which style of date data to show.
    */
   whichDate() {
@@ -218,7 +226,7 @@ class AuroDatetime extends LitElement {
       return this.humanDate();
     }
 
-    return result
+    return result;
   }
 
   // When using auroElement, use the following attribute and function when hiding content from screen readers.
