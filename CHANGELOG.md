@@ -1,5 +1,67 @@
 # Semantic Release Automated Changelog
 
+# [2.0.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.4.0...v2.0.0) (2023-07-13)
+
+
+### Performance Improvements
+
+* **node18:** update repo [#20](https://github.com/AlaskaAirlines/auro-datetime/issues/20) [#21](https://github.com/AlaskaAirlines/auro-datetime/issues/21) [#22](https://github.com/AlaskaAirlines/auro-datetime/issues/22) [#23](https://github.com/AlaskaAirlines/auro-datetime/issues/23) ([3c39fe7](https://github.com/AlaskaAirlines/auro-datetime/commit/3c39fe7513630a6eb28f037998efebe27c92503a))
+
+
+### BREAKING CHANGES
+
+* **node18:** This commit includes an update to the namespace
+of the component to @aurodesignsystem.
+
+This is a complete upgrade to the repo to include things
+like updating configs, testing, templates, etc.. See the full
+list of updated files.
+
+Changes to be committed:
+new file:   .eslintrc
+deleted:    .eslintrc.js
+new file:   .github/CODEOWNERS
+modified:   .github/CONTRIBUTING.md
+deleted:    .github/ISSUE_TEMPLATE/bug_report.md
+new file:   .github/ISSUE_TEMPLATE/bug_report.yml
+deleted:    .github/ISSUE_TEMPLATE/dev-story.md
+deleted:    .github/ISSUE_TEMPLATE/feature_request.md
+new file:   .github/ISSUE_TEMPLATE/feature_request.yml
+deleted:    .github/ISSUE_TEMPLATE/general-support.md
+new file:   .github/ISSUE_TEMPLATE/general-support.yml
+deleted:    .github/labelSettings.json
+modified:   .github/settings.yml
+new file:   .github/workflows/autoAssign.yml
+new file:   .github/workflows/codeql.yml
+modified:   .github/workflows/testPublish.yml
+modified:   .gitignore
+new file:   .husky/pre-commit
+modified:   .npmignore
+modified:   .stylelintrc
+deleted:    .travis.yml
+modified:   README.md
+deleted:    babel.config.js
+modified:   demo/index.html
+deleted:    demo/sass/style.scss
+modified:   docs/api.md
+deleted:    index.html
+modified:   index.js
+deleted:    karma.conf.js
+modified:   package-lock.json
+modified:   package.json
+renamed:    packageScripts/postinstall.js -> packageScripts/postinstall.mjs
+deleted:    rollup.config.js
+new file:   rollup.config.mjs
+modified:   scripts/postCss.js
+new file:   scripts/pre-commit.mjs
+deleted:    scripts/prepForBuild.js
+modified:   scripts/staticStyles-template.js
+modified:   src/auro-datetime.js
+deleted:    src/es5.js
+modified:   src/style.scss
+new file:   tsconfig.json
+new file:   web-test-runner.config.mjs
+
 # [1.4.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v1.3.0...v1.4.0) (2022-10-06)
 
 
