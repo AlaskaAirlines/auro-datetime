@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+# [2.1.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.0.2...v2.1.0) (2024-01-20)
+
+
+### Features
+
+* add suport for SSR projects [#35](https://github.com/AlaskaAirlines/auro-datetime/issues/35) ([d25183b](https://github.com/AlaskaAirlines/auro-datetime/commit/d25183b7bf6818ebea2164b4fe75583c2b4bbc3d))
+
 ## [2.0.2](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.0.1...v2.0.2) (2024-01-20)
 
 
