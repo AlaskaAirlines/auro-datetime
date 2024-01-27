@@ -1,4 +1,4 @@
-import { AuroDatetime } from './src/auro-datetime';
+import { AuroDatetime } from './src/auro-datetime.js';
 
 /**
  * Register Custom Element.
