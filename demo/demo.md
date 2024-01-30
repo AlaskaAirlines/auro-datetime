@@ -10,7 +10,7 @@ Using the `auro-datetime` element with type `date` will return the ____current d
   <auro-datetime type="date"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -27,7 +27,7 @@ Using the `auro-datetime` element with type `numeric` will return the __current 
   <auro-datetime type="numeric"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -44,7 +44,7 @@ Using the `auro-datetime` element with type `time` will return the __current tim
   <auro-datetime type="time"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -59,7 +59,7 @@ Using the `cap` attribute will return the basic time string with a capitalized `
   <auro-datetime type="time" cap></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -76,7 +76,7 @@ Using the additional `month` and `weekday` enum options with type `date`, `auro-
   <auro-datetime type="date" month="long" weekday="long"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -95,7 +95,7 @@ Use the `setdate` property to inject a specific date into the element and parse 
   <auro-datetime type="time" setdate="August 19, 1975 23:15:30"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -119,7 +119,7 @@ Using the `utc` property, be sure to __only__ use a properly-formatted UTC code.
   <auro-datetime weekday="long" month="long" utc="2020-09-22T01:38:22Z"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -143,7 +143,7 @@ Example using `2022-07-13T21:35:00-07:00` with Pacific `(-07:00)` time zone duri
   <auro-datetime type="tzDate" setDate="2022-07-13T21:35:00-07:00"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -160,7 +160,7 @@ Example using `2022-07-14T06:00:00-04:00` with Eastern `(-04:00)` time zone.
   <auro-datetime type="tzDate" setDate="2022-07-14T06:00:00-04:00"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -177,7 +177,7 @@ Example using `2022-07-14T08:00:00-10:00` with Hawaii `(-10:00)` time zone.
   <auro-datetime type="tzDate" setDate="2022-07-16T08:00:00-10:00"></auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -202,7 +202,7 @@ Using the `timezone` enum option, users can designate specifically what the __cu
   <p>UTC: <auro-datetime type="time" timezone="UTC"></auro-datetime></p>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
@@ -232,7 +232,7 @@ The `auro-datetime` component also supports a wide series of use cases and slots
   </auro-datetime>
 </div>
 
-<auro-accordion lowProfile justifyRight>
+<auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
   ```html
