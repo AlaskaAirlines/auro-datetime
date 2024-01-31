@@ -18,7 +18,7 @@ body:
     attributes:
       value: >
         [![See it on
-        NPM!](https://img.shields.io/npm/v/@alaskaairux/auro-datetime?style=for-the-badge&color=orange)](https://www.npmjs.com/package/@alaskaairux/auro-datetime)
+        NPM!](https://img.shields.io/npm/v/@aurodesignsystem/auro-datetime?style=for-the-badge&color=orange)](https://www.npmjs.com/package/@aurodesignsystem/auro-datetime)
   - type: textarea
     id: details
     attributes:
