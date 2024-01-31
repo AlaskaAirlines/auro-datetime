@@ -1,5 +1,13 @@
 # Semantic Release Automated Changelog
 
+## [2.1.2](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.1...v2.1.2) (2024-01-31)
+
+
+### Performance Improvements
+
+* alaskaairux ref updates ([e29171d](https://github.com/AlaskaAirlines/auro-datetime/commit/e29171d1db27a1d43e2eb6d42f9b8e754a858cd8))
+* **cdn:** update links from unpkg to jsdelivr ([16fe46d](https://github.com/AlaskaAirlines/auro-datetime/commit/16fe46de927fc591e73ec974eda0f6631fbcb3cf))
+
 ## [2.1.1](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.0...v2.1.1) (2024-01-27)
 
 
