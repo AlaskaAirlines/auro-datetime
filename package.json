@@ -51,7 +51,7 @@
     "core-js": "^3.35.0",
     "eslint": "^8.56.0",
     "eslint-plugin-jsdoc": "^48.0.2",
-    "husky": "^8.0.3",
+    "husky": "^9.0.10",
     "lodash": "^4.17.21",
     "markdown-magic": "^2.6.1",
     "nodemon": "^3.0.3",
