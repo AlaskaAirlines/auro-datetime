@@ -158,6 +158,6 @@
     "test:watch": "wtr --watch",
     "types": "tsc",
     "prepare": "husky install",
-    "postversion": "npm-run-all build:api build:docs"
+    "postversion": "npm-run-all build:api"
   }
 }
