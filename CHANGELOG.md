@@ -1,5 +1,17 @@
 # Semantic Release Automated Changelog
 
+## [2.1.3](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.2...v2.1.3) (2024-02-13)
+
+
+### Bug Fixes
+
+* address broken build step ([39d9bf1](https://github.com/AlaskaAirlines/auro-datetime/commit/39d9bf12c1023768cbec4bab496d970fad4f9c39))
+
+
+### Performance Improvements
+
+* update auro dependencies ([b9f3249](https://github.com/AlaskaAirlines/auro-datetime/commit/b9f32493013dd9dc2962f0585d08b44ad203fcbe))
+
 ## [2.1.2](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.1...v2.1.2) (2024-01-31)
 
 
