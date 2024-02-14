@@ -5,7 +5,7 @@ const production = !process.env.ROLLUP_WATCH,
 
  modernConfig = {
   input: {
-    'auro-datetime__bundled': './index.js',
+    ['auro-datetime__bundled']: './index.js',
   },
   output: {
     format: 'esm',
