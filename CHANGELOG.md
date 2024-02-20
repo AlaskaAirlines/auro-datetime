@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [2.1.4](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.3...v2.1.4) (2024-02-20)
+
+
+### Performance Improvements
+
+* **js:** implement js system [#32](https://github.com/AlaskaAirlines/auro-datetime/issues/32) ([b506b7a](https://github.com/AlaskaAirlines/auro-datetime/commit/b506b7acf3d6dd7d3dcb3988606a7aa13d46b931))
+
 ## [2.1.3](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.2...v2.1.3) (2024-02-13)
 
 
