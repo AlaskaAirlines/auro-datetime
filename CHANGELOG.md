@@ -1,5 +1,19 @@
 # Semantic Release Automated Changelog
 
+# [2.2.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.4...v2.2.0) (2024-10-02)
+
+
+### Features
+
+* add tag name as attribute when custom registered ([42b9b6a](https://github.com/AlaskaAirlines/auro-datetime/commit/42b9b6aa855dc461f98c6ce3f2f8a8e1a88a4de5))
+
+
+### Performance Improvements
+
+* refactor custom component registration config ([f984902](https://github.com/AlaskaAirlines/auro-datetime/commit/f98490262de6c73ac163a599f3baacb6612ee9a3))
+* remove github label colors ([5ae8365](https://github.com/AlaskaAirlines/auro-datetime/commit/5ae83656399fef5be1703ad93b00b5e1cdc78c07))
+* update dependencies and lint config ([876405d](https://github.com/AlaskaAirlines/auro-datetime/commit/876405d4804e24457561f5d259253a8ca084222a))
+
 ## [2.1.4](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.1.3...v2.1.4) (2024-02-20)
 
 
