@@ -42,9 +42,10 @@
     </script>
     <script type="module" data-demo-script="true" src="../index.js"></script>
     <script type="module">
-      import { registerComponent } from '../index.js';
+      import { AuroDatetime } from '../src/auro-datetime.js';
+      import * as RuntimeUtils from '@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs';
 
-      registerComponent('custom-datetime');
+      RuntimeUtils.default.prototype.registerComponent('custom-datetime', AuroDatetime);
     </script>
 
     <!-- If additional elements are needed for the demo, add them here. -->
