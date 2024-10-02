@@ -6,6 +6,8 @@
 // If use litElement base class
 import { LitElement, html } from "lit";
 
+import AuroLibraryRuntimeUtils from '@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs';
+
 // If using auroElement base class
 // See instructions for importing auroElement base class https://git.io/JULq4
 // import { html, css } from "lit";
@@ -33,6 +35,11 @@ export class AuroDatetime extends LitElement {
 
     this.weekday = 'short';
     this.month = 'short';
+
+    /**
+     * @private
+     */
+    this.runtimeUtils = new AuroLibraryRuntimeUtils();
   }
 
   connectedCallback() {
@@ -66,6 +73,11 @@ export class AuroDatetime extends LitElement {
       setDate:    { type: String },
       cap:        { type: Boolean }
     };
+  }
+
+  firstUpdated() {
+    // Add the tag name as an attribute if it is different than the component name
+    this.runtimeUtils.handleComponentTagRename(this, 'auro-datetime');
   }
 
   /**
