@@ -1,5 +1,5 @@
 import { fixture, html, expect } from '@open-wc/testing';
-import '../src/auro-datetime.js';
+import '../index.js';
 
 describe('auro-datetime', () => {
   it('auro-datetime is accessible', async () => {
