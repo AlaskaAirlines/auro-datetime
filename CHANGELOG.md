@@ -1,5 +1,17 @@
 # Semantic Release Automated Changelog
 
+# [2.3.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.2.1...v2.3.0) (2024-10-23)
+
+
+### Features
+
+* **api:** add register static method [#45](https://github.com/AlaskaAirlines/auro-datetime/issues/45) ([01347ea](https://github.com/AlaskaAirlines/auro-datetime/commit/01347eac73d9fb79fb208fcd7648fb4738916380))
+
+
+### Performance Improvements
+
+* update dependency versions ([7e7dfcd](https://github.com/AlaskaAirlines/auro-datetime/commit/7e7dfcdc3f70f1094fb496ce901963c539baa8e0))
+
 ## [2.2.1](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.2.0...v2.2.1) (2024-10-08)
 
 
