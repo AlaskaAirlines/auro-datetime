@@ -1,4 +1,4 @@
-<!-- AURO-GENERATED-CONTENT:START (FILE:src=./../api.md) -->
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=../docs/api.md) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## API Examples
@@ -8,14 +8,14 @@
 Using the `auro-datetime` element with `type=date` will return the **current date** based on client local preferences.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/basic.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/basic.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/basic.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/basic.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -25,14 +25,14 @@ Using the `auro-datetime` element with `type=date` will return the **current dat
 Using the `auro-datetime` element with `type=numeric` will return the **current date** based on client local preferences as a numeric type.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/numericDate.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/numericDate.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/numericDate.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/numericDate.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -40,14 +40,14 @@ Using the `auro-datetime` element with `type=numeric` will return the **current 
 ### Basic Time
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/basicTime.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/basicTime.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/basicTime.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/basicTime.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -57,14 +57,14 @@ Using the `auro-datetime` element with `type=numeric` will return the **current 
 Using the `cap` attribute will return the basic time string with a capitalized `AM` or `PM`.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/cap.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/cap.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/cap.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/cap.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -74,14 +74,14 @@ Using the `cap` attribute will return the basic time string with a capitalized `
 Using the additional `month` and `weekday` enum options with `type=date`, `auro-datetime` will return a customized string.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/long.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/long.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/long.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/long.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -91,14 +91,14 @@ Using the additional `month` and `weekday` enum options with `type=date`, `auro-
 Use the `setDate` property to inject a specific date into the element and parse as needed.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/setDate.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/setDate.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/setDate.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/setDate.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -111,14 +111,14 @@ Use the `setDate` property to inject a specific date into the element and parse 
 Using the `utc` property, be sure to only use a properly-formatted UTC code.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/utc.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/utc.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/utc.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/utc.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -132,14 +132,14 @@ Use `type="tzTime"`or `type="tzDate"` with the `setDate` property to define a ne
 Example using `2022-07-13T21:35:00-07:00` with Pacific `(-07:00)` time zone during daylight saving time. (The offset is `(-06:00)` during standard time.)
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/plusMinus.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/plusMinus.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/plusMinus.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/plusMinus.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -149,14 +149,14 @@ Example using `2022-07-13T21:35:00-07:00` with Pacific `(-07:00)` time zone duri
 Example using `2022-07-14T06:00:00-04:00` with Eastern `(-04:00)` time zone.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/eastPlusMinus.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/eastPlusMinus.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/eastPlusMinus.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/eastPlusMinus.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -166,14 +166,14 @@ Example using `2022-07-14T06:00:00-04:00` with Eastern `(-04:00)` time zone.
 Example using `2022-07-14T08:00:00-10:00` with Hawaii `(-10:00)` time zone.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/hawaiiPlusMinus.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/hawaiiPlusMinus.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/hawaiiPlusMinus.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/hawaiiPlusMinus.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -183,14 +183,14 @@ Example using `2022-07-14T08:00:00-10:00` with Hawaii `(-10:00)` time zone.
 Using the `timezone` enum option, users can designate specifically what the **current time** is in any supported timezone. See all [timezone options](https://docs.trifacta.com/display/DP/Supported+Time+Zone+Values)
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/timezone.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/timezone.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/timezone.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/timezone.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>
@@ -200,14 +200,14 @@ Using the `timezone` enum option, users can designate specifically what the **cu
 The `auro-datetime` component also supports a wide series of use cases and slots for positioning content. See the following examples for inspiration and use.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/slots.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/slots.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
 
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/slots.html) -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/slots.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
 
 </auro-accordion>

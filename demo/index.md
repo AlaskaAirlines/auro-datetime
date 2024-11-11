@@ -6,15 +6,15 @@ This file is generated based on a template fetched from `./docs/partials/index.m
 
 # Datetime
 
-<!-- AURO-GENERATED-CONTENT:START (FILE:src=./description.md) -->
-<!-- The below content is automatically added from ./description.md -->
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=../docs/partials/description.md) -->
+<!-- The below content is automatically added from ../docs/partials/description.md -->
 The `<auro-datetime>` custom element makes it really easy to add dates to your web app with a simple HTML API.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## auro-datetime use cases
 
-<!-- AURO-GENERATED-CONTENT:START (FILE:src=./useCases.md) -->
-<!-- The below content is automatically added from ./useCases.md -->
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=../docs/partials/useCases.md) -->
+<!-- The below content is automatically added from ../docs/partials/useCases.md -->
 The `<auro-datetime>` element should be used in situations where users may:
 
 * A date and/or time is required
@@ -25,15 +25,15 @@ The `<auro-datetime>` element should be used in situations where users may:
 ### Basic Date
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/basic.html) -->
-  <!-- The below content is automatically added from ./../../apiExamples/basic.html -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/basic.html) -->
+  <!-- The below content is automatically added from ../apiExamples/basic.html -->
   <auro-datetime type="date"></auro-datetime>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/basic.html) -->
-<!-- The below code snippet is automatically added from ./../../apiExamples/basic.html -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/basic.html) -->
+<!-- The below code snippet is automatically added from ../apiExamples/basic.html -->
 
 ```html
 <auro-datetime type="date"></auro-datetime>
@@ -44,15 +44,15 @@ The `<auro-datetime>` element should be used in situations where users may:
 ### Basic Time
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/basicTime.html) -->
-  <!-- The below content is automatically added from ./../../apiExamples/basicTime.html -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/basicTime.html) -->
+  <!-- The below content is automatically added from ../apiExamples/basicTime.html -->
   <auro-datetime type="time"></auro-datetime>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/basicTime.html) -->
-<!-- The below code snippet is automatically added from ./../../apiExamples/basicTime.html -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/basicTime.html) -->
+<!-- The below code snippet is automatically added from ../apiExamples/basicTime.html -->
 
 ```html
 <auro-datetime type="time"></auro-datetime>
@@ -76,15 +76,15 @@ AuroDatetime.register('custom-datetime');
 This will create a new custom element that you can use in your HTML that will function identically to the `auro-datetime` element.
 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../../apiExamples/custom.html) -->
-  <!-- The below content is automatically added from ./../../apiExamples/custom.html -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/custom.html) -->
+  <!-- The below content is automatically added from ../apiExamples/custom.html -->
   <custom-datetime type="date"></custom-datetime>
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../../apiExamples/custom.html) -->
-<!-- The below code snippet is automatically added from ./../../apiExamples/custom.html -->
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/custom.html) -->
+<!-- The below code snippet is automatically added from ../apiExamples/custom.html -->
 
 ```html
 <custom-datetime type="date"></custom-datetime>
