@@ -1,5 +1,17 @@
 # Semantic Release Automated Changelog
 
+## [2.3.1](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.3.0...v2.3.1) (2024-11-23)
+
+
+### Bug Fixes
+
+* update markdown partial pathing to consume new auro lib [#47](https://github.com/AlaskaAirlines/auro-datetime/issues/47) ([8f344f2](https://github.com/AlaskaAirlines/auro-datetime/commit/8f344f2fd6d2f7a71b59a2c761bee2a62bc9df29))
+
+
+### Performance Improvements
+
+* update library 3.0.2 ([a7fcc07](https://github.com/AlaskaAirlines/auro-datetime/commit/a7fcc074ee83089bd91d8145d706530d2f464b14))
+
 # [2.3.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.2.1...v2.3.0) (2024-10-23)
 
 
