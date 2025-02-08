@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [2.3.3](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.3.2...v2.3.3) (2025-02-08)
+
+
+### Performance Improvements
+
+* update dependencies ([01435e1](https://github.com/AlaskaAirlines/auro-datetime/commit/01435e1b3dfc56cc713abd794ed150681b9c920a))
+
 ## [2.3.2](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.3.1...v2.3.2) (2024-12-20)
 
 
