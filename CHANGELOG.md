@@ -1,5 +1,20 @@
 # Semantic Release Automated Changelog
 
+# [3.0.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.3.3...v3.0.0) (2025-02-28)
+
+
+* feat!: move peer dependencies to "real" dependencies ([214ce15](https://github.com/AlaskaAirlines/auro-datetime/commit/214ce1598e481e62850199335950040888651339))
+
+
+### BREAKING CHANGES
+
+* last change was breaking _on a patch version_ because of peer dependencies
+
+Summary:
+  Our current build process relies on peer dependencies being present, but
+  the peer dependency pipeline is causing far more issues than it's worth.
+  Why not just make them regular dependencies? This is what this PR does :)
+
 ## [2.3.3](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.3.2...v2.3.3) (2025-02-08)
 
 
