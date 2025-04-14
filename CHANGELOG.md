@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [3.0.1](https://github.com/AlaskaAirlines/auro-datetime/compare/v3.0.0...v3.0.1) (2025-04-14)
+
+
+### Performance Improvements
+
+* add wca script for docs api ([a351ada](https://github.com/AlaskaAirlines/auro-datetime/commit/a351ada5f60ff2a059cea37a5ce0d8b648e97198))
+
 # [3.0.0](https://github.com/AlaskaAirlines/auro-datetime/compare/v2.3.3...v3.0.0) (2025-02-28)
 
 
