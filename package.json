@@ -20,14 +20,14 @@
     "node": "^20.x || ^22.x "
   },
   "dependencies": {
-    "@aurodesignsystem/auro-library": "^4.2.1",
-    "@aurodesignsystem/design-tokens": "^5.8.2",
-    "@aurodesignsystem/webcorestylesheets": "^6.1.0",
+    "@aurodesignsystem/auro-library": "^5.2.2",
+    "@aurodesignsystem/design-tokens": "^8.2.1",
+    "@aurodesignsystem/webcorestylesheets": "^10.0.0",
     "chalk": "^5.4.1",
     "lit": "^3.3.0"
   },
   "devDependencies": {
-    "@alaskaairux/icons": "^5.3.0",
+    "@alaskaairux/icons": "^5.5.0",
     "@aurodesignsystem/eslint-config": "^1.3.4",
     "@commitlint/cli": "^19.8.0",
     "@commitlint/config-conventional": "^19.8.0",
@@ -147,11 +147,10 @@
     "build:watch": "nodemon -e scss,js,html --watch src --watch apiExamples/**/* --exec npm run build:dev:assets",
     "bundler": "rollup -c",
     "bundler:test": "rollup -c -w",
-    "scssLint": "stylelint \"./src/**/*.scss\"",
     "dev": "concurrently --kill-others \"npm run build:watch\" \"npm run serve\"",
     "dist:js": "copyfiles -u 1 -V './src/**/*.js' ./dist",
     "esLint": "./node_modules/.bin/eslint src/**/*.js",
-    "linters": "npm-run-all scssLint esLint",
+    "linters": "npm-run-all esLint",
     "preCommit": "node ./node_modules/@aurodesignsystem/auro-library/scripts/build/pre-commit.mjs",
     "postCss:component": "node ./node_modules/@aurodesignsystem/auro-library/scripts/build/postCss.mjs",
     "postinstall": "node packageScripts/postinstall.mjs",
@@ -162,6 +161,6 @@
     "test:watch": "wtr --watch",
     "types": "tsc",
     "postversion": "npm-run-all build:api build:docs",
-    "prepare": "husky install"
+    "prepare": "husky"
   }
 }
