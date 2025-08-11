@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [3.0.4](https://github.com/AlaskaAirlines/auro-datetime/compare/v3.0.3...v3.0.4) (2025-08-11)
+
+
+### Bug Fixes
+
+* auro library was causing aqua scan failures ([76c0866](https://github.com/AlaskaAirlines/auro-datetime/commit/76c0866d3064576846c624e2cdbb09f6592f3728))
+
 ## [3.0.3](https://github.com/AlaskaAirlines/auro-datetime/compare/v3.0.2...v3.0.3) (2025-07-02)
 
 
