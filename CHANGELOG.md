@@ -1,5 +1,12 @@
 # Semantic Release Automated Changelog
 
+## [3.0.5](https://github.com/AlaskaAirlines/auro-datetime/compare/v3.0.4...v3.0.5) (2025-08-14)
+
+
+### Bug Fixes
+
+* update auro-library to latest version ([7d707e4](https://github.com/AlaskaAirlines/auro-datetime/commit/7d707e4eade970d06713703491b52f1a3a797ffa))
+
 ## [3.0.4](https://github.com/AlaskaAirlines/auro-datetime/compare/v3.0.3...v3.0.4) (2025-08-11)
 
 
