@@ -1,3 +1,3 @@
-import { AuroDatetime } from './src/auro-datetime.js';
+import { AuroDatetime } from "./src/auro-datetime.js";
 
 AuroDatetime.register();
