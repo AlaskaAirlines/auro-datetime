@@ -1,5 +1,4 @@
-
-import { AuroDatetime } from '../../src/auro-datetime.js';
+import { AuroDatetime } from "../../src/auro-datetime.js";
 
 /**
  * The auro-datetime custom element is for the purposes of providing an easy to use date and time API.

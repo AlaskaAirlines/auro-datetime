@@ -68,7 +68,7 @@ There are two important parts of every Auro component. The <a href="https://deve
 To protect from versioning conflicts with other instances of the component being loaded, it is recommended to use our `AuroDatetime.register(name)` method and pass in a unique name.
 
 ```js
-import { AuroDatetime } from './src/auro-datetime.js';
+import { AuroDatetime } from '@aurodesignsystem/auro-datetime/class';
 
 AuroDatetime.register('custom-datetime');
 ```

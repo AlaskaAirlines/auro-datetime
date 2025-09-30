@@ -3,10 +3,9 @@
 
 // ---------------------------------------------------------------------
 
+import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs";
 // If use litElement base class
-import { LitElement, html } from "lit";
-
-import AuroLibraryRuntimeUtils from '@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs';
+import { html, LitElement } from "lit";
 
 // If using auroElement base class
 // See instructions for importing auroElement base class https://git.io/JULq4
@@ -33,8 +32,8 @@ export class AuroDatetime extends LitElement {
   constructor() {
     super();
 
-    this.weekday = 'short';
-    this.month = 'short';
+    this.weekday = "short";
+    this.month = "short";
 
     /**
      * @private
@@ -49,13 +48,13 @@ export class AuroDatetime extends LitElement {
       weekday: this.weekday,
       year: "numeric",
       month: this.month,
-      day: "numeric"
+      day: "numeric",
     };
 
     this.timeTemplate = {
       hour: "2-digit",
       minute: "2-digit",
-      timeZone: this.timeZone
+      timeZone: this.timeZone,
     };
 
     this.template = {};
@@ -65,13 +64,13 @@ export class AuroDatetime extends LitElement {
   static get properties() {
     return {
       // ...super.properties,
-      type:       { type: String },
-      utc:        { type: String },
-      weekday:    { type: String },
-      month:      { type: String },
-      timeZone:   { type: String },
-      setDate:    { type: String },
-      cap:        { type: Boolean }
+      type: { type: String },
+      utc: { type: String },
+      weekday: { type: String },
+      month: { type: String },
+      timeZone: { type: String },
+      setDate: { type: String },
+      cap: { type: Boolean },
     };
   }
 
@@ -89,7 +88,7 @@ export class AuroDatetime extends LitElement {
 
   firstUpdated() {
     // Add the tag name as an attribute if it is different than the component name
-    this.runtimeUtils.handleComponentTagRename(this, 'auro-datetime');
+    this.runtimeUtils.handleComponentTagRename(this, "auro-datetime");
   }
 
   /**
@@ -101,15 +100,13 @@ export class AuroDatetime extends LitElement {
     let newDate = new Date();
 
     if (this.utc) {
-      this.dateTemplate.timeZone = 'UTC';
+      this.dateTemplate.timeZone = "UTC";
       newDate = new Date(this.utc);
-
     } else if (this.setDate) {
       newDate = new Date(this.setDate);
-
     }
 
-    return newDate.toLocaleString('en-us', this.dateTemplate);
+    return newDate.toLocaleString("en-us", this.dateTemplate);
   }
 
   /**
@@ -121,30 +118,31 @@ export class AuroDatetime extends LitElement {
     let newDate = new Date();
 
     if (this.utc) {
-      this.template.timeZone = 'UTC';
+      this.template.timeZone = "UTC";
       newDate = new Date(this.utc);
     } else if (this.setDate) {
       newDate = new Date(this.setDate);
     }
 
     switch (this.type) {
-      case 'day':
+      case "day":
         this.template.day = "numeric";
         break;
-      case 'month':
+      case "month":
         this.template.month = this.month;
         break;
-      case 'year':
-        this.template.year = 'numeric';
+      case "year":
+        this.template.year = "numeric";
         break;
-      case 'weekday':
+      case "weekday":
         this.template.weekday = this.weekday;
         break;
 
-      default: this.template.weekday = this.template;
+      default:
+        this.template.weekday = this.template;
     }
 
-    return newDate.toLocaleString('en-us', this.template);
+    return newDate.toLocaleString("en-us", this.template);
   }
 
   /**
@@ -153,18 +151,18 @@ export class AuroDatetime extends LitElement {
    * @returns {string} - Date string.
    */
   numericDate() {
-    this.dateTemplate.month = 'numeric';
-    Reflect.deleteProperty(this.dateTemplate, 'weekday');
+    this.dateTemplate.month = "numeric";
+    Reflect.deleteProperty(this.dateTemplate, "weekday");
     let newDate = new Date();
 
     if (this.utc) {
-      this.dateTemplate.timeZone = 'UTC';
+      this.dateTemplate.timeZone = "UTC";
       newDate = new Date(this.utc);
     } else if (this.setDate) {
       newDate = new Date(this.setDate);
     }
 
-    return newDate.toLocaleString('en-us', this.dateTemplate);
+    return newDate.toLocaleString("en-us", this.dateTemplate);
   }
 
   /**
@@ -176,18 +174,22 @@ export class AuroDatetime extends LitElement {
     let newTime = new Date();
 
     if (this.utc) {
-      this.timeTemplate.timeZone = 'UTC';
+      this.timeTemplate.timeZone = "UTC";
       newTime = new Date(this.utc);
     } else if (this.setDate) {
       newTime = new Date(this.setDate);
     }
 
     if (this.cap) {
-      return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '');
+      return newTime
+        .toLocaleString("en-us", this.timeTemplate)
+        .replace(/^0+/u, "");
     }
 
-    return newTime.toLocaleString('en-us', this.timeTemplate).replace(/^0+/u, '').
-      toLowerCase();
+    return newTime
+      .toLocaleString("en-us", this.timeTemplate)
+      .replace(/^0+/u, "")
+      .toLowerCase();
   }
 
   /**
@@ -202,14 +204,15 @@ export class AuroDatetime extends LitElement {
     const newDateTime = new Date(scrubTimeZone);
 
     if (this.cap) {
-      return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '');
+      return newDateTime.toLocaleString("en-us", template).replace(/^0+/u, "");
     }
 
-    return newDateTime.toLocaleString('en-us', template).replace(/^0+/u, '').
-      replace("AM", "am").
-      replace("PM", "pm");
+    return newDateTime
+      .toLocaleString("en-us", template)
+      .replace(/^0+/u, "")
+      .replace("AM", "am")
+      .replace("PM", "pm");
   }
-
 
   /**
    * Internal function UI decision.
@@ -217,36 +220,38 @@ export class AuroDatetime extends LitElement {
    * @returns {function} - Function determines which style of date data to show.
    */
   whichDate() {
-    let result = '';
+    let result = "";
 
     switch (this.type) {
-      case 'date':
+      case "date":
         result = this.humanDate();
         break;
-      case 'tzDate':
+      case "tzDate":
         result = this.tzTime(this.dateTemplate);
         break;
-      case 'tzTime':
+      case "tzTime":
         result = this.tzTime(this.timeTemplate);
         break;
-      case 'time':
+      case "time":
         result = this.humanTime();
         break;
-      case 'year':
-      case 'month':
-      case 'weekday':
-      case 'day':
+      case "year":
+      case "month":
+      case "weekday":
+      case "day":
         result = this.humanDateConversion();
         break;
-      case 'numeric':
+      case "numeric":
         result = this.numericDate();
         break;
-      default: this.humanDate();
+      default:
+        this.humanDate();
     }
 
     if (this.setDate && !this.type) {
       return this.humanDate();
-    } else if (this.utc && !this.type) {
+    }
+    if (this.utc && !this.type) {
       return this.humanDate();
     }
 
