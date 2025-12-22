@@ -4,25 +4,14 @@
 // ---------------------------------------------------------------------
 
 import AuroLibraryRuntimeUtils from "@aurodesignsystem/auro-library/scripts/utils/runtimeUtils.mjs";
-// If use litElement base class
-import { html, LitElement } from "lit";
 
-// If using auroElement base class
-// See instructions for importing auroElement base class https://git.io/JULq4
-// import { html, css } from "lit";
-// import AuroElement from '@aurodesignsystem/orion-web-core-style-sheets/dist/auroElement/auroElement';
+import { html, LitElement } from "lit";
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * The auro-datetime custom element is for the purposes of providing an easy to use date and time API.
+ * The `auro-datetime` element is for the purposes of providing an easy to use date and time API.
+ * @customElement auro-datetime
  *
- * @attr {String} type - Define type of data to render. Options are `[date, time, year, month, weekday, day, numeric, tzDate, tzTime]`
- * @attr {String} utc - Pass in ISO 8601 UTC formatted time code
- * @attr {String} weekday - Display long version of weekday. Option `[long]`
- * @attr {String} month - Display long version of month. Option `[long]`
- * @attr {String} timeZone - Pass in string to define [timeZone](https://docs.trifacta.com/display/DP/Supported+Time+Zone+Values)
- * @attr {String} setDate - Pass in string to set date
- * @attr {Boolean} cap - Capitalize AM or PM designation
  * @slot pre - Content that comes before the `post` content
  * @slot post - Content that comes after the `pre` content
  */
@@ -32,6 +21,10 @@ export class AuroDatetime extends LitElement {
   constructor() {
     super();
 
+    this._initializeDefaults();
+  }
+
+  _initializeDefaults() {
     this.weekday = "short";
     this.month = "short";
 
@@ -64,19 +57,52 @@ export class AuroDatetime extends LitElement {
   static get properties() {
     return {
       // ...super.properties,
-      type: { type: String },
-      utc: { type: String },
-      weekday: { type: String },
-      month: { type: String },
-      timeZone: { type: String },
-      setDate: { type: String },
+
+      /**
+       * Capitalize AM or PM designation
+       */
       cap: { type: Boolean },
+
+      /**
+       * Defines format of month
+       * @type {'short' | 'long'}
+       * @default 'short'
+       */
+      month: { type: String },
+
+      /**
+       * Pass in string to set date
+       */
+      setDate: { type: String },
+
+      /**
+       * Pass in string to define [timeZone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+       */
+      timeZone: { type: String },
+
+      /**
+       * Defines type of data to render
+       * @type {'date' | 'time' | 'year' | 'month' | 'weekday' | 'day' | 'numeric' | 'tzDate' | 'tzTime'}
+       */
+      type: { type: String },
+
+      /**
+       * Pass in ISO 8601 UTC formatted time code
+       */
+      utc: { type: String },
+
+      /**
+       * Defines format of weekday
+       * @type {'short' | 'long'}
+       * @default 'short'
+       */
+      weekday: { type: String },
     };
   }
 
   /**
    * This will register this element with the browser.
-   * @param {string} [name="auro-datetime"] - The name of element that you want to register to.
+   * @param {string} [name="auro-datetime"] - The name of the element that you want to register.
    *
    * @example
    * AuroDatetime.register("custom-datetime") // this will register this element to <custom-datetime/>
