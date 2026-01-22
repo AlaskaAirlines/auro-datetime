@@ -1,75 +1,46 @@
 <!--
-The index.md file is a compiled document. No edits should be made directly to this file.
-README.md is created by running `npm run build:docs`.
-This file is generated based on a template fetched from `./docs/partials/index.md`
+ THIS PAGE'S CONTENT SHOULD BE KEPT MINIMAL.
+ ONLY ADD EXAMPLES THAT ARE TRULY NECESSARY FOR THE INDEX PAGE — THE BASIC EXAMPLE IS USUALLY ENOUGH.
+ ALL OTHER EXAMPLES SHOULD GO IN THE API DOCUMENTATION.
 -->
 
 # Datetime
-
-<!-- AURO-GENERATED-CONTENT:START (FILE:src=../docs/partials/description.md) -->
+ 
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=./../docs/partials/description.md) -->
 <!-- AURO-GENERATED-CONTENT:END -->
-
-## auro-datetime use cases
-
-<!-- AURO-GENERATED-CONTENT:START (FILE:src=../docs/partials/useCases.md) -->
+ 
+## Use Cases
+ 
+<!-- AURO-GENERATED-CONTENT:START (FILE:src=./../docs/partials/useCases.md) -->
 <!-- AURO-GENERATED-CONTENT:END -->
-
-## Example(s)
-
-### Basic Date
-
+ 
+## Basic Date
+ 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/basic.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/basic.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
-
+ 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/basic.html) -->
+ 
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/basic.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
-
+ 
 </auro-accordion>
 
-### Basic Time
-
+## Basic Time
+ 
 <div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/basicTime.html) -->
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/basic-time.html) -->
   <!-- AURO-GENERATED-CONTENT:END -->
 </div>
-
+ 
 <auro-accordion alignRight>
   <span slot="trigger">See code</span>
-
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/basicTime.html) -->
+ 
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=./../apiExamples/basic-time.html) -->
 <!-- AURO-GENERATED-CONTENT:END -->
-
+ 
 </auro-accordion>
-
-Having a closing statement about your example helps to really complete the thought with your reader.
-
-## Recommended Use and Version Control
-
-There are two important parts of every Auro component. The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">class</a> and the custom element. The class is exported and then used as part of defining the Web Component. When importing this component as described in the <a href="#install">install</a> section, the class is imported and the `auro-datetime` custom element is defined automatically.
-
-To protect from versioning conflicts with other instances of the component being loaded, it is recommended to use our `AuroDatetime.register(name)` method and pass in a unique name.
-
-```js
-import { AuroDatetime } from '@aurodesignsystem/auro-datetime/class';
-
-AuroDatetime.register('custom-datetime');
-```
-
-This will create a new custom element that you can use in your HTML that will function identically to the `auro-datetime` element.
-
-<div class="exampleWrapper">
-  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/custom.html) -->
-  <!-- AURO-GENERATED-CONTENT:END -->
-</div>
-
-<auro-accordion alignRight>
-  <span slot="trigger">See code</span>
-<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/custom.html) -->
-<!-- AURO-GENERATED-CONTENT:END -->
-
-</auro-accordion>
+ 
