@@ -27,6 +27,7 @@ export class AuroDatetime extends LitElement {
   _initializeDefaults() {
     this.weekday = "short";
     this.month = "short";
+    this.locale = "en-US";
 
     /**
      * @private
@@ -62,6 +63,13 @@ export class AuroDatetime extends LitElement {
        * Capitalize AM or PM designation
        */
       cap: { type: Boolean },
+
+      /**
+       * BCP 47 language tag for locale-aware date/time formatting (e.g. 'en-GB', 'de-DE', 'ja-JP').
+       * @type {string}
+       * @default 'en-US'
+       */
+      locale: { type: String },
 
       /**
        * Defines format of month
@@ -112,6 +120,21 @@ export class AuroDatetime extends LitElement {
     AuroLibraryRuntimeUtils.prototype.registerComponent(name, AuroDatetime);
   }
 
+  willUpdate(changedProperties) {
+    if (changedProperties.has("locale")) {
+      if (!this.locale) {
+        this.locale = "en-US";
+      } else {
+        try {
+          Intl.getCanonicalLocales(this.locale);
+        } catch {
+          console.warn(`auro-datetime: "${this.locale}" is not a valid BCP 47 locale tag. Falling back to "en-US".`);
+          this.locale = "en-US";
+        }
+      }
+    }
+  }
+
   firstUpdated() {
     // Add the tag name as an attribute if it is different than the component name
     this.runtimeUtils.handleComponentTagRename(this, "auro-datetime");
@@ -132,7 +155,7 @@ export class AuroDatetime extends LitElement {
       newDate = new Date(this.setDate);
     }
 
-    return newDate.toLocaleString("en-us", this.dateTemplate);
+    return newDate.toLocaleString(this.locale, this.dateTemplate);
   }
 
   /**
@@ -168,7 +191,7 @@ export class AuroDatetime extends LitElement {
         this.template.weekday = this.template;
     }
 
-    return newDate.toLocaleString("en-us", this.template);
+    return newDate.toLocaleString(this.locale, this.template);
   }
 
   /**
@@ -188,7 +211,7 @@ export class AuroDatetime extends LitElement {
       newDate = new Date(this.setDate);
     }
 
-    return newDate.toLocaleString("en-us", this.dateTemplate);
+    return newDate.toLocaleString(this.locale, this.dateTemplate);
   }
 
   /**
@@ -208,12 +231,12 @@ export class AuroDatetime extends LitElement {
 
     if (this.cap) {
       return newTime
-        .toLocaleString("en-us", this.timeTemplate)
+        .toLocaleString(this.locale, this.timeTemplate)
         .replace(/^0+/u, "");
     }
 
     return newTime
-      .toLocaleString("en-us", this.timeTemplate)
+      .toLocaleString(this.locale, this.timeTemplate)
       .replace(/^0+/u, "")
       .toLowerCase();
   }
@@ -230,16 +253,16 @@ export class AuroDatetime extends LitElement {
     const newDateTime = new Date(scrubTimeZone);
 
     if (this.cap) {
-      return newDateTime.toLocaleString("en-us", template).replace(/^0+/u, "");
+      return newDateTime.toLocaleString(this.locale, template).replace(/^0+/u, "");
     }
 
     return newDateTime
-      .toLocaleString("en-us", template)
+      .toLocaleString(this.locale, template)
       .replace(/^0+/u, "")
       .replace("AM", "am")
       .replace("PM", "pm");
   }
-
+ 
   /**
    * Internal function UI decision.
    * @private

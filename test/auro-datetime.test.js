@@ -221,6 +221,69 @@ describe("auro-datetime", () => {
     await expect(el).to.be.true;
   });
 
+  // locale (Intl) tests
+
+  it("applies en-US as the default locale when no locale attribute is set", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="numeric" utc="2020-09-22T01:38:22Z"></auro-datetime>
+    `);
+
+    await expect(el.locale).to.equal("en-US");
+  });
+
+  it("formats numeric date in en-GB locale (DD/MM/YYYY)", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="numeric" locale="en-GB" utc="2020-09-22T01:38:22Z"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("22/09/2020");
+  });
+
+  it("formats long month name in fr-FR locale", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="month" month="long" locale="fr-FR" utc="2020-09-22T01:38:22Z"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("septembre");
+  });
+
+  it("formats time in fr-FR locale (24-hour, no AM/PM)", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="time" locale="fr-FR" setdate="August 19, 1975 23:15:30"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("23:15");
+  });
+
+  it("formats date in de-DE locale and is accessible", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" locale="de-DE" utc="2020-09-22T01:38:22Z"></auro-datetime>
+    `);
+
+    await expect(el).to.be.accessible();
+    const root = el.shadowRoot.querySelector(".yield");
+    const expected = new Date("2020-09-22T01:38:22Z").toLocaleString("de-DE", {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "UTC",
+    });
+    await expect(root.textContent).to.equal(expected);
+  });
+
+  it("locale does not affect non-date types like year", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="year" locale="de-DE" utc="2020-09-22T01:38:22Z"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("2020");
+  });
+
   it("only day", async () => {
     const el = await fixture(html`
       <auro-datetime type="day" setDate="2022-07-13T21:35:00Z" timezone="US/Pacific"></auro-datetime>
