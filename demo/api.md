@@ -10,6 +10,7 @@ The `auro-datetime` element is for the purposes of providing an easy to use date
 | Properties | Attributes | Modifiers | Type                                                                                             | Default | Description                                                                                       |
 | ---------- | ---------- | --------- | ------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------- |
 | cap        | cap        |           | boolean                                                                                          |         | Capitalize AM or PM designation                                                                   |
+| locale     | locale     |           | string                                                                                           | `en-US` | BCP 47 language tag for locale-aware date/time formatting (e.g. 'en-GB', 'de-DE', 'ja-JP').       |
 | month      | month      |           | `short` \| `long`                                                                                | `short` | Defines format of month                                                                           |
 | setDate    | setDate    |           | string                                                                                           |         | Pass in string to set date                                                                        |
 | timeZone   | timeZone   |           | string                                                                                           |         | Pass in string to define [timeZone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) |
@@ -88,6 +89,56 @@ Using the `cap` attribute will return the basic time string with a capitalized `
 
 ```html
 <auro-datetime type="time" cap></auro-datetime>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+### International Date Formatting
+
+Use the `locale` attribute with a [BCP 47 language tag](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#locales_argument) to render dates and times in non-North American formats. When omitted, the component defaults to `en-US` formatting.
+
+#### Locale with type="date"
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/locale-date.html) -->
+  <!-- The below content is automatically added from ../apiExamples/locale-date.html -->
+  <auro-datetime type="date" locale="en-GB" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+  <auro-datetime type="date" locale="de-DE" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+  <auro-datetime type="date" locale="ja-JP" utc="2020-09-22T01:38:22Z"></auro-datetime>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/locale-date.html) -->
+<!-- The below code snippet is automatically added from ../apiExamples/locale-date.html -->
+
+```html
+<auro-datetime type="date" locale="en-GB" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+<auro-datetime type="date" locale="de-DE" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+<auro-datetime type="date" locale="ja-JP" utc="2020-09-22T01:38:22Z"></auro-datetime>
+```
+<!-- AURO-GENERATED-CONTENT:END -->
+</auro-accordion>
+
+#### Locale with type="numeric"
+
+<div class="exampleWrapper">
+  <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/locale-numeric.html) -->
+  <!-- The below content is automatically added from ../apiExamples/locale-numeric.html -->
+  <auro-datetime type="numeric" locale="en-GB" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+  <auro-datetime type="numeric" locale="de-DE" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+  <auro-datetime type="numeric" locale="ja-JP" utc="2020-09-22T01:38:22Z"></auro-datetime>
+  <!-- AURO-GENERATED-CONTENT:END -->
+</div>
+<auro-accordion alignRight>
+  <span slot="trigger">See code</span>
+<!-- AURO-GENERATED-CONTENT:START (CODE:src=../apiExamples/locale-numeric.html) -->
+<!-- The below code snippet is automatically added from ../apiExamples/locale-numeric.html -->
+
+```html
+<auro-datetime type="numeric" locale="en-GB" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+<auro-datetime type="numeric" locale="de-DE" utc="2020-09-22T01:38:22Z"></auro-datetime><br>
+<auro-datetime type="numeric" locale="ja-JP" utc="2020-09-22T01:38:22Z"></auro-datetime>
 ```
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
