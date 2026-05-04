@@ -284,6 +284,13 @@ How the `timeZone` attribute composes with the input depends on whether `value` 
 - **`value` has an offset (or `Z`):** the offset anchors the absolute moment; `timeZone` is the display zone. Example: `value="2022-07-14T08:00:00-04:00" timezone="US/Pacific"` renders as `5:00 am` (8am Eastern → 5am Pacific).
 - **`value` has no offset:** the wall-clock is interpreted as being in `timeZone`, so display in that same zone matches the input verbatim. Example: `value="2022-07-14T08:00:00" timezone="US/Eastern"` renders as `8:00 am` regardless of where the viewer is. This is the recommended shape when consumers know the source zone but don't have an offset readily available (e.g. flight-schedule data keyed by airport).
 
+#### Invalid `timeZone` and `locale` values
+
+Both attributes are validated up-front. Invalid inputs do **not** crash the component — they fall back gracefully and log a `console.warn` (deduplicated per element):
+
+- **Invalid `locale`** (e.g. `"xx-INVALID-tag"`) → falls back to `"en-US"`.
+- **Invalid `timeZone`** (e.g. `"US/Pacfic"` typo) → falls back to behaving as if `timeZone` was not specified. With `value` set, that means wall-clock display from the input components — visually the same string for every viewer. With `value` unset, that means the current time in the viewer's machine zone. The warning surfaces the typo so the developer can fix it.
+
 ## Slot Examples
 
 ### Pre and Post Slots
