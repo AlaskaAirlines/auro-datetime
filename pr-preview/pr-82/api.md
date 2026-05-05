@@ -11,7 +11,7 @@ The `auro-datetime` element is for the purposes of providing an easy to use date
 | ---------- | ---------- | --------- | ------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | locale     | locale     |           | string                                                                   | `en-US` | BCP 47 language tag for locale-aware date/time formatting (e.g. 'en-GB', 'de-DE', 'ja-JP').                                                                                                                                                                                                                              |
 | month      | month      |           | `short` \| `long`                                                        | `short` | Defines format of month                                                                                                                                                                                                                                                                                                  |
-| timeZone   | timeZone   |           | string                                                                   |         | Pass in string to define [timeZone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).<br>When set, the moment described by `value` is converted into this IANA zone for display.<br>When unset, the wall-clock time from the input string is rendered as-is.                                                |
+| timezone   | timezone   |           | string                                                                   |         | Pass in string to define [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).<br>When set, the moment described by `value` is converted into this IANA zone for display.<br>When unset, the wall-clock time from the input string is rendered as-is.                                                |
 | type       | type       |           | `date` \| `time` \| `year` \| `month` \| `weekday` \| `day` \| `numeric` |         | Defines type of data to render                                                                                                                                                                                                                                                                                           |
 | value      | value      |           | string                                                                   |         | ISO 8601 date or date-time string. Examples:<br>- `2022-07-14T08:00:00-07:00` (with offset)<br>- `2022-07-14T08:00:00Z` (UTC)<br>- `2022-07-14T08:00:00` (no offset)<br>- `2022-07-14` (date only)<br><br>When omitted, the component renders today's date.<br>Invalid input is logged as a warning and renders nothing. |
 | weekday    | weekday    |           | `short` \| `long`                                                        | `short` | Defines format of weekday                                                                                                                                                                                                                                                                                                |
@@ -229,7 +229,7 @@ Using the `auro-datetime` element with `type=numeric` will return the **current 
 
 #### Wall-clock display from offset
 
-When the `value` attribute contains a timezone offset (or `Z`) and no `timeZone` attribute is set, the component renders the **wall-clock** components from the input verbatim. This is the right behavior for displaying local airport time on a flight schedule, where the offset describes the location of the flight rather than the viewer.
+When the `value` attribute contains a timezone offset (or `Z`) and no `timezone` attribute is set, the component renders the **wall-clock** components from the input verbatim. This is the right behavior for displaying local airport time on a flight schedule, where the offset describes the location of the flight rather than the viewer.
 
 Example using `2022-07-13T21:35:00-07:00`. The same string is rendered identically regardless of the viewer's location.
 
@@ -254,7 +254,7 @@ Example using `2022-07-13T21:35:00-07:00`. The same string is rendered identical
 
 ### UTC (Zulu) input
 
-The `value` attribute also accepts ISO 8601 strings ending in the `Z` designator. Without a `timeZone` attribute, the wall-clock components are rendered as written. To convert into a viewer-meaningful timezone, also set `timeZone` (see the timezone example).
+The `value` attribute also accepts ISO 8601 strings ending in the `Z` designator. Without a `timezone` attribute, the wall-clock components are rendered as written. To convert into a viewer-meaningful timezone, also set `timezone` (see the timezone example).
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/utc.html) -->
@@ -277,19 +277,19 @@ The `value` attribute also accepts ISO 8601 strings ending in the `Z` designator
 <!-- AURO-GENERATED-CONTENT:END -->
 </auro-accordion>
 
-### Combining `value` and `timeZone`
+### Combining `value` and `timezone`
 
-How the `timeZone` attribute composes with the input depends on whether `value` carries an offset:
+How the `timezone` attribute composes with the input depends on whether `value` carries an offset:
 
-- **`value` has an offset (or `Z`):** the offset anchors the absolute moment; `timeZone` is the display zone. Example: `value="2022-07-14T08:00:00-04:00" timeZone="US/Pacific"` renders as `5:00 am` (8am Eastern → 5am Pacific).
-- **`value` has no offset:** the wall-clock is interpreted as being in `timeZone`, so display in that same zone matches the input verbatim. Example: `value="2022-07-14T08:00:00" timeZone="US/Eastern"` renders as `8:00 am` regardless of where the viewer is. This is the recommended shape when consumers know the source zone but don't have an offset readily available (e.g. flight-schedule data keyed by airport).
+- **`value` has an offset (or `Z`):** the offset anchors the absolute moment; `timezone` is the display zone. Example: `value="2022-07-14T08:00:00-04:00" timezone="US/Pacific"` renders as `5:00 am` (8am Eastern → 5am Pacific).
+- **`value` has no offset:** the wall-clock is interpreted as being in `timezone`, so display in that same zone matches the input verbatim. Example: `value="2022-07-14T08:00:00" timezone="US/Eastern"` renders as `8:00 am` regardless of where the viewer is. This is the recommended shape when consumers know the source zone but don't have an offset readily available (e.g. flight-schedule data keyed by airport).
 
-#### Invalid `timeZone` and `locale` values
+#### Invalid `timezone` and `locale` values
 
 Both attributes are validated up-front. Invalid inputs do **not** crash the component — they fall back gracefully and log a `console.warn` (deduplicated per element):
 
 - **Invalid `locale`** (e.g. `"xx-INVALID-tag"`) → falls back to `"en-US"`.
-- **Invalid `timeZone`** (e.g. `"US/Pacfic"` typo) → falls back to behaving as if `timeZone` was not specified. With `value` set, that means wall-clock display from the input components — visually the same string for every viewer. With `value` unset, that means the current time in the viewer's machine zone. The warning surfaces the typo so the developer can fix it.
+- **Invalid `timezone`** (e.g. `"US/Pacfic"` typo) → falls back to behaving as if `timezone` was not specified. With `value` set, that means wall-clock display from the input components — visually the same string for every viewer. With `value` unset, that means the current time in the viewer's machine zone. The warning surfaces the typo so the developer can fix it.
 
 ## Slot Examples
 
