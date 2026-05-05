@@ -281,8 +281,8 @@ The `value` attribute also accepts ISO 8601 strings ending in the `Z` designator
 
 How the `timeZone` attribute composes with the input depends on whether `value` carries an offset:
 
-- **`value` has an offset (or `Z`):** the offset anchors the absolute moment; `timeZone` is the display zone. Example: `value="2022-07-14T08:00:00-04:00" timezone="US/Pacific"` renders as `5:00 am` (8am Eastern → 5am Pacific).
-- **`value` has no offset:** the wall-clock is interpreted as being in `timeZone`, so display in that same zone matches the input verbatim. Example: `value="2022-07-14T08:00:00" timezone="US/Eastern"` renders as `8:00 am` regardless of where the viewer is. This is the recommended shape when consumers know the source zone but don't have an offset readily available (e.g. flight-schedule data keyed by airport).
+- **`value` has an offset (or `Z`):** the offset anchors the absolute moment; `timeZone` is the display zone. Example: `value="2022-07-14T08:00:00-04:00" timeZone="US/Pacific"` renders as `5:00 am` (8am Eastern → 5am Pacific).
+- **`value` has no offset:** the wall-clock is interpreted as being in `timeZone`, so display in that same zone matches the input verbatim. Example: `value="2022-07-14T08:00:00" timeZone="US/Eastern"` renders as `8:00 am` regardless of where the viewer is. This is the recommended shape when consumers know the source zone but don't have an offset readily available (e.g. flight-schedule data keyed by airport).
 
 #### Invalid `timeZone` and `locale` values
 
