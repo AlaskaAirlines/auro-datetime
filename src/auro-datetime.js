@@ -90,13 +90,13 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Validate and canonicalize a BCP 47 locale tag. Falls back to "en-US"
-   * for empty or invalid input. The first invalid value seen per element
-   * is logged via `console.warn`; subsequent identical inputs are silent.
+   * Checks a BCP 47 locale tag and returns its canonical form. Empty or invalid
+   * input falls back to "en-US". Each invalid value logs a console warning the
+   * first time this element sees it.
    *
    * @private
-   * @param {string} input - User-supplied locale tag.
-   * @returns {string} Canonical locale tag (such as "en-GB"), or "en-US" on fallback.
+   * @param {string} input - The locale tag set on the element.
+   * @returns {string} The canonical locale tag, such as "en-GB", or "en-US" for empty or invalid input.
    */
   _resolveLocale(input) {
     if (!input) {
@@ -116,24 +116,23 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Validate an IANA timezone identifier. Invalid input warns once per
-   * unique value per element and resolves to `undefined`, which makes
-   * the rest of `_resolveInputDate` behave as if `timezone` was never
-   * specified, that is, wall-clock display from the input components.
+   * Checks an IANA time zone name. An invalid name logs a console warning
+   * the first time this element sees it and returns `undefined`, so
+   * `_resolveInputDate` acts as if `timezone` isn't set and shows the
+   * date and time in `value` as written.
    *
-   * Without this guard, a typo like `"US/Pacfic"` would cause
-   * `Intl.DateTimeFormat` / `toLocaleString` to throw `RangeError` at
-   * render time and crash the component.
+   * Without this check, a typo such as `"US/Pacfic"` makes
+   * `Intl.DateTimeFormat` and `toLocaleString` throw a `RangeError` at
+   * render time.
    *
-   * Note: when `value` is also unset, the wall-clock branch resolves to
-   * "today's date in the viewer's machine zone," which is viewer-
-   * dependent. This narrow case is the only scenario where two viewers
-   * see different output for the same component; the warning surfaces
-   * the typo so the developer can fix it.
+   * When `value` isn't set either, the element shows the current time in
+   * the viewer's own time zone, so viewers in different zones see
+   * different output. That's also true whenever both `timezone` and
+   * `value` are left out; the warning helps the developer find the typo.
    *
    * @private
-   * @param {string | undefined} input - Consumer-supplied timezone.
-   * @returns {string | undefined} Valid timezone, or undefined on fallback.
+   * @param {string | undefined} input - The time zone name set on the element.
+   * @returns {string | undefined} The time zone name if it's valid; otherwise, `undefined`.
    */
   _resolveTimeZone(input) {
     if (!input) {
@@ -177,7 +176,7 @@ export class AuroDatetime extends LitElement {
       month: { type: String },
 
       /**
-       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written.
+       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written, or the current time in the viewer's own time zone when `value` isn't set.
        * @type {string}
        * @category behavior
        */
@@ -234,19 +233,19 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Construct a UTC Date that, when displayed in the given IANA timezone,
-   * shows the supplied wall-clock components. Used when `value` has no
-   * offset but `timeZone` is set: the wall-clock is interpreted as being
-   * in the target zone rather than the viewer's local zone.
+   * Creates a Date that shows the given wall-clock time when displayed in
+   * the given IANA time zone. `_resolveInputDate` uses it when `value` has
+   * no offset and `timezone` is set, so the time is read as already being
+   * in that zone rather than the viewer's.
    *
-   * Algorithm: parse the wall-clock as if it were UTC (a "naive" Date),
-   * ask Intl what that moment looks like in the target zone, and use the
-   * delta between the two to recover the true UTC moment.
+   * It parses the wall-clock time as if it were UTC, asks `Intl` what that
+   * moment looks like in the target zone, and uses the difference between
+   * the two to find the real moment.
    *
    * @private
-   * @param {string} localISO - ISO string with no offset, such as "2022-07-14T08:00:00".
-   * @param {string} timeZone - IANA zone, such as "US/Eastern".
-   * @returns {Date}
+   * @param {string} localISO - The ISO 8601 date-time with no offset, such as "2022-07-14T08:00:00".
+   * @param {string} timeZone - The IANA time zone name, such as "US/Eastern".
+   * @returns {Date} The moment that reads as `localISO` in `timeZone`.
    */
   _zonedWallClockToUtc(localISO, timeZone) {
     const naiveUtc = new Date(`${localISO}Z`);
@@ -271,34 +270,31 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Resolve the `value` and `timezone` attributes into a Date and an optional
-   * timeZone option for `Intl.DateTimeFormat`.
+   * Gets the Date to show and the `timeZone` option for `Intl.DateTimeFormat`,
+   * from `value` and `timezone`.
    *
-   * Behavior:
-   * - `value` omitted (null/undefined): returns today's date. `timezone`
-   *   (if any) is honored.
-   * - `value` invalid (including empty string ""): warns and returns
-   *   `{ date: null }`. Empty is *not* the same as omitted: Lit reflects
-   *   `value=""` as the empty string, which is not a valid ISO 8601
-   *   form, so we surface it as a typo rather than silently rendering
-   *   today's date.
-   * - `timezone` set + input has offset/Z: parses as an absolute moment
-   *   (offset honored) and asks `toLocaleString` to convert into the target zone.
-   * - `timezone` set + input has no offset: interprets the wall-clock as
-   *   being in the target zone, so display in that zone matches the input
-   *   verbatim. This is viewer-independent.
-   * - Default (no `timezone`): strips the offset/Z from the input and treats
-   *   the remaining wall-clock components as local time, so they render verbatim.
+   * - `value` not set (`null` or `undefined`): returns the current date and
+   *   time, in `timezone` if it's set.
+   * - `value` invalid, including an empty string: logs a warning and returns
+   *   `{ date: null }`. An empty string isn't the same as not set: Lit gives
+   *   `value=""` as an empty string, which isn't valid ISO 8601, so it's
+   *   reported as a likely mistake instead of showing the current date.
+   * - `timezone` set and `value` has an offset or `Z`: reads `value` as an
+   *   exact moment and has `toLocaleString` convert it into `timezone`.
+   * - `timezone` set and `value` has no offset: reads `value` as a time
+   *   already in `timezone`, so every viewer sees it as written.
+   * - `timezone` not set: drops any offset or `Z` and reads the rest as
+   *   local time, so it shows as written.
    *
    * @private
-   * @returns {{ date: Date | null, timeZoneOption: string | undefined }}
+   * @returns {{ date: Date | null, timeZoneOption: string | undefined }} The Date to show, or `null` for invalid input, and the `timeZone` option to format it with.
    */
   _resolveInputDate() {
     const resolvedTz = this._effectiveTimeZone;
 
     // Only true "omitted" inputs (null/undefined) get the today's-date
-    // treatment. Empty string falls through to ISO validation, which will
-    // fail and produce the documented warn + empty render.
+    // treatment. Empty string falls through to ISO validation, which
+    // fails and produces the documented warning and empty output.
     if (this.value == null) {
       return { date: new Date(), timeZoneOption: resolvedTz };
     }
@@ -369,9 +365,9 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to generate full date string.
+   * Formats the full date, such as "Thu, Jul 14, 2022", with the current `month` and `weekday` settings.
    * @private
-   * @returns {string} - Date string.
+   * @returns {string} The formatted date, or an empty string when `value` is invalid.
    */
   humanDate() {
     const { date, timeZoneOption } = this._resolveInputDate();
@@ -392,9 +388,9 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to format a single date part (year/month/weekday/day).
+   * Formats the single date part that `type` names: the year, month, weekday, or day.
    * @private
-   * @returns {string} - Date string.
+   * @returns {string} The formatted date, or an empty string when `value` is invalid.
    */
   humanDateConversion() {
     const { date, timeZoneOption } = this._resolveInputDate();
@@ -427,9 +423,9 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to generate numeric date string MM/DD/YYYY.
+   * Formats the date in numbers, in the order and with the separators `locale` uses, such as "7/14/2022" for `en-US`.
    * @private
-   * @returns {string} - Date string.
+   * @returns {string} The formatted date, or an empty string when `value` is invalid.
    */
   numericDate() {
     const { date, timeZoneOption } = this._resolveInputDate();
@@ -444,9 +440,9 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to generate standard time string.
+   * Formats the hour and minute. When the time ends in AM or PM, it lowercases the period and drops a leading zero.
    * @private
-   * @returns {string} - Time string.
+   * @returns {string} The formatted time, or an empty string when `value` is invalid.
    */
   humanTime() {
     const { date, timeZoneOption } = this._resolveInputDate();
@@ -475,9 +471,9 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function UI decision.
+   * Gets the text to show for the current `type`.
    * @private
-   * @returns {string} - String determined by `type` (or full date if no type set).
+   * @returns {string} The formatted text; the full date when `type` isn't set or isn't recognized.
    */
   whichDate() {
     switch (this.type) {

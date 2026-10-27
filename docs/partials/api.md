@@ -103,8 +103,8 @@ A `value` that ends in `Z` is in UTC. Without `timezone`, the element still show
 
 Use `timezone` with an IANA time zone name, such as `America/Los_Angeles` or `UTC`, to show the date or time in that zone. How it works depends on whether `value` has an offset:
 
-- **`value` has an offset or `Z`:** the element converts that moment into `timezone`. For example, `value="2022-07-14T08:00:00-04:00" timezone="US/Pacific"` shows "5:00 am", because 8:00 am Eastern is 5:00 am Pacific.
-- **`value` has no offset:** the element reads `value` as a time already in `timezone`, so every reader sees the same result. For example, `value="2022-07-14T08:00:00" timezone="US/Eastern"` shows "8:00 am" wherever the reader is. Use this form when you know the zone a time belongs to but don't have its offset, such as flight times listed by airport.
+- **`value` has an offset or `Z`:** the element converts that moment into `timezone`. For example, `type="time" value="2022-07-14T08:00:00-04:00" timezone="US/Pacific"` shows "5:00 am", because 8:00 am Eastern is 5:00 am Pacific.
+- **`value` has no offset:** the element reads `value` as a time already in `timezone`, so every reader sees the same result. For example, `type="time" value="2022-07-14T08:00:00" timezone="US/Eastern"` shows "8:00 am" wherever the reader is. Use this form when you know the zone a time belongs to but don't have its offset, such as flight times listed by airport.
 - **`value` isn't set:** the element shows the current date or time in `timezone`, as in the example below.
 
 <div class="exampleWrapper">
