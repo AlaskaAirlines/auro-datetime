@@ -12,11 +12,26 @@ const ISO_8601_REGEX =
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * The `auro-datetime` element is for the purposes of providing an easy to use date and time API.
+ * Shows a date or time as text, formatted for the reader's language and, optionally, a specific time zone.
+ *
+ * **Key capabilities**
+ * - **What to show**: `type` picks the full date, the time, a numeric date, or a single part such as the year or weekday.
+ * - **Any moment**: `value` takes an ISO 8601 date or date-time; without it, the element shows today's date.
+ * - **Language formatting**: `locale` formats month names, separators, and the 12- or 24-hour clock for a language, such as `de-DE`.
+ * - **Time zones**: `timezone` shows the moment in a time zone, such as `America/Los_Angeles`.
+ * - **Name length**: `month="long"` and `weekday="long"` spell out the month and weekday names.
+ *
+ * **Example**
+ * ```html
+ * <auro-datetime type="date" value="2022-07-14T08:00:00"></auro-datetime>
+ * ```
+ *
+ * @summary Date or time text formatted by language and time zone, with full, numeric, and single-part formats.
  * @customElement auro-datetime
  *
- * @slot pre - Content that comes before the `post` content
- * @slot post - Content that comes after the `pre` content
+ * @slot pre - Content shown before the date or time, such as "Departs". {@category ui}
+ * @slot post - Content shown after the date or time, such as "local time". {@category ui}
+ * @slot - Content shown after the `post` slot's content. Use `post` instead when you can, so the order is clear in the markup. {@category ui}
  */
 
 // build the component class
@@ -27,6 +42,11 @@ export class AuroDatetime extends LitElement {
     this._initializeDefaults();
   }
 
+  /**
+   * Sets the element's default values.
+   * @private
+   * @returns {void}
+   */
   _initializeDefaults() {
     this.weekday = "short";
     this.month = "short";
@@ -135,82 +155,65 @@ export class AuroDatetime extends LitElement {
     }
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.dateTemplate = {
-      weekday: this.weekday,
-      year: "numeric",
-      month: this.month,
-      day: "numeric",
-    };
-
-    this.timeTemplate = {
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-  }
-
   // function to define props used within the scope of this component
   static get properties() {
     return {
       // ...super.properties,
 
       /**
-       * BCP 47 language tag for locale-aware date/time formatting (e.g. 'en-GB', 'de-DE', 'ja-JP').
+       * Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. An invalid tag logs a console warning and falls back to `en-US`.
        * @type {string}
-       * @default 'en-US'
+       * @default "en-US"
+       * @category ui
        */
       locale: { type: String },
 
       /**
-       * Defines format of month
-       * @type {'short' | 'long'}
-       * @default 'short'
+       * Sets how the month name is written: `short`, such as "Jul", or `long`, such as "July". It applies to the full date and to `type="month"`.
+       * @type {"short" | "long"}
+       * @default "short"
+       * @category ui
        */
       month: { type: String },
 
       /**
-       * Pass in string to define [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
-       * When set, the moment described by `value` is converted into this IANA zone for display.
-       * When unset, the wall-clock time from the input string is rendered as-is.
+       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the moment is converted into this zone; when it has none, `value` is read as a time already in this zone. Without it, the date and time in `value` are shown as written. An invalid name logs a console warning and is ignored.
+       * @type {string}
+       * @category behavior
        */
       timezone: { type: String },
 
       /**
-       * Defines type of data to render
-       * @type {'date' | 'time' | 'year' | 'month' | 'weekday' | 'day' | 'numeric'}
+       * Sets what to show. Use `date` for the full date, such as "Thu, Jul 14, 2022", `numeric` for a short numeric date, such as "7/14/2022", and `time` for the hour and minute, such as "8:00 am". Use `year`, `month`, `weekday`, or `day` to show only that part. Without it, or with any other value, the element shows the full date.
+       * @type {"date" | "time" | "year" | "month" | "weekday" | "day" | "numeric"}
+       * @category ui
        */
       type: { type: String },
 
       /**
-       * ISO 8601 date or date-time string. Examples:
-       * - `2022-07-14T08:00:00-07:00` (with offset)
-       * - `2022-07-14T08:00:00Z` (UTC)
-       * - `2022-07-14T08:00:00` (no offset)
-       * - `2022-07-14` (date only)
-       *
-       * When omitted, the component renders today's date.
-       * Invalid input is logged as a warning and renders nothing.
+       * Sets the date or time to show, as an ISO 8601 date or date-time, such as `2022-07-14`, `2022-07-14T08:00:00`, or `2022-07-14T08:00:00-07:00`. Without it, the element shows the current date and time from when it last rendered; it doesn't currently update as time passes. Invalid input, including an empty value, logs a console warning and shows nothing.
+       * @type {string}
+       * @category behavior
        */
       value: { type: String },
 
       /**
-       * Defines format of weekday
-       * @type {'short' | 'long'}
-       * @default 'short'
+       * Sets how the weekday name is written: `short`, such as "Thu", or `long`, such as "Thursday". It applies to the full date and to `type="weekday"`.
+       * @type {"short" | "long"}
+       * @default "short"
+       * @category ui
        */
       weekday: { type: String },
     };
   }
 
   /**
-   * This will register this element with the browser.
-   * @param {string} [name="auro-datetime"] - The name of the element that you want to register.
+   * Registers the element with the browser under a tag name. Use a custom name to run more than one version of the element on the same page.
+   * @param {string} [name="auro-datetime"] - The tag name to register the element under, such as `custom-datetime`.
+   * @returns {void}
    *
    * @example
-   * AuroDatetime.register("custom-datetime") // this will register this element to <custom-datetime/>
-   *
+   * AuroDatetime.register("custom-datetime"); // registers <custom-datetime>
    */
   static register(name = "auro-datetime") {
     AuroLibraryRuntimeUtils.prototype.registerComponent(name, AuroDatetime);
@@ -375,7 +378,13 @@ export class AuroDatetime extends LitElement {
     if (!date) {
       return "";
     }
-    const template = { ...this.dateTemplate };
+    // Read month and weekday on every render so later changes show up.
+    const template = {
+      weekday: this.weekday,
+      year: "numeric",
+      month: this.month,
+      day: "numeric",
+    };
     if (timeZoneOption) {
       template.timeZone = timeZoneOption;
     }
@@ -427,8 +436,7 @@ export class AuroDatetime extends LitElement {
     if (!date) {
       return "";
     }
-    const template = { ...this.dateTemplate, month: "numeric" };
-    Reflect.deleteProperty(template, "weekday");
+    const template = { year: "numeric", month: "numeric", day: "numeric" };
     if (timeZoneOption) {
       template.timeZone = timeZoneOption;
     }
@@ -445,7 +453,7 @@ export class AuroDatetime extends LitElement {
     if (!date) {
       return "";
     }
-    const template = { ...this.timeTemplate };
+    const template = { hour: "2-digit", minute: "2-digit" };
     if (timeZoneOption) {
       template.timeZone = timeZoneOption;
     }

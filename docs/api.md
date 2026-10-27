@@ -1,27 +1,40 @@
 # auro-datetime
 
-The `auro-datetime` element is for the purposes of providing an easy to use date and time API.
+Shows a date or time as text, formatted for the reader's language and, optionally, a specific time zone.
+
+**Key capabilities**
+- **What to show**: `type` picks the full date, the time, a numeric date, or a single part such as the year or weekday.
+- **Any moment**: `value` takes an ISO 8601 date or date-time; without it, the element shows today's date.
+- **Language formatting**: `locale` formats month names, separators, and the 12- or 24-hour clock for a language, such as `de-DE`.
+- **Time zones**: `timezone` shows the moment in a time zone, such as `America/Los_Angeles`.
+- **Name length**: `month="long"` and `weekday="long"` spell out the month and weekday names.
+
+**Example**
+```html
+<auro-datetime type="date" value="2022-07-14T08:00:00"></auro-datetime>
+```
 
 ### Properties & Attributes
 
-| Properties | Attributes | Modifiers | Type                                                                     | Default | Description                                                                                                                                                                                                                                                                                                              |
-| ---------- | ---------- | --------- | ------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| locale     | locale     |           | string                                                                   | `en-US` | BCP 47 language tag for locale-aware date/time formatting (e.g. 'en-GB', 'de-DE', 'ja-JP').                                                                                                                                                                                                                              |
-| month      | month      |           | `short` \| `long`                                                        | `short` | Defines format of month                                                                                                                                                                                                                                                                                                  |
-| timezone   | timezone   |           | string                                                                   |         | Pass in string to define [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).<br>When set, the moment described by `value` is converted into this IANA zone for display.<br>When unset, the wall-clock time from the input string is rendered as-is.                                                |
-| type       | type       |           | `date` \| `time` \| `year` \| `month` \| `weekday` \| `day` \| `numeric` |         | Defines type of data to render                                                                                                                                                                                                                                                                                           |
-| value      | value      |           | string                                                                   |         | ISO 8601 date or date-time string. Examples:<br>- `2022-07-14T08:00:00-07:00` (with offset)<br>- `2022-07-14T08:00:00Z` (UTC)<br>- `2022-07-14T08:00:00` (no offset)<br>- `2022-07-14` (date only)<br><br>When omitted, the component renders today's date.<br>Invalid input is logged as a warning and renders nothing. |
-| weekday    | weekday    |           | `short` \| `long`                                                        | `short` | Defines format of weekday                                                                                                                                                                                                                                                                                                |
+| Properties | Attributes | Modifiers | Type                                                                     | Default | Description                                                                                                                                                                                                                                                                                                                                                                         |
+| ---------- | ---------- | --------- | ------------------------------------------------------------------------ | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| locale     | locale     |           | string                                                                   | `en-US` | Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. An invalid tag logs a console warning and falls back to `en-US`.                                                                   |
+| month      | month      |           | "short" \| "long"                                                        | `short` | Sets how the month name is written: `short`, such as "Jul", or `long`, such as "July". It applies to the full date and to `type="month"`.                                                                                                                                                                                                                                           |
+| timezone   | timezone   |           | string                                                                   |         | Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the moment is converted into this zone; when it has none, `value` is read as a time already in this zone. Without it, the date and time in `value` are shown as written. An invalid name logs a console warning and is ignored. |
+| type       | type       |           | "date" \| "time" \| "year" \| "month" \| "weekday" \| "day" \| "numeric" |         | Sets what to show. Use `date` for the full date, such as "Thu, Jul 14, 2022", `numeric` for a short numeric date, such as "7/14/2022", and `time` for the hour and minute, such as "8:00 am". Use `year`, `month`, `weekday`, or `day` to show only that part. Without it, or with any other value, the element shows the full date.                                                |
+| value      | value      |           | string                                                                   |         | Sets the date or time to show, as an ISO 8601 date or date-time, such as `2022-07-14`, `2022-07-14T08:00:00`, or `2022-07-14T08:00:00-07:00`. Without it, the element shows the current date and time from when it last rendered; it doesn't currently update as time passes. Invalid input, including an empty value, logs a console warning and shows nothing.                    |
+| weekday    | weekday    |           | "short" \| "long"                                                        | `short` | Sets how the weekday name is written: `short`, such as "Thu", or `long`, such as "Thursday". It applies to the full date and to `type="weekday"`.                                                                                                                                                                                                                                   |
 
 ### Methods
 
-| Name     | Parameters                                                           | Return | Description                                       |
-| -------- | -------------------------------------------------------------------- | ------ | ------------------------------------------------- |
-| register | `name` (string) - The name of the element that you want to register. |        | This will register this element with the browser. |
+| Name     | Parameters                                                                               | Return | Description                                                                                                                              |
+| -------- | ---------------------------------------------------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| register | `name` (string) - The tag name to register the element under, such as `custom-datetime`. | void   | Registers the element with the browser under a tag name. Use a custom name to run more than one version of the element on the same page. |
 
 ### Slots
 
-| Name | Description                                  |
-| ---- | -------------------------------------------- |
-| post | Content that comes after the `pre` content   |
-| pre  | Content that comes before the `post` content |
+| Name      | Description                                                                                                          |
+| --------- | -------------------------------------------------------------------------------------------------------------------- |
+| (default) | Content shown after the `post` slot's content. Use `post` instead when you can, so the order is clear in the markup. |
+| post      | Content shown after the date or time, such as "local time".                                                          |
+| pre       | Content shown before the date or time, such as "Departs".                                                            |

@@ -594,4 +594,44 @@ describe("auro-datetime", () => {
     const root = el.shadowRoot.querySelector(".yield");
     await expect(root.textContent).to.equal("Wed");
   });
+
+  // month and weekday changed after the first render must reach the
+  // full-date output, not only the single-part types.
+
+  it("updates the date when month and weekday change after render", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.month = "long";
+    el.weekday = "long";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thursday, July 14, 2022");
+  });
+
+  it("updates the default output when month changes after render", async () => {
+    const el = await fixture(html`
+      <auro-datetime value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.setAttribute("month", "long");
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, July 14, 2022");
+  });
+
+  it("keeps a numeric date numeric when month changes after render", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="numeric" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.month = "long";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("7/14/2022");
+  });
 });
