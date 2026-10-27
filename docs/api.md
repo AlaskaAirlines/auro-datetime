@@ -4,7 +4,7 @@ Shows a date or time as text, formatted for a language and region you choose and
 
 **Key capabilities**
 - **What to show**: `type` picks the full date, the time, a numeric date, or a single part, such as the year or weekday.
-- **Date and time to show**: `value` takes an ISO 8601 date or date-time; without it, the element shows today's date.
+- **Date and time to show**: `value` takes an ISO 8601 date or date-time; without it, the element shows the current date and time.
 - **Language formatting**: `locale` formats month names, separators, and the 12- or 24-hour clock for a language, such as `de-DE`.
 - **Time zones**: `timezone` shows the moment in a time zone, such as `America/Los_Angeles`.
 - **Name length**: `month="long"` and `weekday="long"` spell out the month and weekday names.
