@@ -8,7 +8,7 @@
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../docs/partials/description.md) -->
 <!-- The below content is automatically added from ./../docs/partials/description.md -->
-The `<auro-datetime>` element shows a date or time as text, formatted for the reader's language and, optionally, a specific time zone. Set `type` to choose the full date, the time, a numeric date, or a single part such as the weekday.
+The `<auro-datetime>` element shows a date or time as text, formatted for a language and region you choose and, optionally, a specific time zone. Set `type` to choose the full date, the time, a numeric date, or a single part, such as the weekday.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Use cases
@@ -19,7 +19,7 @@ Use `<auro-datetime>` to:
 
 * Show a date or time, such as a departure date or arrival time.
 * Show a time in a specific time zone, such as a flight's local time at its airport.
-* Format a date for the reader's language, such as `de-DE` or `ja-JP`.
+* Format a date for a language and region, such as `de-DE` or `ja-JP`.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Examples

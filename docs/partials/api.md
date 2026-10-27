@@ -26,7 +26,7 @@ Use `type` to choose what to show: `date` for the full date, `numeric` for a sho
 
 #### Time
 
-`type="time"` shows the hour and minute. On a 12-hour clock, the element writes the period in lowercase and drops a leading zero, such as "8:00 am".
+`type="time"` shows the hour and minute. When the time ends in AM or PM, the element writes it in lowercase and drops a leading zero, such as "8:00 am".
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=./../apiExamples/basic-time.html) -->
@@ -60,7 +60,7 @@ Use `type` to choose what to show: `date` for the full date, `numeric` for a sho
 
 ### Value
 
-Use `value` to set the date or time to show, as an ISO 8601 date or date-time. It replaces the `setDate` and `utc` attributes from earlier versions. It accepts these forms:
+Use `value` to set the date or time to show, as an ISO 8601 date or date-time. It replaces the `setDate` and `utc` attributes from earlier versions. It accepts forms such as these:
 
 - `2022-07-14T08:00:00-07:00`: a date and time with an offset.
 - `2022-07-14T08:00:00Z`: a date and time in UTC.

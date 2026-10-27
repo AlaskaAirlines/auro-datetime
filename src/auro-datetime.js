@@ -12,11 +12,11 @@ const ISO_8601_REGEX =
 
 // See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * Shows a date or time as text, formatted for the reader's language and, optionally, a specific time zone.
+ * Shows a date or time as text, formatted for a language and region you choose and, optionally, a specific time zone.
  *
  * **Key capabilities**
- * - **What to show**: `type` picks the full date, the time, a numeric date, or a single part such as the year or weekday.
- * - **Any moment**: `value` takes an ISO 8601 date or date-time; without it, the element shows today's date.
+ * - **What to show**: `type` picks the full date, the time, a numeric date, or a single part, such as the year or weekday.
+ * - **Date and time to show**: `value` takes an ISO 8601 date or date-time; without it, the element shows today's date.
  * - **Language formatting**: `locale` formats month names, separators, and the 12- or 24-hour clock for a language, such as `de-DE`.
  * - **Time zones**: `timezone` shows the moment in a time zone, such as `America/Los_Angeles`.
  * - **Name length**: `month="long"` and `weekday="long"` spell out the month and weekday names.
@@ -96,7 +96,7 @@ export class AuroDatetime extends LitElement {
    *
    * @private
    * @param {string} input - User-supplied locale tag.
-   * @returns {string} Canonical locale tag (e.g. "en-GB"), or "en-US" on fallback.
+   * @returns {string} Canonical locale tag (such as "en-GB"), or "en-US" on fallback.
    */
   _resolveLocale(input) {
     if (!input) {
@@ -119,7 +119,7 @@ export class AuroDatetime extends LitElement {
    * Validate an IANA timezone identifier. Invalid input warns once per
    * unique value per element and resolves to `undefined`, which makes
    * the rest of `_resolveInputDate` behave as if `timezone` was never
-   * specified — i.e. wall-clock display from the input components.
+   * specified, that is, wall-clock display from the input components.
    *
    * Without this guard, a typo like `"US/Pacfic"` would cause
    * `Intl.DateTimeFormat` / `toLocaleString` to throw `RangeError` at
@@ -177,14 +177,14 @@ export class AuroDatetime extends LitElement {
       month: { type: String },
 
       /**
-       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the moment is converted into this zone; when it has none, `value` is read as a time already in this zone. Without it, the date and time in `value` are shown as written. An invalid name logs a console warning and is ignored.
+       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written.
        * @type {string}
        * @category behavior
        */
       timezone: { type: String },
 
       /**
-       * Sets what to show. Use `date` for the full date, such as "Thu, Jul 14, 2022", `numeric` for a short numeric date, such as "7/14/2022", and `time` for the hour and minute, such as "8:00 am". Use `year`, `month`, `weekday`, or `day` to show only that part. Without it, or with any other value, the element shows the full date.
+       * Sets which part of the date or time to show: `date` for the full date, such as "Thu, Jul 14, 2022", `numeric` for a numeric date, such as "7/14/2022", `time` for the hour and minute, such as "8:00 am", or `year`, `month`, `weekday`, or `day` for that part alone. Without it, or with any other value, the element shows the full date.
        * @type {"date" | "time" | "year" | "month" | "weekday" | "day" | "numeric"}
        * @category ui
        */
@@ -236,7 +236,7 @@ export class AuroDatetime extends LitElement {
   /**
    * Construct a UTC Date that, when displayed in the given IANA timezone,
    * shows the supplied wall-clock components. Used when `value` has no
-   * offset but `timeZone` is set — the wall-clock is interpreted as being
+   * offset but `timeZone` is set: the wall-clock is interpreted as being
    * in the target zone rather than the viewer's local zone.
    *
    * Algorithm: parse the wall-clock as if it were UTC (a "naive" Date),
@@ -244,8 +244,8 @@ export class AuroDatetime extends LitElement {
    * delta between the two to recover the true UTC moment.
    *
    * @private
-   * @param {string} localISO - ISO string with no offset, e.g. "2022-07-14T08:00:00".
-   * @param {string} timeZone - IANA zone, e.g. "US/Eastern".
+   * @param {string} localISO - ISO string with no offset, such as "2022-07-14T08:00:00".
+   * @param {string} timeZone - IANA zone, such as "US/Eastern".
    * @returns {Date}
    */
   _zonedWallClockToUtc(localISO, timeZone) {
@@ -278,7 +278,7 @@ export class AuroDatetime extends LitElement {
    * - `value` omitted (null/undefined): returns today's date. `timezone`
    *   (if any) is honored.
    * - `value` invalid (including empty string ""): warns and returns
-   *   `{ date: null }`. Empty is *not* the same as omitted — Lit reflects
+   *   `{ date: null }`. Empty is *not* the same as omitted: Lit reflects
    *   `value=""` as the empty string, which is not a valid ISO 8601
    *   form, so we surface it as a typo rather than silently rendering
    *   today's date.
@@ -317,9 +317,9 @@ export class AuroDatetime extends LitElement {
     const localPart = match[1];
     const hasOffset = Boolean(match[2]);
 
-    // The regex permits an offset/Z suffix on a bare date (e.g. "2020-09-22Z"
-    // or "2020-09-22-07:00"). Those forms are not valid ISO 8601 — an offset
-    // is only meaningful with a time component — and the wall-clock branch
+    // The regex permits an offset/Z suffix on a bare date (such as "2020-09-22Z"
+    // or "2020-09-22-07:00"). Those forms are not valid ISO 8601: an offset
+    // is only meaningful with a time component, and the wall-clock branch
     // would silently drop the offset, producing surprising output. Reject
     // them up front so the consumer sees a warning.
     if (hasOffset && !localPart.includes("T")) {
@@ -336,7 +336,7 @@ export class AuroDatetime extends LitElement {
       ? localPart
       : `${localPart}T00:00:00`;
 
-    // The regex only validates string shape, not value ranges — "2022-99-99"
+    // The regex only validates string shape, not value ranges: "2022-99-99"
     // matches but produces an Invalid Date. Detect that and treat it like
     // any other malformed input so render falls back to the documented
     // empty output instead of "Invalid Date" or a thrown RangeError from

@@ -21,7 +21,7 @@ The following sections are editable by making changes to the following files:
 
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/description.md) -->
 <!-- The below content is automatically added from ./docs/partials/description.md -->
-The `<auro-datetime>` element shows a date or time as text, formatted for the reader's language and, optionally, a specific time zone. Set `type` to choose the full date, the time, a numeric date, or a single part such as the weekday.
+The `<auro-datetime>` element shows a date or time as text, formatted for a language and region you choose and, optionally, a specific time zone. Set `type` to choose the full date, the time, a numeric date, or a single part, such as the weekday.
 <!-- AURO-GENERATED-CONTENT:END -->
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./docs/partials/readmeAddlInfo.md) -->
 <!-- The below content is automatically added from ./docs/partials/readmeAddlInfo.md -->
@@ -36,7 +36,7 @@ Use `<auro-datetime>` to:
 
 * Show a date or time, such as a departure date or arrival time.
 * Show a time in a specific time zone, such as a flight's local time at its airport.
-* Format a date for the reader's language, such as `de-DE` or `ja-JP`.
+* Format a date for a language and region, such as `de-DE` or `ja-JP`.
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Install
@@ -96,10 +96,10 @@ To do this, import only the component class and call the `register(name)` method
 
 <pre class="language-js"><code class="language-js">// Import the class only
 import { AuroDatetime } from '@aurodesignsystem/auro-datetime/class';
-&#10;// Register with a custom name if desired
+&#10;// Register it under a custom name
 AuroDatetime.register('custom-datetime');</code></pre>
 
-This will create a new custom element `<custom-datetime>` that behaves exactly like `<auro-datetime>`, allowing both to coexist on the same page without interfering with each other.
+`<custom-datetime>` then works the same as `<auro-datetime>`, and both can run on the same page without affecting each other.
 <!-- AURO-GENERATED-CONTENT:END -->
 <div class="exampleWrapper exampleWrapper--flex">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=./apiExamples/custom.html) -->

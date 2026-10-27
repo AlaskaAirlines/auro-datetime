@@ -1,1 +1,1 @@
-The `<auro-datetime>` element shows a date or time as text, formatted for the reader's language and, optionally, a specific time zone. Set `type` to choose the full date, the time, a numeric date, or a single part such as the weekday.
+The `<auro-datetime>` element shows a date or time as text, formatted for a language and region you choose and, optionally, a specific time zone. Set `type` to choose the full date, the time, a numeric date, or a single part, such as the weekday.
