@@ -10,7 +10,6 @@ import { html, LitElement } from "lit";
 const ISO_8601_REGEX =
   /^(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?)(Z|[+-]\d{2}:\d{2})?$/u;
 
-// See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
  * Shows a date or time as text, formatted for a language and region you choose and, optionally, a specific time zone.
  *
@@ -30,11 +29,10 @@ const ISO_8601_REGEX =
  * @customElement auro-datetime
  *
  * @slot pre - Content shown before the date or time, such as "Departs". {@category ui}
- * @slot post - Content shown after the date or time, such as "local time". {@category ui}
- * @slot - Content shown after the `post` slot's content. Use `post` instead when you can, so the order is clear in the markup. {@category ui}
+ * @slot post - Content shown after the date or time, such as "local time". The element doesn't currently let punctuation sit right after the date or time: a period or comma here, or right after the element, shows with a space before it. {@category ui}
+ * @slot - Content shown after the `post` slot's content, such as the end of a sentence that includes the date. {@category ui}
  */
 
-// build the component class
 export class AuroDatetime extends LitElement {
   constructor() {
     super();
@@ -60,15 +58,15 @@ export class AuroDatetime extends LitElement {
     this._warnedLocales = new Set();
 
     /**
-     * Tracks invalid timeZone inputs already warned about. Same dedup
-     * pattern as `_warnedLocales`.
+     * Tracks invalid `timezone` values this element has already warned
+     * about, so the same bad value logs only one warning.
      * @private
      */
     this._warnedTimeZones = new Set();
 
     /**
-     * Tracks invalid value inputs already warned about. Same dedup
-     * pattern as `_warnedLocales`.
+     * Tracks invalid `value` inputs this element has already warned about,
+     * so the same bad value logs only one warning.
      * @private
      */
     this._warnedValues = new Set();
@@ -117,18 +115,8 @@ export class AuroDatetime extends LitElement {
 
   /**
    * Checks an IANA time zone name. An invalid name logs a console warning
-   * the first time this element sees it and returns `undefined`, so
-   * `_resolveInputDate` acts as if `timezone` isn't set and shows the
-   * date and time in `value` as written.
-   *
-   * Without this check, a typo such as `"US/Pacfic"` makes
-   * `Intl.DateTimeFormat` and `toLocaleString` throw a `RangeError` at
-   * render time.
-   *
-   * When `value` isn't set either, the element shows the current time in
-   * the viewer's own time zone, so viewers in different zones see
-   * different output. That's also true whenever both `timezone` and
-   * `value` are left out; the warning helps the developer find the typo.
+   * the first time this element sees it and returns `undefined`, so the
+   * element acts as if `timezone` isn't set.
    *
    * @private
    * @param {string | undefined} input - The time zone name set on the element.
@@ -139,8 +127,10 @@ export class AuroDatetime extends LitElement {
       return undefined;
     }
     try {
-      // Constructing the formatter is enough to surface a RangeError;
-      // we don't need to format anything yet.
+      // Creating the formatter is enough to catch an invalid name. Without
+      // this check, a typo such as "America/Los_Angles" makes
+      // Intl.DateTimeFormat and toLocaleString throw a RangeError at render
+      // time.
       new Intl.DateTimeFormat(undefined, { timeZone: input });
       return input;
     } catch {
@@ -154,11 +144,8 @@ export class AuroDatetime extends LitElement {
     }
   }
 
-  // function to define props used within the scope of this component
   static get properties() {
     return {
-      // ...super.properties,
-
       /**
        * Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. An invalid tag logs a console warning and falls back to `en-US`.
        * @type {string}
@@ -176,7 +163,7 @@ export class AuroDatetime extends LitElement {
       month: { type: String },
 
       /**
-       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written, or the current time in the viewer's own time zone when `value` isn't set.
+       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written, or the current date and time in the viewer's own time zone when `value` isn't set.
        * @type {string}
        * @category behavior
        */
@@ -207,7 +194,7 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Registers the element with the browser under a tag name. Use a custom name to run more than one version of the element on the same page.
+   * Registers the element with the browser under a tag name. Use a custom name to run more than one version of the element on the same page. If the tag name is already registered, it does nothing.
    * @param {string} [name="auro-datetime"] - The tag name to register the element under, such as `custom-datetime`.
    * @returns {void}
    *
@@ -228,7 +215,7 @@ export class AuroDatetime extends LitElement {
   }
 
   firstUpdated() {
-    // Add the tag name as an attribute if it is different than the component name
+    // Adds the tag name as an attribute when it differs from auro-datetime.
     this.runtimeUtils.handleComponentTagRename(this, "auro-datetime");
   }
 
@@ -244,7 +231,7 @@ export class AuroDatetime extends LitElement {
    *
    * @private
    * @param {string} localISO - The ISO 8601 date-time with no offset, such as "2022-07-14T08:00:00".
-   * @param {string} timeZone - The IANA time zone name, such as "US/Eastern".
+   * @param {string} timeZone - The IANA time zone name, such as "America/New_York".
    * @returns {Date} The moment that reads as `localISO` in `timeZone`.
    */
   _zonedWallClockToUtc(localISO, timeZone) {
@@ -271,25 +258,27 @@ export class AuroDatetime extends LitElement {
 
   /**
    * Gets the Date to show and the `timeZone` option for `Intl.DateTimeFormat`,
-   * from `value` and `timezone`.
-   *
-   * - `value` not set (`null` or `undefined`): returns the current date and
-   *   time, in `timezone` if it's set.
-   * - `value` invalid, including an empty string: logs a warning and returns
-   *   `{ date: null }`. An empty string isn't the same as not set: Lit gives
-   *   `value=""` as an empty string, which isn't valid ISO 8601, so it's
-   *   reported as a likely mistake instead of showing the current date.
-   * - `timezone` set and `value` has an offset or `Z`: reads `value` as an
-   *   exact moment and has `toLocaleString` convert it into `timezone`.
-   * - `timezone` set and `value` has no offset: reads `value` as a time
-   *   already in `timezone`, so every viewer sees it as written.
-   * - `timezone` not set: drops any offset or `Z` and reads the rest as
-   *   local time, so it shows as written.
+   * from `value` and `timezone`. Returns `{ date: null }` for invalid input,
+   * including an empty string.
    *
    * @private
    * @returns {{ date: Date | null, timeZoneOption: string | undefined }} The Date to show, or `null` for invalid input, and the `timeZone` option to format it with.
    */
   _resolveInputDate() {
+    // How each case resolves:
+    // - `value` not set (null or undefined): the current date and time, in
+    //   `timezone` if it's set.
+    // - `value` invalid, including an empty string: logs a warning and
+    //   returns { date: null }. An empty string isn't the same as not set:
+    //   Lit gives value="" as an empty string, which isn't valid ISO 8601,
+    //   so it's reported as a likely mistake instead of showing the
+    //   current date.
+    // - `timezone` set and `value` has an offset or Z: reads `value` as an
+    //   exact moment and has toLocaleString convert it into `timezone`.
+    // - `timezone` set and `value` has no offset: reads `value` as a time
+    //   already in `timezone`, so every viewer sees it as written.
+    // - `timezone` not set: drops any offset or Z and reads the rest as
+    //   local time, so it shows as written.
     const resolvedTz = this._effectiveTimeZone;
 
     // Only true "omitted" inputs (null/undefined) get the today's-date
@@ -461,8 +450,8 @@ export class AuroDatetime extends LitElement {
     // (case-insensitive), so it catches en-US (`PM`), en-AU/hi-IN (`pm`),
     // and en-CA/es-MX (`p.m.`) alike. Non-Latin period markers (ko `오후`,
     // ar `م`, zh-TW `下午`) have no ASCII a/p+m chars and correctly fall
-    // through unchanged. 24h locales (en-GB, de-DE, fr-FR, ja-JP …) also
-    // fall through, preserving their leading zeros.
+    // through unchanged. 24h locales (en-GB, de-DE, fr-FR, ja-JP, and
+    // others) also fall through, preserving their leading zeros.
     if (!/[ap]\.?m\.?/iu.test(formatted)) {
       return formatted;
     }
@@ -493,10 +482,6 @@ export class AuroDatetime extends LitElement {
     }
   }
 
-  // When using auroElement, use the following attribute and function when hiding content from screen readers.
-  // aria-hidden="${this.hideAudible(this.hiddenAudible)}"
-
-  // function that renders the HTML and CSS into  the scope of the component
   render() {
     return html`
       <slot name="pre"></slot>

@@ -103,8 +103,8 @@ A `value` that ends in `Z` is in UTC. Without `timezone`, the element still show
 
 Use `timezone` with an IANA time zone name, such as `America/Los_Angeles` or `UTC`, to show the date or time in that zone. How it works depends on whether `value` has an offset:
 
-- **`value` has an offset or `Z`:** the element converts that moment into `timezone`. For example, `type="time" value="2022-07-14T08:00:00-04:00" timezone="US/Pacific"` shows "5:00 am", because 8:00 am Eastern is 5:00 am Pacific.
-- **`value` has no offset:** the element reads `value` as a time already in `timezone`, so every reader sees the same result. For example, `type="time" value="2022-07-14T08:00:00" timezone="US/Eastern"` shows "8:00 am" wherever the reader is. Use this form when you know the zone a time belongs to but don't have its offset, such as flight times listed by airport.
+- **`value` has an offset or `Z`:** the element converts that moment into `timezone`. For example, `type="time" value="2022-07-14T08:00:00-04:00" timezone="America/Los_Angeles"` shows "5:00 am", because 8:00 am Eastern is 5:00 am Pacific.
+- **`value` has no offset:** the element reads `value` as a time already in `timezone`, so every reader sees the same result. For example, `type="time" value="2022-07-14T08:00:00" timezone="America/New_York"` shows "8:00 am" wherever the reader is. Use this form when you know the zone a time belongs to but don't have its offset, such as flight times listed by airport.
 - **`value` isn't set:** the element shows the current date or time in `timezone`, as in the example below.
 
 <div class="exampleWrapper">
@@ -195,13 +195,15 @@ Use `month="long"` to spell out the month name, such as "July", and `weekday="lo
 An invalid `timezone` or `locale` doesn't break the element. It logs a console warning, once per value for each element, and falls back:
 
 - **Invalid `locale`**, such as `xx-INVALID-tag`: the element uses `en-US`.
-- **Invalid `timezone`**, such as the typo `US/Pacfic`: the element acts as if `timezone` isn't set. With `value` set, it shows the date and time as written, the same for every reader. Without `value`, it shows the current time in the reader's own time zone.
+- **Invalid `timezone`**, such as the typo `America/Los_Angles`: the element acts as if `timezone` isn't set. With `value` set, it shows the date and time as written, the same for every reader. Without `value`, it shows the current date and time in the reader's own time zone.
 
 ## Slot examples
 
 ### Pre and post slots
 
 Use the `pre` and `post` slots to add text before and after the date or time. This example also puts content in the default slot, which shows after the `post` content.
+
+The element doesn't currently let punctuation sit right after the date or time. A period or comma in the `post` slot, or right after the element, shows with a space before it, so word your text to avoid it, as this example does.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/slots.html) -->
