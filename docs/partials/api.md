@@ -194,8 +194,10 @@ Use `month="long"` to spell out the month name, such as "July", and `weekday="lo
 
 An invalid `timezone` or `locale` doesn't break the element. It logs a console warning, once per value for each element, and falls back:
 
-- **Invalid `locale`**, such as `xx-INVALID-tag`: the element uses `en-US`.
+- **Invalid `locale`**, such as the malformed tag `xx-INVALID-tag`: the element uses `en-US`.
 - **Invalid `timezone`**, such as the typo `America/Los_Angles`: the element acts as if `timezone` isn't set. With `value` set, it shows the date and time as written, the same for every reader. Without `value`, it shows the current date and time in the reader's own time zone.
+
+A well-formed `locale` tag the browser doesn't support, such as `zz-ZZ`, isn't treated as invalid: it logs no warning, and the browser formats the date in its default language.
 
 ## Slot examples
 
@@ -203,7 +205,7 @@ An invalid `timezone` or `locale` doesn't break the element. It logs a console w
 
 Use the `pre` and `post` slots to add text before and after the date or time. This example also puts content in the default slot, which shows after the `post` content.
 
-The element doesn't currently let punctuation sit right after the date or time. A period or comma in the `post` slot, or right after the element, shows with a space before it, so word your text to avoid it, as this example does.
+The element doesn't currently let content sit right against the date or time. Text in the `pre` or `post` slot, or right before or after the element, always shows with a space between it and the date or time, so a period or comma can't follow the date directly. Word your text to avoid it, as this example does.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/slots.html) -->

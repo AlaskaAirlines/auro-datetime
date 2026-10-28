@@ -19,7 +19,7 @@ Shows a date or time as text, formatted for a language and region you choose and
 
 | Properties | Attributes | Modifiers | Type                                                                     | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 | ---------- | ---------- | --------- | ------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| locale     | locale     |           | string                                                                   | `en-US` | Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. An invalid tag logs a console warning and falls back to `en-US`.                                                                                                                                                                                 |
+| locale     | locale     |           | string                                                                   | `en-US` | Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. A malformed tag logs a console warning and falls back to `en-US`; a well-formed tag the browser doesn't support, such as `zz-ZZ`, uses the browser's default language instead, with no warning.                                                  |
 | month      | month      |           | "short" \| "long"                                                        | `short` | Sets how the month name is written: `short`, such as "Jul", or `long`, such as "July". It applies to the full date and to `type="month"`.                                                                                                                                                                                                                                                                                                                                                         |
 | timezone   | timezone   |           | string                                                                   |         | Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written, or the current date and time in the viewer's own time zone when `value` isn't set. |
 | type       | type       |           | "date" \| "time" \| "year" \| "month" \| "weekday" \| "day" \| "numeric" |         | Sets which part of the date or time to show: `date` for the full date, such as "Thu, Jul 14, 2022", `numeric` for a numeric date, such as "7/14/2022", `time` for the hour and minute, such as "8:00 am", or `year`, `month`, `weekday`, or `day` for that part alone. Without it, or with any other value, the element shows the full date.                                                                                                                                                      |
@@ -34,11 +34,11 @@ Shows a date or time as text, formatted for a language and region you choose and
 
 ### Slots
 
-| Name      | Description                                                                                                                                                                                                                   |
-| --------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| (default) | Content shown after the `post` slot's content, such as the end of a sentence that includes the date.                                                                                                                          |
-| post      | Content shown after the date or time, such as "local time". The element doesn't currently let punctuation sit right after the date or time: a period or comma here, or right after the element, shows with a space before it. |
-| pre       | Content shown before the date or time, such as "Departs".                                                                                                                                                                     |
+| Name      | Description                                                                                                                                                                                                                                                                                   |
+| --------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| (default) | Content shown after the `post` slot's content, such as the end of a sentence that includes the date.                                                                                                                                                                                          |
+| post      | Content shown after the date or time, such as "local time". The element doesn't currently let content sit right against the date or time: this content, or text right after the element, always shows with a space between them, so a period or comma can't follow the date or time directly. |
+| pre       | Content shown before the date or time, such as "Departs". The element doesn't currently let content sit right against the date or time: this content, or text right before the element, always shows with a space between it and the date or time.                                            |
 <!-- AURO-GENERATED-CONTENT:END -->
 
 ## Basic
@@ -290,8 +290,10 @@ Use `month="long"` to spell out the month name, such as "July", and `weekday="lo
 
 An invalid `timezone` or `locale` doesn't break the element. It logs a console warning, once per value for each element, and falls back:
 
-- **Invalid `locale`**, such as `xx-INVALID-tag`: the element uses `en-US`.
+- **Invalid `locale`**, such as the malformed tag `xx-INVALID-tag`: the element uses `en-US`.
 - **Invalid `timezone`**, such as the typo `America/Los_Angles`: the element acts as if `timezone` isn't set. With `value` set, it shows the date and time as written, the same for every reader. Without `value`, it shows the current date and time in the reader's own time zone.
+
+A well-formed `locale` tag the browser doesn't support, such as `zz-ZZ`, isn't treated as invalid: it logs no warning, and the browser formats the date in its default language.
 
 ## Slot examples
 
@@ -299,7 +301,7 @@ An invalid `timezone` or `locale` doesn't break the element. It logs a console w
 
 Use the `pre` and `post` slots to add text before and after the date or time. This example also puts content in the default slot, which shows after the `post` content.
 
-The element doesn't currently let punctuation sit right after the date or time. A period or comma in the `post` slot, or right after the element, shows with a space before it, so word your text to avoid it, as this example does.
+The element doesn't currently let content sit right against the date or time. Text in the `pre` or `post` slot, or right before or after the element, always shows with a space between it and the date or time, so a period or comma can't follow the date directly. Word your text to avoid it, as this example does.
 
 <div class="exampleWrapper">
 <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/slots.html) -->

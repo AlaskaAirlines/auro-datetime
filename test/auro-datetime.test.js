@@ -623,6 +623,60 @@ describe("auro-datetime", () => {
     await expect(root.textContent).to.equal("Thu, July 14, 2022");
   });
 
+  // Removing the attribute sets the property to null, and some frameworks
+  // set "" when they unbind it. Both must fall back to the documented
+  // "short" default instead of throwing in toLocaleString.
+
+  it("falls back to short names when month and weekday are removed", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" month="long" weekday="long" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.removeAttribute("month");
+    el.removeAttribute("weekday");
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, Jul 14, 2022");
+  });
+
+  it("falls back to short names when month and weekday are emptied", async () => {
+    const el = await fixture(html`
+      <auro-datetime value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.month = "";
+    el.weekday = "";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, Jul 14, 2022");
+  });
+
+  it("falls back to a short month for type month when month is removed", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="month" month="long" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.removeAttribute("month");
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Jul");
+  });
+
+  it("falls back to a short weekday for type weekday when weekday is emptied", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="weekday" weekday="long" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.weekday = "";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu");
+  });
+
   it("keeps a numeric date numeric when month changes after render", async () => {
     const el = await fixture(html`
       <auro-datetime type="numeric" value="2022-07-14T08:00:00"></auro-datetime>

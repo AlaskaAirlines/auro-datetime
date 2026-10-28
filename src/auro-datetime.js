@@ -28,8 +28,8 @@ const ISO_8601_REGEX =
  * @summary Date or time text formatted by language and time zone, with full, numeric, and single-part formats.
  * @customElement auro-datetime
  *
- * @slot pre - Content shown before the date or time, such as "Departs". {@category ui}
- * @slot post - Content shown after the date or time, such as "local time". The element doesn't currently let punctuation sit right after the date or time: a period or comma here, or right after the element, shows with a space before it. {@category ui}
+ * @slot pre - Content shown before the date or time, such as "Departs". The element doesn't currently let content sit right against the date or time: this content, or text right before the element, always shows with a space between it and the date or time. {@category ui}
+ * @slot post - Content shown after the date or time, such as "local time". The element doesn't currently let content sit right against the date or time: this content, or text right after the element, always shows with a space between them, so a period or comma can't follow the date or time directly. {@category ui}
  * @slot - Content shown after the `post` slot's content, such as the end of a sentence that includes the date. {@category ui}
  */
 
@@ -137,7 +137,7 @@ export class AuroDatetime extends LitElement {
       if (this._warnedTimeZones && !this._warnedTimeZones.has(input)) {
         this._warnedTimeZones.add(input);
         console.warn(
-          `auro-datetime: "${input}" is not a valid IANA timezone. Falling back to viewer-local.`,
+          `auro-datetime: "${input}" is not a valid IANA timezone. Ignoring it.`,
         );
       }
       return undefined;
@@ -147,7 +147,7 @@ export class AuroDatetime extends LitElement {
   static get properties() {
     return {
       /**
-       * Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. An invalid tag logs a console warning and falls back to `en-US`.
+       * Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. A malformed tag logs a console warning and falls back to `en-US`; a well-formed tag the browser doesn't support, such as `zz-ZZ`, uses the browser's default language instead, with no warning.
        * @type {string}
        * @default "en-US"
        * @category ui
@@ -281,7 +281,7 @@ export class AuroDatetime extends LitElement {
     //   local time, so it shows as written.
     const resolvedTz = this._effectiveTimeZone;
 
-    // Only true "omitted" inputs (null/undefined) get the today's-date
+    // Only true "omitted" inputs (null/undefined) get the current-date
     // treatment. Empty string falls through to ISO validation, which
     // fails and produces the documented warning and empty output.
     if (this.value == null) {
@@ -365,9 +365,9 @@ export class AuroDatetime extends LitElement {
     }
     // Read month and weekday on every render so later changes show up.
     const template = {
-      weekday: this.weekday,
+      weekday: this.weekday || "short",
       year: "numeric",
-      month: this.month,
+      month: this.month || "short",
       day: "numeric",
     };
     if (timeZoneOption) {
@@ -396,13 +396,13 @@ export class AuroDatetime extends LitElement {
         template.day = "numeric";
         break;
       case "month":
-        template.month = this.month;
+        template.month = this.month || "short";
         break;
       case "year":
         template.year = "numeric";
         break;
       case "weekday":
-        template.weekday = this.weekday;
+        template.weekday = this.weekday || "short";
         break;
       default:
         break;
