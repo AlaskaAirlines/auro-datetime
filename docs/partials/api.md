@@ -60,14 +60,14 @@ Use `type` to choose what to show: `date` for the full date, `numeric` for a sho
 
 ### Value
 
-Use `value` to set the date or time to show, as an ISO 8601 date or date-time. It replaces the `setDate` and `utc` attributes from earlier versions. It accepts forms such as these:
+Use `value` to set the date or time to show, as a `YYYY-MM-DD` date or a `YYYY-MM-DDTHH:MM` date-time, with optional seconds and fractional seconds and an optional `Z` or `±HH:MM` offset. It replaces the `setDate` and `utc` attributes from earlier versions. It accepts forms such as these:
 
 - `2022-07-14T08:00:00-07:00`: a date and time with an offset.
 - `2022-07-14T08:00:00Z`: a date and time in UTC.
 - `2022-07-14T08:00:00`: a date and time with no offset.
 - `2022-07-14`: a date only.
 
-Without `timezone`, the element shows the date and time as written in `value`, ignoring any offset or `Z`. Invalid input, including an empty value, logs a console warning and shows nothing.
+Without `timezone`, the element shows the date and time as written in `value`, ignoring any offset or `Z`. Invalid input, including an empty value or another ISO 8601 form, such as `20220714` or a `+0700` offset, logs a console warning and shows nothing.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/set-date.html) -->
