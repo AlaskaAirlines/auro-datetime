@@ -107,7 +107,7 @@ Use `timezone` with an IANA time zone name, such as `America/Los_Angeles` or `UT
 - **`value` has no offset:** the element reads `value` as a time already in `timezone`, so every reader sees the same result. For example, `type="time" value="2022-07-14T08:00:00" timezone="America/New_York"` shows "8:00 am" wherever the reader is. Use this form when you know the zone a time belongs to but don't have its offset, such as flight times listed by airport.
 - **`value` isn't set:** the element shows the current date or time in `timezone`, as in the example below.
 
-On a day the clocks change in `timezone`, a `value` with no offset still shows as written, with two exceptions. A time the clocks skip when they spring forward moves later by the length of the skip, usually one hour, so `2022-03-13T02:30:00` in `America/New_York` shows "3:30 am". A time that happens twice when the clocks fall back shows its first occurrence.
+On a day the clocks change in `timezone`, a `value` with no offset still shows as written, except for a time the clocks skip when they spring forward. That time moves later by the length of the skip, usually one hour, so `2022-03-13T02:30:00` in `America/New_York` shows "3:30 am".
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/timezone.html) -->

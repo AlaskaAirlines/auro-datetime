@@ -163,7 +163,7 @@ export class AuroDatetime extends LitElement {
       month: { type: String },
 
       /**
-       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written, or the current date and time in the viewer's own time zone when `value` isn't set.
+       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written, or the current date and time in the viewer's own time zone when `value` isn't set. When a `value` with no offset names a time the clocks skip when they spring forward, it shows later by the length of the skip, usually one hour, so `2022-03-13T02:30:00` in `America/New_York` shows "3:30 am".
        * @type {string}
        * @category behavior
        */
