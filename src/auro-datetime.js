@@ -220,22 +220,16 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Creates a Date that shows the given wall-clock time when displayed in
-   * the given IANA time zone. `_resolveInputDate` uses it when `value` has
-   * no offset and `timezone` is set, so the time is read as already being
-   * in that zone rather than the viewer's.
-   *
-   * It parses the wall-clock time as if it were UTC, asks `Intl` what that
-   * moment looks like in the target zone, and uses the difference between
-   * the two to find the real moment.
+   * Gets the time zone's offset from UTC at a moment, in milliseconds, such as `-14400000` for New York in summer.
    *
    * @private
-   * @param {string} localISO - The ISO 8601 date-time with no offset, such as `2022-07-14T08:00:00`.
+   * @param {number} utcMs - The moment, in milliseconds since the epoch.
    * @param {string} timeZone - The IANA time zone name, such as `America/New_York`.
-   * @returns {Date} The moment that reads as `localISO` in `timeZone`.
+   * @returns {number} The offset in milliseconds: the zone's wall-clock time, read as UTC, minus the moment.
    */
-  _zonedWallClockToUtc(localISO, timeZone) {
-    const naiveUtc = new Date(`${localISO}Z`);
+  _zoneOffsetMs(utcMs, timeZone) {
+    // formatToParts drops milliseconds, so compare whole seconds.
+    const wholeSeconds = Math.floor(utcMs / 1000) * 1000;
     const parts = new Intl.DateTimeFormat("en-US", {
       timeZone,
       hourCycle: "h23",
@@ -245,15 +239,60 @@ export class AuroDatetime extends LitElement {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-    }).formatToParts(naiveUtc);
+    }).formatToParts(wholeSeconds);
     const lookup = Object.fromEntries(
       parts.filter((p) => p.type !== "literal").map((p) => [p.type, p.value]),
     );
-    const seenInZone = new Date(
-      `${lookup.year}-${lookup.month}-${lookup.day}T${lookup.hour}:${lookup.minute}:${lookup.second}Z`,
+    const wallClockAsUtc = Date.UTC(
+      Number(lookup.year),
+      Number(lookup.month) - 1,
+      Number(lookup.day),
+      Number(lookup.hour),
+      Number(lookup.minute),
+      Number(lookup.second),
     );
-    const offsetMs = naiveUtc.getTime() - seenInZone.getTime();
-    return new Date(naiveUtc.getTime() + offsetMs);
+    return wallClockAsUtc - wholeSeconds;
+  }
+
+  /**
+   * Creates a Date that shows the given wall-clock time when displayed in
+   * the given IANA time zone. `_resolveInputDate` uses it when `value` has
+   * no offset and `timezone` is set, so the time is read as already being
+   * in that zone rather than the viewer's.
+   *
+   * On a daylight saving change, a time the clocks skip moves forward by
+   * the gap, and a time the clocks repeat resolves to its first occurrence.
+   * This is the same rule JavaScript uses for local times.
+   *
+   * @private
+   * @param {string} localISO - The ISO 8601 date-time with no offset, such as `2022-07-14T08:00:00`.
+   * @param {string} timeZone - The IANA time zone name, such as `America/New_York`.
+   * @returns {Date} The moment that reads as `localISO` in `timeZone`.
+   */
+  _zonedWallClockToUtc(localISO, timeZone) {
+    const DAY_MS = 86400000;
+    // The wall-clock time read as if it were UTC.
+    const naiveMs = new Date(`${localISO}Z`).getTime();
+
+    // A zone's offset changes at most once within a couple of days, so the
+    // offsets a day before and a day after cover both sides of any change
+    // near this date. Keep each candidate moment that really reads as the
+    // wall-clock time in the zone.
+    const offsetBefore = this._zoneOffsetMs(naiveMs - DAY_MS, timeZone);
+    const offsetAfter = this._zoneOffsetMs(naiveMs + DAY_MS, timeZone);
+    const matches = [naiveMs - offsetBefore, naiveMs - offsetAfter]
+      .filter((ms) => ms + this._zoneOffsetMs(ms, timeZone) === naiveMs)
+      .sort((a, b) => a - b);
+
+    if (matches.length > 0) {
+      // One match for ordinary times; two for a repeated time, where the
+      // first occurrence wins.
+      return new Date(matches[0]);
+    }
+
+    // No match: the clocks skip this time. Reading it with the offset from
+    // before the change moves it forward by the gap.
+    return new Date(naiveMs - offsetBefore);
   }
 
   /**

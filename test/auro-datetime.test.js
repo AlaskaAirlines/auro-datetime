@@ -568,6 +568,44 @@ describe("auro-datetime", () => {
     await expect(root.textContent).to.equal("Thu, Jul 14, 2022");
   });
 
+  // A no-offset value near a daylight saving change must still show as
+  // written in the timezone. Cases cover a zone behind UTC (New York, Los
+  // Angeles) and one ahead of it (Berlin). A time skipped by spring-forward
+  // moves forward by the gap; a time repeated by fall-back shows its first
+  // occurrence. Output is in the given timezone, so it doesn't depend on the
+  // test machine's zone.
+  const dstCases = [
+    ["2022-03-13T04:00:00", "America/New_York", "4:00 am"],
+    ["2022-11-06T03:00:00", "America/New_York", "3:00 am"],
+    ["2022-03-27T01:30:00", "Europe/Berlin", "1:30 am"],
+    ["2022-03-13T05:00:00", "America/Los_Angeles", "5:00 am"],
+    ["2022-03-13T02:30:00", "America/New_York", "3:30 am"],
+    ["2022-11-06T01:30:00", "America/New_York", "1:30 am"],
+    ["2022-03-27T02:30:00", "Europe/Berlin", "3:30 am"],
+    ["2022-10-30T02:30:00", "Europe/Berlin", "2:30 am"],
+    ["2022-03-13T04:00:00.500", "America/New_York", "4:00 am"],
+  ];
+
+  for (const [value, timezone, expected] of dstCases) {
+    it(`shows ${value} in ${timezone} as ${expected} near a daylight saving change`, async () => {
+      const el = await fixture(html`
+        <auro-datetime type="time" value="${value}" timezone="${timezone}"></auro-datetime>
+      `);
+
+      const root = el.shadowRoot.querySelector(".yield");
+      await expect(root.textContent).to.equal(expected);
+    });
+  }
+
+  it("keeps a skipped spring-forward time on the same day", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" value="2022-03-13T02:30:00" timezone="America/New_York"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Sun, Mar 13, 2022");
+  });
+
   it("only day", async () => {
     const el = await fixture(html`
       <auro-datetime type="day" value="2022-07-13T21:35:00Z" timezone="US/Pacific"></auro-datetime>
