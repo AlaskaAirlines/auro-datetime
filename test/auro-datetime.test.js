@@ -568,6 +568,122 @@ describe("auro-datetime", () => {
     await expect(root.textContent).to.equal("Thu, Jul 14, 2022");
   });
 
+  // A no-offset value near a daylight saving change must still show as
+  // written in the timezone. Cases cover a zone behind UTC (New York, Los
+  // Angeles) and one ahead of it (Berlin). A time skipped by spring-forward
+  // moves forward by the gap; a time repeated by fall-back shows its first
+  // occurrence. Output is in the given timezone, so it doesn't depend on the
+  // test machine's zone.
+  const dstCases = [
+    ["2022-03-13T04:00:00", "America/New_York", "4:00 am"],
+    ["2022-11-06T03:00:00", "America/New_York", "3:00 am"],
+    ["2022-03-27T01:30:00", "Europe/Berlin", "1:30 am"],
+    ["2022-03-13T05:00:00", "America/Los_Angeles", "5:00 am"],
+    ["2022-03-13T02:30:00", "America/New_York", "3:30 am"],
+    ["2022-11-06T01:30:00", "America/New_York", "1:30 am"],
+    ["2022-03-27T02:30:00", "Europe/Berlin", "3:30 am"],
+    ["2022-10-30T02:30:00", "Europe/Berlin", "2:30 am"],
+    ["2022-03-13T04:00:00.500", "America/New_York", "4:00 am"],
+  ];
+
+  for (const [value, timezone, expected] of dstCases) {
+    it(`shows ${value} in ${timezone} as ${expected} near a daylight saving change`, async () => {
+      const el = await fixture(html`
+        <auro-datetime type="time" value="${value}" timezone="${timezone}"></auro-datetime>
+      `);
+
+      const root = el.shadowRoot.querySelector(".yield");
+      await expect(root.textContent).to.equal(expected);
+    });
+  }
+
+  // A value that matches the ISO shape but isn't a real date must show
+  // nothing, not throw, when a timezone is set and there's no offset.
+  // The calendar check rejects bad months and days first, so the times here
+  // are what reach _zonedWallClockToUtc's NaN guard.
+  for (const value of [
+    "2022-13-01T00:00:00",
+    "2022-99-99",
+    "2022-07-14T25:00:00",
+    "2022-07-14T12:60:00",
+  ]) {
+    it(`shows nothing for the out-of-range value ${value} with a timezone`, async () => {
+      const el = await fixture(html`
+        <auro-datetime type="time" value="${value}" timezone="America/New_York"></auro-datetime>
+      `);
+
+      const root = el.shadowRoot.querySelector(".yield");
+      await expect(root.textContent).to.equal("");
+    });
+  }
+
+  // A day that doesn't exist in its month must be rejected in every browser.
+  // Chrome would otherwise roll it into the next month (February 30 into
+  // March 2), while Firefox and Safari reject it.
+  for (const [value, timezone] of [
+    ["2022-02-30", undefined],
+    ["2022-04-31T10:00:00", undefined],
+    ["2023-02-29T08:00:00", "America/New_York"],
+  ]) {
+    it(`shows nothing and warns for the impossible date ${value}${timezone ? ` in ${timezone}` : ""}`, async () => {
+      const original = console.warn;
+      const calls = [];
+      console.warn = (...args) => calls.push(args);
+
+      try {
+        const el = await fixture(html`
+          <auro-datetime type="date" value="${value}" timezone="${timezone ?? ""}"></auro-datetime>
+        `);
+
+        const root = el.shadowRoot.querySelector(".yield");
+        await expect(root.textContent).to.equal("");
+        await expect(
+          calls.some((args) => String(args[0]).includes(`"${value}"`)),
+        ).to.equal(true);
+      } finally {
+        console.warn = original;
+      }
+    });
+  }
+
+  // Date.UTC maps years 0-99 onto 1900-1999, so a check built on it would
+  // reject real dates such as 0001-01-01 (.NET's DateTime.MinValue).
+  it("accepts a date in a year before 100", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="year" value="0001-01-01T00:00:00"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("1");
+  });
+
+  it("shows a time in a year before 100 when a timezone is set", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="time" value="0050-06-15T08:00:00" timezone="UTC"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("8:00 am");
+  });
+
+  it("still accepts February 29 in a leap year", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" value="2024-02-29"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, Feb 29, 2024");
+  });
+
+  it("keeps a skipped spring-forward time on the same day", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" value="2022-03-13T02:30:00" timezone="America/New_York"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Sun, Mar 13, 2022");
+  });
+
   it("only day", async () => {
     const el = await fixture(html`
       <auro-datetime type="day" value="2022-07-13T21:35:00Z" timezone="US/Pacific"></auro-datetime>
@@ -593,5 +709,99 @@ describe("auro-datetime", () => {
 
     const root = el.shadowRoot.querySelector(".yield");
     await expect(root.textContent).to.equal("Wed");
+  });
+
+  // month and weekday changed after the first render must reach the
+  // full-date output, not only the single-part types.
+
+  it("updates the date when month and weekday change after render", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.month = "long";
+    el.weekday = "long";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thursday, July 14, 2022");
+  });
+
+  it("updates the default output when month changes after render", async () => {
+    const el = await fixture(html`
+      <auro-datetime value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.setAttribute("month", "long");
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, July 14, 2022");
+  });
+
+  // Removing the attribute sets the property to null, and some frameworks
+  // set "" when they unbind it. Both must fall back to the documented
+  // "short" default instead of throwing in toLocaleString.
+
+  it("falls back to short names when month and weekday are removed", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" month="long" weekday="long" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.removeAttribute("month");
+    el.removeAttribute("weekday");
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, Jul 14, 2022");
+  });
+
+  it("falls back to short names when month and weekday are emptied", async () => {
+    const el = await fixture(html`
+      <auro-datetime value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.month = "";
+    el.weekday = "";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, Jul 14, 2022");
+  });
+
+  it("falls back to a short month for type month when month is removed", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="month" month="long" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.removeAttribute("month");
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Jul");
+  });
+
+  it("falls back to a short weekday for type weekday when weekday is emptied", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="weekday" weekday="long" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.weekday = "";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu");
+  });
+
+  it("keeps a numeric date numeric when month changes after render", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="numeric" value="2022-07-14T08:00:00"></auro-datetime>
+    `);
+
+    el.month = "long";
+    await el.updateComplete;
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("7/14/2022");
   });
 });

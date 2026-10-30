@@ -1,4 +1,5 @@
-The `<auro-datetime>` element should be used in situations where users may:
+Use `<auro-datetime>` to:
 
-* A date and/or time is required
-
+* Show a date or time, such as a departure date or arrival time.
+* Show a time in a specific time zone, such as a flight's local time at its airport.
+* Format a date for a language and region, such as `de-DE` or `ja-JP`.
