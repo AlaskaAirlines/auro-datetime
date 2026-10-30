@@ -597,6 +597,57 @@ describe("auro-datetime", () => {
     });
   }
 
+  // A value that matches the ISO shape but isn't a real date must show
+  // nothing, not throw, when a timezone is set and there's no offset.
+  for (const value of ["2022-13-01T00:00:00", "2022-99-99"]) {
+    it(`shows nothing for the out-of-range value ${value} with a timezone`, async () => {
+      const el = await fixture(html`
+        <auro-datetime type="time" value="${value}" timezone="America/New_York"></auro-datetime>
+      `);
+
+      const root = el.shadowRoot.querySelector(".yield");
+      await expect(root.textContent).to.equal("");
+    });
+  }
+
+  // A day that doesn't exist in its month must be rejected in every browser.
+  // Chrome would otherwise roll it into the next month (February 30 into
+  // March 2), while Firefox and Safari reject it.
+  for (const [value, timezone] of [
+    ["2022-02-30", undefined],
+    ["2022-04-31T10:00:00", undefined],
+    ["2023-02-29T08:00:00", "America/New_York"],
+  ]) {
+    it(`shows nothing and warns for the impossible date ${value}${timezone ? ` in ${timezone}` : ""}`, async () => {
+      const original = console.warn;
+      const calls = [];
+      console.warn = (...args) => calls.push(args);
+
+      try {
+        const el = await fixture(html`
+          <auro-datetime type="date" value="${value}" timezone="${timezone ?? ""}"></auro-datetime>
+        `);
+
+        const root = el.shadowRoot.querySelector(".yield");
+        await expect(root.textContent).to.equal("");
+        await expect(
+          calls.some((args) => String(args[0]).includes(`"${value}"`)),
+        ).to.equal(true);
+      } finally {
+        console.warn = original;
+      }
+    });
+  }
+
+  it("still accepts February 29 in a leap year", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="date" value="2024-02-29"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("Thu, Feb 29, 2024");
+  });
+
   it("keeps a skipped spring-forward time on the same day", async () => {
     const el = await fixture(html`
       <auro-datetime type="date" value="2022-03-13T02:30:00" timezone="America/New_York"></auro-datetime>

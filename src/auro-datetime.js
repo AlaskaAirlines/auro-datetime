@@ -273,6 +273,11 @@ export class AuroDatetime extends LitElement {
     const DAY_MS = 86400000;
     // The wall-clock time read as if it were UTC.
     const naiveMs = new Date(`${localISO}Z`).getTime();
+    // An out-of-range value, such as month 13, can't be resolved. Return an
+    // invalid Date so _resolveInputDate warns and shows nothing.
+    if (Number.isNaN(naiveMs)) {
+      return new Date(Number.NaN);
+    }
 
     // A zone's offset changes at most once within a couple of days, so the
     // offsets a day before and a day after cover both sides of any change
@@ -351,6 +356,25 @@ export class AuroDatetime extends LitElement {
         this._warnedValues.add(this.value);
         console.warn(
           `auro-datetime: "${this.value}" is not a valid ISO 8601 string (offset/Z requires a time component).`,
+        );
+      }
+      return { date: null, timeZoneOption: undefined };
+    }
+
+    // Chrome rolls a day that doesn't exist in its month into the next
+    // month (February 30 becomes March 2), while Firefox and Safari reject
+    // it. Reject it everywhere by checking the day survives a round trip.
+    const [year, month, day] = localPart.slice(0, 10).split("-").map(Number);
+    const calendarDate = new Date(Date.UTC(year, month - 1, day));
+    if (
+      calendarDate.getUTCFullYear() !== year ||
+      calendarDate.getUTCMonth() !== month - 1 ||
+      calendarDate.getUTCDate() !== day
+    ) {
+      if (!this._warnedValues.has(this.value)) {
+        this._warnedValues.add(this.value);
+        console.warn(
+          `auro-datetime: "${this.value}" is not a valid ISO 8601 date.`,
         );
       }
       return { date: null, timeZoneOption: undefined };
