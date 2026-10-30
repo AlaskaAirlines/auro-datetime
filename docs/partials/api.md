@@ -67,7 +67,7 @@ Use `value` to set the date or time to show, as a `YYYY-MM-DD` date or a `YYYY-M
 - `2022-07-14T08:00:00`: a date and time with no offset.
 - `2022-07-14`: a date only.
 
-Without `timezone`, the element shows the date and time as written in `value`, ignoring any offset or `Z`. Invalid input, including an empty value or another ISO 8601 form, such as `20220714` or a `+0700` offset, logs a console warning and shows nothing.
+Without `timezone`, the element shows the date and time as written in `value`, ignoring any offset or `Z`, except a time the reader's own clocks skip when they spring forward, which shows later by the length of the skip. Invalid input, including an empty value or another ISO 8601 form, such as `20220714` or a `+0700` offset, logs a console warning and shows nothing.
 
 <div class="exampleWrapper">
   <!-- AURO-GENERATED-CONTENT:START (FILE:src=../apiExamples/set-date.html) -->
@@ -197,7 +197,7 @@ Use `month="long"` to spell out the month name, such as "July", and `weekday="lo
 An invalid `timezone` or `locale` doesn't break the element. It logs a console warning, once per value for each element, and falls back:
 
 - **Invalid `locale`**, such as the malformed tag `xx-INVALID-tag`: the element uses `en-US`.
-- **Invalid `timezone`**, such as the typo `America/Los_Angles`: the element acts as if `timezone` isn't set. With `value` set, it shows the date and time as written, the same for every reader. Without `value`, it shows the current date and time in the reader's own time zone.
+- **Invalid `timezone`**, such as the typo `America/Los_Angles`: the element acts as if `timezone` isn't set. With `value` set, it shows the date and time as written, without converting them to the reader's time zone. Without `value`, it shows the current date and time in the reader's own time zone.
 
 A well-formed `locale` tag the browser doesn't support, such as `zz-ZZ`, isn't treated as invalid: it logs no warning, and the browser formats the date in its default language.
 
@@ -226,7 +226,7 @@ The element doesn't currently let content sit right against the date or time. Te
 
 ### Local time at the airport
 
-When `value` has an offset and `timezone` isn't set, the element shows the date and time as written in `value`, the same for every reader. Use this to show a flight's local time at its airport, where the offset describes the airport, not the reader.
+When `value` has an offset and `timezone` isn't set, the element shows the date and time as written in `value`, without converting them to the reader's time zone. Use this to show a flight's local time at its airport, where the offset describes the airport, not the reader.
 
 This example uses `2022-07-13T21:35:00-07:00`, a Pacific time.
 

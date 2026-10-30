@@ -599,7 +599,14 @@ describe("auro-datetime", () => {
 
   // A value that matches the ISO shape but isn't a real date must show
   // nothing, not throw, when a timezone is set and there's no offset.
-  for (const value of ["2022-13-01T00:00:00", "2022-99-99"]) {
+  // The calendar check rejects bad months and days first, so the times here
+  // are what reach _zonedWallClockToUtc's NaN guard.
+  for (const value of [
+    "2022-13-01T00:00:00",
+    "2022-99-99",
+    "2022-07-14T25:00:00",
+    "2022-07-14T12:60:00",
+  ]) {
     it(`shows nothing for the out-of-range value ${value} with a timezone`, async () => {
       const el = await fixture(html`
         <auro-datetime type="time" value="${value}" timezone="America/New_York"></auro-datetime>
@@ -638,6 +645,26 @@ describe("auro-datetime", () => {
       }
     });
   }
+
+  // Date.UTC maps years 0-99 onto 1900-1999, so a check built on it would
+  // reject real dates such as 0001-01-01 (.NET's DateTime.MinValue).
+  it("accepts a date in a year before 100", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="year" value="0001-01-01T00:00:00"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("1");
+  });
+
+  it("shows a time in a year before 100 when a timezone is set", async () => {
+    const el = await fixture(html`
+      <auro-datetime type="time" value="0050-06-15T08:00:00" timezone="UTC"></auro-datetime>
+    `);
+
+    const root = el.shadowRoot.querySelector(".yield");
+    await expect(root.textContent).to.equal("8:00 am");
+  });
 
   it("still accepts February 29 in a leap year", async () => {
     const el = await fixture(html`
