@@ -10,16 +10,29 @@ import { html, LitElement } from "lit";
 const ISO_8601_REGEX =
   /^(\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?)?)(Z|[+-]\d{2}:\d{2})?$/u;
 
-// See https://git.io/JJ6SJ for "How to document your components using JSDoc"
 /**
- * The `auro-datetime` element is for the purposes of providing an easy to use date and time API.
+ * Shows a date or time as text, formatted for a language and region you choose and, optionally, a specific time zone.
+ *
+ * **Key capabilities**
+ * - **What to show**: `type` picks the full date, the time, a numeric date, or a single part, such as the year or weekday.
+ * - **Date and time to show**: `value` takes a `YYYY-MM-DD` date or a `YYYY-MM-DDTHH:MM` date-time, with optional seconds and offset; without it, the element shows the current date and time.
+ * - **Language formatting**: `locale` formats month names, separators, and the 12- or 24-hour clock for a language, such as `de-DE`.
+ * - **Time zones**: `timezone` shows the moment in a time zone, such as `America/Los_Angeles`.
+ * - **Name length**: `month="long"` and `weekday="long"` spell out the month and weekday names.
+ *
+ * **Example**
+ * ```html
+ * <auro-datetime type="date" value="2022-07-14T08:00:00"></auro-datetime>
+ * ```
+ *
+ * @summary Date or time text formatted by language and time zone, with full, numeric, and single-part formats.
  * @customElement auro-datetime
  *
- * @slot pre - Content that comes before the `post` content
- * @slot post - Content that comes after the `pre` content
+ * @slot pre - Content shown before the date or time, such as "Departs". The element doesn't currently let content sit right against the date or time: this content, or text right before the element, always shows with a space between it and the date or time. {@category ui}
+ * @slot post - Content shown after the date or time, such as "local time". The element doesn't currently let content sit right against the date or time: this content, or text right after the element, always shows with a space between them, so a period or comma can't follow the date or time directly. {@category ui}
+ * @slot - Content shown after the `post` slot's content, such as the end of a sentence that includes the date. {@category ui}
  */
 
-// build the component class
 export class AuroDatetime extends LitElement {
   constructor() {
     super();
@@ -27,6 +40,11 @@ export class AuroDatetime extends LitElement {
     this._initializeDefaults();
   }
 
+  /**
+   * Sets the element's default values.
+   * @private
+   * @returns {void}
+   */
   _initializeDefaults() {
     this.weekday = "short";
     this.month = "short";
@@ -40,15 +58,15 @@ export class AuroDatetime extends LitElement {
     this._warnedLocales = new Set();
 
     /**
-     * Tracks invalid timeZone inputs already warned about. Same dedup
-     * pattern as `_warnedLocales`.
+     * Tracks invalid `timezone` values this element has already warned
+     * about, so the same bad value logs only one warning.
      * @private
      */
     this._warnedTimeZones = new Set();
 
     /**
-     * Tracks invalid value inputs already warned about. Same dedup
-     * pattern as `_warnedLocales`.
+     * Tracks invalid `value` inputs this element has already warned about,
+     * so the same bad value logs only one warning.
      * @private
      */
     this._warnedValues = new Set();
@@ -70,13 +88,13 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Validate and canonicalize a BCP 47 locale tag. Falls back to "en-US"
-   * for empty or invalid input. The first invalid value seen per element
-   * is logged via `console.warn`; subsequent identical inputs are silent.
+   * Checks a BCP 47 locale tag and returns its canonical form. Empty or invalid
+   * input falls back to `en-US`. Each invalid value logs a console warning the
+   * first time this element sees it.
    *
    * @private
-   * @param {string} input - User-supplied locale tag.
-   * @returns {string} Canonical locale tag (e.g. "en-GB"), or "en-US" on fallback.
+   * @param {string} input - The locale tag set on the element.
+   * @returns {string} The canonical locale tag, such as `en-GB`, or `en-US` for empty or invalid input.
    */
   _resolveLocale(input) {
     if (!input) {
@@ -88,7 +106,7 @@ export class AuroDatetime extends LitElement {
       if (this._warnedLocales && !this._warnedLocales.has(input)) {
         this._warnedLocales.add(input);
         console.warn(
-          `auro-datetime: "${input}" is not a valid BCP 47 locale tag. Falling back to "en-US".`,
+          `auro-datetime: "${input}" is not a valid BCP 47 locale tag. Falling back to \`en-US\`.`,
         );
       }
       return "en-US";
@@ -96,121 +114,92 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Validate an IANA timezone identifier. Invalid input warns once per
-   * unique value per element and resolves to `undefined`, which makes
-   * the rest of `_resolveInputDate` behave as if `timezone` was never
-   * specified — i.e. wall-clock display from the input components.
-   *
-   * Without this guard, a typo like `"US/Pacfic"` would cause
-   * `Intl.DateTimeFormat` / `toLocaleString` to throw `RangeError` at
-   * render time and crash the component.
-   *
-   * Note: when `value` is also unset, the wall-clock branch resolves to
-   * "today's date in the viewer's machine zone," which is viewer-
-   * dependent. This narrow case is the only scenario where two viewers
-   * see different output for the same component; the warning surfaces
-   * the typo so the developer can fix it.
+   * Checks an IANA time zone name. An invalid name logs a console warning
+   * the first time this element sees it and returns `undefined`, so the
+   * element acts as if `timezone` isn't set.
    *
    * @private
-   * @param {string | undefined} input - Consumer-supplied timezone.
-   * @returns {string | undefined} Valid timezone, or undefined on fallback.
+   * @param {string | undefined} input - The time zone name set on the element.
+   * @returns {string | undefined} The time zone name if it's valid; otherwise, `undefined`.
    */
   _resolveTimeZone(input) {
     if (!input) {
       return undefined;
     }
     try {
-      // Constructing the formatter is enough to surface a RangeError;
-      // we don't need to format anything yet.
+      // Creating the formatter is enough to catch an invalid name. Without
+      // this check, a typo such as "America/Los_Angles" makes
+      // Intl.DateTimeFormat and toLocaleString throw a RangeError at render
+      // time.
       new Intl.DateTimeFormat(undefined, { timeZone: input });
       return input;
     } catch {
       if (this._warnedTimeZones && !this._warnedTimeZones.has(input)) {
         this._warnedTimeZones.add(input);
         console.warn(
-          `auro-datetime: "${input}" is not a valid IANA timezone. Falling back to viewer-local.`,
+          `auro-datetime: "${input}" is not a valid IANA timezone. Ignoring it.`,
         );
       }
       return undefined;
     }
   }
 
-  connectedCallback() {
-    super.connectedCallback();
-
-    this.dateTemplate = {
-      weekday: this.weekday,
-      year: "numeric",
-      month: this.month,
-      day: "numeric",
-    };
-
-    this.timeTemplate = {
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-  }
-
-  // function to define props used within the scope of this component
   static get properties() {
     return {
-      // ...super.properties,
-
       /**
-       * BCP 47 language tag for locale-aware date/time formatting (e.g. 'en-GB', 'de-DE', 'ja-JP').
+       * Sets the language and region used to format the date or time, such as `en-GB`, `de-DE`, or `ja-JP` (a BCP 47 language tag). It changes month and weekday names, separators, and whether times use a 12- or 24-hour clock, but not the time zone. A malformed tag logs a console warning and falls back to `en-US`; a well-formed tag the browser doesn't support, such as `zz-ZZ`, uses the browser's default language instead, with no warning.
        * @type {string}
-       * @default 'en-US'
+       * @default "en-US"
+       * @category ui
        */
       locale: { type: String },
 
       /**
-       * Defines format of month
-       * @type {'short' | 'long'}
-       * @default 'short'
+       * Sets how the month name is written: `short`, such as "Jul", or `long`, such as "July". It applies to the full date and to `type="month"`.
+       * @type {"short" | "long"}
+       * @default "short"
+       * @category ui
        */
       month: { type: String },
 
       /**
-       * Pass in string to define [timezone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
-       * When set, the moment described by `value` is converted into this IANA zone for display.
-       * When unset, the wall-clock time from the input string is rendered as-is.
+       * Sets the time zone to show the date or time in, such as `America/Los_Angeles` or `UTC` (an IANA time zone name). When `value` has an offset or `Z`, the element converts that moment into this zone; when it has none, the element reads `value` as a time already in this zone. Without it, or with an invalid name, which logs a console warning, the element shows the date and time in `value` as written, or the current date and time in the viewer's own time zone when `value` isn't set. When a `value` with no offset names a time the clocks skip when they spring forward, in this zone or, without it, in the viewer's own zone, it shows later by the length of the skip, usually one hour, so `2022-03-13T02:30:00` in `America/New_York` shows "3:30 am".
+       * @type {string}
+       * @category behavior
        */
       timezone: { type: String },
 
       /**
-       * Defines type of data to render
-       * @type {'date' | 'time' | 'year' | 'month' | 'weekday' | 'day' | 'numeric'}
+       * Sets which part of the date or time to show: `date` for the full date, such as "Thu, Jul 14, 2022", `numeric` for a numeric date, such as "7/14/2022", `time` for the hour and minute, such as "8:00 am", or `year`, `month`, `weekday`, or `day` for that part alone. Without it, or with any other value, the element shows the full date.
+       * @type {"date" | "time" | "year" | "month" | "weekday" | "day" | "numeric"}
+       * @category ui
        */
       type: { type: String },
 
       /**
-       * ISO 8601 date or date-time string. Examples:
-       * - `2022-07-14T08:00:00-07:00` (with offset)
-       * - `2022-07-14T08:00:00Z` (UTC)
-       * - `2022-07-14T08:00:00` (no offset)
-       * - `2022-07-14` (date only)
-       *
-       * When omitted, the component renders today's date.
-       * Invalid input is logged as a warning and renders nothing.
+       * Sets the date or time to show, as a `YYYY-MM-DD` date or a `YYYY-MM-DDTHH:MM` date-time, with optional seconds and fractional seconds and an optional `Z` or `±HH:MM` offset, such as `2022-07-14`, `2022-07-14T08:00:00`, or `2022-07-14T08:00:00-07:00`. Without it, the element shows the current date and time from when it last rendered; it doesn't currently update as time passes. Invalid input, including an empty value or another ISO 8601 form, such as `20220714` or a `+0700` offset, logs a console warning and shows nothing.
+       * @type {string}
+       * @category behavior
        */
       value: { type: String },
 
       /**
-       * Defines format of weekday
-       * @type {'short' | 'long'}
-       * @default 'short'
+       * Sets how the weekday name is written: `short`, such as "Thu", or `long`, such as "Thursday". It applies to the full date and to `type="weekday"`.
+       * @type {"short" | "long"}
+       * @default "short"
+       * @category ui
        */
       weekday: { type: String },
     };
   }
 
   /**
-   * This will register this element with the browser.
-   * @param {string} [name="auro-datetime"] - The name of the element that you want to register.
+   * Registers the element with the browser under a tag name. Use a custom name to run more than one version of the element on the same page. If the tag name is already registered, it does nothing.
+   * @param {string} [name="auro-datetime"] - The tag name to register the element under, such as `custom-datetime`.
+   * @returns {void}
    *
    * @example
-   * AuroDatetime.register("custom-datetime") // this will register this element to <custom-datetime/>
-   *
+   * AuroDatetime.register("custom-datetime"); // registers <custom-datetime>
    */
   static register(name = "auro-datetime") {
     AuroLibraryRuntimeUtils.prototype.registerComponent(name, AuroDatetime);
@@ -226,27 +215,21 @@ export class AuroDatetime extends LitElement {
   }
 
   firstUpdated() {
-    // Add the tag name as an attribute if it is different than the component name
+    // Adds the tag name as an attribute when it differs from auro-datetime.
     this.runtimeUtils.handleComponentTagRename(this, "auro-datetime");
   }
 
   /**
-   * Construct a UTC Date that, when displayed in the given IANA timezone,
-   * shows the supplied wall-clock components. Used when `value` has no
-   * offset but `timeZone` is set — the wall-clock is interpreted as being
-   * in the target zone rather than the viewer's local zone.
-   *
-   * Algorithm: parse the wall-clock as if it were UTC (a "naive" Date),
-   * ask Intl what that moment looks like in the target zone, and use the
-   * delta between the two to recover the true UTC moment.
+   * Gets the time zone's offset from UTC at a moment, in milliseconds, such as `-14400000` for New York in summer.
    *
    * @private
-   * @param {string} localISO - ISO string with no offset, e.g. "2022-07-14T08:00:00".
-   * @param {string} timeZone - IANA zone, e.g. "US/Eastern".
-   * @returns {Date}
+   * @param {number} utcMs - The moment, in milliseconds since the epoch.
+   * @param {string} timeZone - The IANA time zone name, such as `America/New_York`.
+   * @returns {number} The offset in milliseconds: the zone's wall-clock time, read as UTC, minus the moment.
    */
-  _zonedWallClockToUtc(localISO, timeZone) {
-    const naiveUtc = new Date(`${localISO}Z`);
+  _zoneOffsetMs(utcMs, timeZone) {
+    // formatToParts drops milliseconds, so compare whole seconds.
+    const wholeSeconds = Math.floor(utcMs / 1000) * 1000;
     const parts = new Intl.DateTimeFormat("en-US", {
       timeZone,
       hourCycle: "h23",
@@ -256,46 +239,100 @@ export class AuroDatetime extends LitElement {
       hour: "2-digit",
       minute: "2-digit",
       second: "2-digit",
-    }).formatToParts(naiveUtc);
+    }).formatToParts(wholeSeconds);
     const lookup = Object.fromEntries(
       parts.filter((p) => p.type !== "literal").map((p) => [p.type, p.value]),
     );
-    const seenInZone = new Date(
-      `${lookup.year}-${lookup.month}-${lookup.day}T${lookup.hour}:${lookup.minute}:${lookup.second}Z`,
+    // setUTCFullYear, unlike Date.UTC, keeps years 0-99 as written instead
+    // of mapping them onto 1900-1999.
+    const wallClock = new Date(0);
+    wallClock.setUTCFullYear(
+      Number(lookup.year),
+      Number(lookup.month) - 1,
+      Number(lookup.day),
     );
-    const offsetMs = naiveUtc.getTime() - seenInZone.getTime();
-    return new Date(naiveUtc.getTime() + offsetMs);
+    wallClock.setUTCHours(
+      Number(lookup.hour),
+      Number(lookup.minute),
+      Number(lookup.second),
+    );
+    return wallClock.getTime() - wholeSeconds;
   }
 
   /**
-   * Resolve the `value` and `timezone` attributes into a Date and an optional
-   * timeZone option for `Intl.DateTimeFormat`.
+   * Creates a Date that shows the given wall-clock time when displayed in
+   * the given IANA time zone. `_resolveInputDate` uses it when `value` has
+   * no offset and `timezone` is set, so the time is read as already being
+   * in that zone rather than the viewer's.
    *
-   * Behavior:
-   * - `value` omitted (null/undefined): returns today's date. `timezone`
-   *   (if any) is honored.
-   * - `value` invalid (including empty string ""): warns and returns
-   *   `{ date: null }`. Empty is *not* the same as omitted — Lit reflects
-   *   `value=""` as the empty string, which is not a valid ISO 8601
-   *   form, so we surface it as a typo rather than silently rendering
-   *   today's date.
-   * - `timezone` set + input has offset/Z: parses as an absolute moment
-   *   (offset honored) and asks `toLocaleString` to convert into the target zone.
-   * - `timezone` set + input has no offset: interprets the wall-clock as
-   *   being in the target zone, so display in that zone matches the input
-   *   verbatim. This is viewer-independent.
-   * - Default (no `timezone`): strips the offset/Z from the input and treats
-   *   the remaining wall-clock components as local time, so they render verbatim.
+   * On a daylight saving change, a time the clocks skip moves forward by
+   * the gap, and a time the clocks repeat resolves to its first occurrence.
+   * This is the same rule JavaScript uses for local times.
    *
    * @private
-   * @returns {{ date: Date | null, timeZoneOption: string | undefined }}
+   * @param {string} localISO - The ISO 8601 date-time with no offset, such as `2022-07-14T08:00:00`.
+   * @param {string} timeZone - The IANA time zone name, such as `America/New_York`.
+   * @returns {Date} The moment that reads as `localISO` in `timeZone`.
+   */
+  _zonedWallClockToUtc(localISO, timeZone) {
+    const DAY_MS = 86400000;
+    // The wall-clock time read as if it were UTC.
+    const naiveMs = new Date(`${localISO}Z`).getTime();
+    // An out-of-range time, such as hour 25, can't be resolved. Return an
+    // invalid Date so _resolveInputDate warns and shows nothing.
+    if (Number.isNaN(naiveMs)) {
+      return new Date(Number.NaN);
+    }
+
+    // A zone's offset changes at most once within a couple of days, so the
+    // offsets a day before and a day after cover both sides of any change
+    // near this date. Keep each candidate moment that really reads as the
+    // wall-clock time in the zone.
+    const offsetBefore = this._zoneOffsetMs(naiveMs - DAY_MS, timeZone);
+    const offsetAfter = this._zoneOffsetMs(naiveMs + DAY_MS, timeZone);
+    const matches = [naiveMs - offsetBefore, naiveMs - offsetAfter]
+      .filter((ms) => ms + this._zoneOffsetMs(ms, timeZone) === naiveMs)
+      .sort((a, b) => a - b);
+
+    if (matches.length > 0) {
+      // One match for ordinary times; two for a repeated time, where the
+      // first occurrence wins.
+      return new Date(matches[0]);
+    }
+
+    // No match: the clocks skip this time. Reading it with the offset from
+    // before the change moves it forward by the gap.
+    return new Date(naiveMs - offsetBefore);
+  }
+
+  /**
+   * Gets the Date to show and the `timeZone` option for `Intl.DateTimeFormat`,
+   * from `value` and `timezone`. Returns `{ date: null }` for invalid input,
+   * including an empty string.
+   *
+   * @private
+   * @returns {{ date: Date | null, timeZoneOption: string | undefined }} The Date to show, or `null` for invalid input, and the `timeZone` option to format it with.
    */
   _resolveInputDate() {
+    // How each case resolves:
+    // - `value` not set (null or undefined): the current date and time, in
+    //   `timezone` if it's set.
+    // - `value` invalid, including an empty string: logs a warning and
+    //   returns { date: null }. An empty string isn't the same as not set:
+    //   Lit gives value="" as an empty string, which isn't valid ISO 8601,
+    //   so it's reported as a likely mistake instead of showing the
+    //   current date.
+    // - `timezone` set and `value` has an offset or Z: reads `value` as an
+    //   exact moment and has toLocaleString convert it into `timezone`.
+    // - `timezone` set and `value` has no offset: reads `value` as a time
+    //   already in `timezone`, so every viewer sees it as written.
+    // - `timezone` not set: drops any offset or Z and reads the rest as
+    //   local time, so it shows as written.
     const resolvedTz = this._effectiveTimeZone;
 
-    // Only true "omitted" inputs (null/undefined) get the today's-date
-    // treatment. Empty string falls through to ISO validation, which will
-    // fail and produce the documented warn + empty render.
+    // Only true "omitted" inputs (null/undefined) get the current-date
+    // treatment. Empty string falls through to ISO validation, which
+    // fails and produces the documented warning and empty output.
     if (this.value == null) {
       return { date: new Date(), timeZoneOption: resolvedTz };
     }
@@ -314,9 +351,9 @@ export class AuroDatetime extends LitElement {
     const localPart = match[1];
     const hasOffset = Boolean(match[2]);
 
-    // The regex permits an offset/Z suffix on a bare date (e.g. "2020-09-22Z"
-    // or "2020-09-22-07:00"). Those forms are not valid ISO 8601 — an offset
-    // is only meaningful with a time component — and the wall-clock branch
+    // The regex permits an offset/Z suffix on a bare date (such as "2020-09-22Z"
+    // or "2020-09-22-07:00"). Those forms are not valid ISO 8601: an offset
+    // is only meaningful with a time component, and the wall-clock branch
     // would silently drop the offset, producing surprising output. Reject
     // them up front so the consumer sees a warning.
     if (hasOffset && !localPart.includes("T")) {
@@ -329,11 +366,33 @@ export class AuroDatetime extends LitElement {
       return { date: null, timeZoneOption: undefined };
     }
 
+    // Chrome rolls a day that doesn't exist in its month into the next
+    // month (February 30 becomes March 2), while Firefox and Safari reject
+    // it. Reject it everywhere by checking the day survives a round trip.
+    const [year, month, day] = localPart.slice(0, 10).split("-").map(Number);
+    // setUTCFullYear keeps years 0-99 as written; Date.UTC would map them
+    // onto 1900-1999 and reject real dates such as 0001-01-01.
+    const calendarDate = new Date(0);
+    calendarDate.setUTCFullYear(year, month - 1, day);
+    if (
+      calendarDate.getUTCFullYear() !== year ||
+      calendarDate.getUTCMonth() !== month - 1 ||
+      calendarDate.getUTCDate() !== day
+    ) {
+      if (!this._warnedValues.has(this.value)) {
+        this._warnedValues.add(this.value);
+        console.warn(
+          `auro-datetime: "${this.value}" is not a valid ISO 8601 date.`,
+        );
+      }
+      return { date: null, timeZoneOption: undefined };
+    }
+
     const normalized = localPart.includes("T")
       ? localPart
       : `${localPart}T00:00:00`;
 
-    // The regex only validates string shape, not value ranges — "2022-99-99"
+    // The regex only validates string shape, not value ranges: "2022-99-99"
     // matches but produces an Invalid Date. Detect that and treat it like
     // any other malformed input so render falls back to the documented
     // empty output instead of "Invalid Date" or a thrown RangeError from
@@ -366,16 +425,22 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to generate full date string.
+   * Formats the full date, such as "Thu, Jul 14, 2022", with the current `month` and `weekday` settings.
    * @private
-   * @returns {string} - Date string.
+   * @returns {string} The formatted date, or an empty string when `value` is invalid.
    */
   humanDate() {
     const { date, timeZoneOption } = this._resolveInputDate();
     if (!date) {
       return "";
     }
-    const template = { ...this.dateTemplate };
+    // Read month and weekday on every render so later changes show up.
+    const template = {
+      weekday: this.weekday || "short",
+      year: "numeric",
+      month: this.month || "short",
+      day: "numeric",
+    };
     if (timeZoneOption) {
       template.timeZone = timeZoneOption;
     }
@@ -383,9 +448,9 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to format a single date part (year/month/weekday/day).
+   * Formats the single date part that `type` names: the year, month, weekday, or day.
    * @private
-   * @returns {string} - Date string.
+   * @returns {string} The formatted date, or an empty string when `value` is invalid.
    */
   humanDateConversion() {
     const { date, timeZoneOption } = this._resolveInputDate();
@@ -402,13 +467,13 @@ export class AuroDatetime extends LitElement {
         template.day = "numeric";
         break;
       case "month":
-        template.month = this.month;
+        template.month = this.month || "short";
         break;
       case "year":
         template.year = "numeric";
         break;
       case "weekday":
-        template.weekday = this.weekday;
+        template.weekday = this.weekday || "short";
         break;
       default:
         break;
@@ -418,17 +483,16 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to generate numeric date string MM/DD/YYYY.
+   * Formats the date in numbers, in the order and with the separators `locale` uses, such as "7/14/2022" for `en-US`.
    * @private
-   * @returns {string} - Date string.
+   * @returns {string} The formatted date, or an empty string when `value` is invalid.
    */
   numericDate() {
     const { date, timeZoneOption } = this._resolveInputDate();
     if (!date) {
       return "";
     }
-    const template = { ...this.dateTemplate, month: "numeric" };
-    Reflect.deleteProperty(template, "weekday");
+    const template = { year: "numeric", month: "numeric", day: "numeric" };
     if (timeZoneOption) {
       template.timeZone = timeZoneOption;
     }
@@ -436,16 +500,16 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function to generate standard time string.
+   * Formats the hour and minute. When the time ends in AM or PM, it lowercases the period and drops a leading zero.
    * @private
-   * @returns {string} - Time string.
+   * @returns {string} The formatted time, or an empty string when `value` is invalid.
    */
   humanTime() {
     const { date, timeZoneOption } = this._resolveInputDate();
     if (!date) {
       return "";
     }
-    const template = { ...this.timeTemplate };
+    const template = { hour: "2-digit", minute: "2-digit" };
     if (timeZoneOption) {
       template.timeZone = timeZoneOption;
     }
@@ -457,8 +521,8 @@ export class AuroDatetime extends LitElement {
     // (case-insensitive), so it catches en-US (`PM`), en-AU/hi-IN (`pm`),
     // and en-CA/es-MX (`p.m.`) alike. Non-Latin period markers (ko `오후`,
     // ar `م`, zh-TW `下午`) have no ASCII a/p+m chars and correctly fall
-    // through unchanged. 24h locales (en-GB, de-DE, fr-FR, ja-JP …) also
-    // fall through, preserving their leading zeros.
+    // through unchanged. 24h locales (en-GB, de-DE, fr-FR, ja-JP, and
+    // others) also fall through, preserving their leading zeros.
     if (!/[ap]\.?m\.?/iu.test(formatted)) {
       return formatted;
     }
@@ -467,9 +531,9 @@ export class AuroDatetime extends LitElement {
   }
 
   /**
-   * Internal function UI decision.
+   * Gets the text to show for the current `type`.
    * @private
-   * @returns {string} - String determined by `type` (or full date if no type set).
+   * @returns {string} The formatted text; the full date when `type` isn't set or isn't recognized.
    */
   whichDate() {
     switch (this.type) {
@@ -489,10 +553,6 @@ export class AuroDatetime extends LitElement {
     }
   }
 
-  // When using auroElement, use the following attribute and function when hiding content from screen readers.
-  // aria-hidden="${this.hideAudible(this.hiddenAudible)}"
-
-  // function that renders the HTML and CSS into  the scope of the component
   render() {
     return html`
       <slot name="pre"></slot>
